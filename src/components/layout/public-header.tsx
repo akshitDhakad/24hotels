@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Bell, Heart, Search, User } from "lucide-react";
 
+import { SiteLogo } from "@/components/brand/site-logo";
 import { cn } from "@/lib/cn";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/layout/container";
@@ -10,11 +11,8 @@ export function PublicHeader({ className }: { className?: string }) {
   return (
     <header className={cn("w-full", className)}>
       <Container className="flex h-16 items-center gap-4">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-            H
-          </span>
-          <span className="text-sm font-semibold tracking-wide">24 Hotels</span>
+        <Link href="/" className="flex shrink-0 items-center" aria-label="24 Hotels home">
+          <SiteLogo priority className="h-7 sm:h-8" />
         </Link>
 
         <nav className="hidden items-center gap-6 text-sm text-muted-foreground md:flex">

@@ -87,31 +87,31 @@ export default async function HotelDetailsPage({ params }: PageProps) {
       <Container className="py-8">
         <div className="grid gap-8 lg:grid-cols-[1fr_360px]">
 
-          {/* Gallery */}
-          <div className="lg:col-span-2 grid gap-3">
-            <div className="-mx-6 -mt-6 grid gap-5 p-6 lg:grid-cols-[1.55fr_1fr] justify-between">
-              <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-muted">
+          {/* Gallery: full width inside container; lg main + 2×2 share one height */}
+          <div className="lg:col-span-2 -mx-4 mb-6 w-auto sm:-mx-6 sm:mb-8 lg:-mx-8 lg:mb-10">
+            <div className="grid gap-3 lg:aspect-[2.25/1] lg:grid-cols-[minmax(0,1.65fr)_minmax(0,1fr)] lg:items-stretch">
+              <div className="relative aspect-[16/10] min-h-0 w-full overflow-hidden rounded-2xl bg-muted lg:aspect-auto lg:h-full">
                 <Image
                   src={hero}
                   alt={`${hotel.name} main photo`}
                   fill
                   className="object-cover"
                   priority
-                  sizes="(min-width: 1024px) 55vw, 100vw"
+                  sizes="(min-width: 1024px) 42vw, 100vw"
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-2">
-                <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-muted">
+              <div className="grid min-h-0 grid-cols-2 grid-rows-2 gap-3 lg:h-full">
+                <div className="relative min-h-0 aspect-[16/10] overflow-hidden rounded-2xl bg-muted lg:aspect-auto">
                   <Image
                     src={thumbs[0] ?? hero}
                     alt="Gallery photo"
                     fill
                     className="object-cover"
-                    sizes="(min-width: 1024px) 20vw, 50vw"
+                    sizes="(min-width: 1024px) 18vw, 50vw"
                   />
                 </div>
-                <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-[#f3f5f4]">
+                <div className="relative min-h-0 aspect-[16/10] overflow-hidden rounded-2xl bg-[#f3f5f4] lg:aspect-auto">
                   <div className="absolute inset-0 bg-[radial-gradient(60%_90%_at_70%_20%,rgba(34,211,238,0.55),rgba(255,255,255,0.0))]" />
                   <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(255,255,255,0.85),rgba(255,255,255,0.55))]" />
                   <div className="absolute inset-0 p-4">
@@ -123,7 +123,7 @@ export default async function HotelDetailsPage({ params }: PageProps) {
                     </div>
                   </div>
                 </div>
-                <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-muted">
+                <div className="relative min-h-0 aspect-[16/10] overflow-hidden rounded-2xl bg-muted lg:aspect-auto">
                   <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(0,0,0,0.85),rgba(0,0,0,0.35))]" />
                   <div className="absolute inset-0 p-4">
                     <div className="text-xs font-semibold text-white/70">
@@ -139,18 +139,17 @@ export default async function HotelDetailsPage({ params }: PageProps) {
                     </div>
                   </div>
                 </div>
-                <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-muted">
+                <div className="relative min-h-0 aspect-[16/10] overflow-hidden rounded-2xl bg-muted lg:aspect-auto">
                   <Image
                     src={thumbs[1] ?? thumbs[2] ?? hero}
                     alt="Gallery photo"
                     fill
                     className="object-cover"
-                    sizes="(min-width: 1024px) 20vw, 50vw"
+                    sizes="(min-width: 1024px) 18vw, 50vw"
                   />
                 </div>
               </div>
             </div>
-
           </div>
 
           {/* Hotel Details Section */}
@@ -317,8 +316,8 @@ export default async function HotelDetailsPage({ params }: PageProps) {
           </div>
 
           {/* Booking Section */}
-          <div className="lg:sticky lg:top-4 lg:h-fit">
-            <div className="rounded-3xlp-5">
+          <div className="lg:sticky lg:top-24 lg:h-fit lg:w-full">
+            <div className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-black/5">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <div className="text-xs font-semibold tracking-wide text-black/50">

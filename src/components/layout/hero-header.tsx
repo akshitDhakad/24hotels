@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Globe, Search } from "lucide-react";
 
+import { SiteLogo } from "@/components/brand/site-logo";
 import { cn } from "@/lib/cn";
 import { Container } from "@/components/layout/container";
 import { Input } from "@/components/ui/input";
@@ -12,13 +13,8 @@ export function HeroHeader({ className }: { className?: string }) {
     <header className={cn("absolute inset-x-0 top-0 z-20", className)}>
       <Container className="pt-5">
         <div className="flex items-center gap-4 rounded-2xl border border-white/15 bg-white/10 px-4 py-3 backdrop-blur-md">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-white/15 text-white">
-              H
-            </span>
-            <span className="text-sm font-semibold tracking-wide text-white">
-              24 Hotels
-            </span>
+          <Link href="/" className="flex shrink-0 items-center" aria-label="24 Hotels home">
+            <SiteLogo priority className="h-7 sm:h-8 md:h-9" />
           </Link>
 
           <nav className="hidden items-center gap-5 text-sm text-white/75 md:flex">

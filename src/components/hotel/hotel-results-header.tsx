@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Bell, Globe, Search, User } from "lucide-react";
 
+import { SiteLogo } from "@/components/brand/site-logo";
 import { Container } from "@/components/layout/container";
 import { Input } from "@/components/ui/input";
 
@@ -8,8 +9,8 @@ export function HotelResultsHeader() {
   return (
     <header className="sticky top-0 z-30 border-b border-border bg-white/90 backdrop-blur">
       <Container className="flex h-16 items-center gap-4">
-        <Link href="/" className="text-sm font-semibold tracking-wide">
-          24 Hotels
+        <Link href="/" className="flex shrink-0 items-center" aria-label="24 Hotels home">
+          <SiteLogo className="h-7 sm:h-8" />
         </Link>
 
         <nav className="hidden items-center gap-6 text-sm text-muted-foreground md:flex">

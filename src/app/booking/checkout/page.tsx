@@ -2,6 +2,7 @@ import { Lock } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+import { SiteLogo } from "@/components/brand/site-logo";
 import { CheckoutForm } from "@/components/booking/checkout-form";
 import { Container } from "@/components/layout/container";
 import { Badge } from "@/components/ui/badge";
@@ -11,15 +12,20 @@ import { Separator } from "@/components/ui/separator";
 
 export default function CheckoutPage() {
   return (
-    <div className="bg-white">
-      <Container className="py-10">
-        <div className="flex items-center justify-between gap-4">
-          <div className="text-sm font-semibold tracking-wide">24 Hotels</div>
+    <div className="bg-[#fafafa]">
+      <div className="bg-white/50 ">
+        <Container className="flex items-center justify-between gap-4 py-6">
+          <Link href="/" className="flex shrink-0 items-center" aria-label="24 Hotels home">
+            <SiteLogo className="h-7 sm:h-8" />
+          </Link>
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <Lock className="h-4 w-4" />
             256-bit Encryption
           </div>
-        </div>
+        </Container>
+      </div>
+      <Container className="">
+
 
         <div className="mt-6 text-sm text-muted-foreground">
           <Link href="#" className="hover:text-foreground">
@@ -121,7 +127,10 @@ export default function CheckoutPage() {
           </div>
         </div>
 
-        <div className="mt-16 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-6 text-xs text-muted-foreground">
+
+      </Container>
+      <div className="mt-16 bg-white/50">
+        <Container className="py-6 flex flex-wrap items-center justify-between gap-4 border-t border-border  text-xs text-muted-foreground">
           <div>© {new Date().getFullYear()} 24 Hotels. All rights reserved.</div>
           <div className="flex items-center gap-4">
             <Link href="#">Privacy Policy</Link>
@@ -130,8 +139,8 @@ export default function CheckoutPage() {
             <Link href="#">Sustainability</Link>
             <Link href="#">Press</Link>
           </div>
-        </div>
-      </Container>
+        </Container>
+      </div>
     </div>
   );
 }
