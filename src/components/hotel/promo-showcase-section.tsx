@@ -138,7 +138,7 @@ export function PromoShowcaseSection() {
                   </p>
                   <Link
                     href="/hotels"
-                    className="mt-5 inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-white px-5 text-sm font-semibold text-neutral-900 transition-colors hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+                    className="mt-5 inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-primary px-5 text-sm font-semibold text-primary-foreground transition-colors hover:brightness-[0.92] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
                   >
                     Booking Now
                     <ArrowRight className="h-4 w-4" aria-hidden />

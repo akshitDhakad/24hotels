@@ -59,7 +59,7 @@ export function HotelResultCard({ hotel }: { hotel: HotelResult }) {
           </div>
           <div className="text-right">
             <div className="inline-flex items-center gap-2">
-              <div className="rounded-md bg-black px-2 py-1 text-xs font-semibold text-white">
+              <div className="rounded-md bg-primary px-2 py-1 text-xs font-semibold text-primary-foreground">
                 {hotel.rating.toFixed(1)}
               </div>
               <div className="text-xs font-semibold text-foreground">
@@ -96,7 +96,7 @@ export function HotelResultCard({ hotel }: { hotel: HotelResult }) {
             </div>
             <span
               className={cn(
-                "inline-flex h-10 items-center justify-center rounded-xl bg-black px-5 text-xs font-semibold text-white hover:bg-black/90",
+                "inline-flex h-10 items-center justify-center rounded-xl bg-primary px-5 text-xs font-semibold text-primary-foreground hover:brightness-[0.92]",
               )}
             >
               View Deal

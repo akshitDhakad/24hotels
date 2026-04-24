@@ -112,7 +112,7 @@ export function HeroSearchBar({ className }: { className?: string }) {
             <MapPin className="h-4 w-4" />
             LOCATION
           </div>
-          <div className="rounded-xl bg-black px-4 py-3">
+          <div className="rounded-xl bg-primary px-4 py-3">
             <input
               className="w-full bg-transparent text-sm text-white outline-none placeholder:text-white/60"
               placeholder="Where are you going?"
@@ -160,7 +160,7 @@ export function HeroSearchBar({ className }: { className?: string }) {
           </button>
 
           {guestsOpen ? (
-            <div className="absolute right-0 top-[72px] z-20 w-[260px] rounded-2xl bg-black/90 p-4 shadow-2xl backdrop-blur">
+            <div className="absolute right-0 top-[72px] z-20 w-[260px] rounded-2xl bg-primary/95 p-4 shadow-2xl backdrop-blur">
               <div className="mb-3 flex items-center justify-between">
                 <div className="text-[11px] font-semibold text-white/80">
                   GUESTS & ROOMS
@@ -209,7 +209,7 @@ export function HeroSearchBar({ className }: { className?: string }) {
         {/* Search */}
         <button
           type="submit"
-          className="mt-5 inline-flex h-[54px] items-center justify-center gap-2 rounded-xl bg-white px-6 text-sm font-semibold text-black shadow-sm hover:bg-white/95 lg:mt-0"
+          className="mt-5 inline-flex h-[54px] items-center justify-center gap-2 rounded-xl bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-sm hover:brightness-[0.92] lg:mt-0"
         >
           Search
           <span aria-hidden="true">→</span>
@@ -227,7 +227,9 @@ export function HeroSearchBar({ className }: { className?: string }) {
             type="button"
             className={cn(
               "rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-medium text-black/70 hover:bg-black/5",
-              f === "Hotels" ? "bg-black text-white hover:bg-black" : "",
+              f === "Hotels"
+                ? "border-transparent bg-primary text-primary-foreground hover:brightness-[0.92]"
+                : "",
             )}
           >
             {f}

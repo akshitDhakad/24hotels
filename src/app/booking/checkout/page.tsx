@@ -59,7 +59,7 @@ export default function CheckoutPage() {
                     Santorini, Greece
                   </div>
                   <div className="mt-2 flex items-center gap-2">
-                    <Badge className="bg-black text-white">4.92</Badge>
+                    <Badge className="bg-primary text-primary-foreground">4.92</Badge>
                     <div className="text-xs text-muted-foreground">
                       (128 reviews)
                     </div>

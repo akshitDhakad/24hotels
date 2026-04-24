@@ -52,7 +52,7 @@ export function HeroHeader({ className }: { className?: string }) {
             </Link>
             <Link
               href="/auth/sign-up"
-              className="inline-flex h-9 items-center justify-center rounded-full border border-white/20 bg-white/90 px-4 text-xs font-semibold text-black transition hover:bg-white"
+              className="inline-flex h-9 items-center justify-center rounded-full border border-white/20 bg-primary px-4 text-xs font-semibold text-primary-foreground shadow-sm transition hover:brightness-[0.92]"
             >
               Sign Up
             </Link>

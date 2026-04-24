@@ -7,12 +7,12 @@
   --muted-foreground: #6b7280;
   --border: rgba(0, 0, 0, 0.08);
   --input: rgba(0, 0, 0, 0.08);
-  --ring: rgba(0, 0, 0, 0.16);
+  --ring: rgba(0, 74, 173, 0.35);
   --card: #ffffff;
   --card-foreground: #0b0b0b;
   --radius: 14px;
 
-  --primary: #000000;
+  --primary: #004aad;
   --primary-foreground: #ffffff;
   --secondary: #6b7280;
   --neutral: #777777;

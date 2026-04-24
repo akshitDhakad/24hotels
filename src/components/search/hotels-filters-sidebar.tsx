@@ -70,7 +70,7 @@ export function HotelsFiltersSidebar({ className }: { className?: string }) {
                     className={cn(
                       "h-9 rounded-xl border px-3 text-xs font-semibold",
                       active
-                        ? "border-black bg-black text-white"
+                        ? "border-primary bg-primary text-primary-foreground hover:brightness-[0.92]"
                         : "border-border bg-white text-foreground hover:bg-black/5",
                     )}
                   >

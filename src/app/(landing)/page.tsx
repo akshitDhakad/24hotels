@@ -442,7 +442,7 @@ export default function LandingPage() {
                     className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                     sizes="(min-width: 768px) 33vw, 100vw"
                   />
-                  <div className="absolute right-3 top-3 rounded-md bg-blue-700 px-2 py-1 text-xs font-semibold text-white shadow">
+                  <div className="absolute right-3 top-3 rounded-md bg-primary px-2 py-1 text-xs font-semibold text-primary-foreground shadow">
                     {h.score.toFixed(1)}
                   </div>
                 </div>
@@ -465,7 +465,7 @@ export default function LandingPage() {
                     <span className="text-black/40">•</span>
                     <span>{h.neighborhood}</span>
                     <span className="text-black/40">,</span>
-                    <span className="text-blue-700">{h.city}</span>
+                    <span className="text-primary">{h.city}</span>
                   </div>
                   <div className="mt-2 text-[11px] text-black/45">
                     Per night before taxes and fees

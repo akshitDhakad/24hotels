@@ -54,7 +54,7 @@ export function FeaturedHomesSection({
           <div className="text-lg font-semibold tracking-tight">{title}</div>
           <Link
             href={`/hotels?destination=${encodeURIComponent(activeCity)}`}
-            className="text-sm font-semibold text-blue-700 hover:underline"
+            className="text-sm font-semibold text-primary hover:underline"
           >
             See more ({activeCity}) properties →
           </Link>
@@ -70,12 +70,12 @@ export function FeaturedHomesSection({
                 onClick={() => setActiveCity(c)}
                 className={cn(
                   "relative pb-2 text-sm font-medium text-black/55 hover:text-black",
-                  isActive ? "text-blue-700" : "",
+                  isActive ? "text-primary" : "",
                 )}
               >
                 {c}
                 {isActive ? (
-                  <span className="absolute inset-x-0 -bottom-[1px] h-0.5 rounded-full bg-blue-700" />
+                  <span className="absolute inset-x-0 -bottom-[1px] h-0.5 rounded-full bg-primary" />
                 ) : null}
               </button>
             );
@@ -98,7 +98,7 @@ export function FeaturedHomesSection({
                     className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                     sizes="(min-width: 768px) 33vw, 100vw"
                   />
-                  <div className="absolute right-3 top-3 rounded-md bg-blue-700 px-2 py-1 text-xs font-semibold text-white shadow">
+                  <div className="absolute right-3 top-3 rounded-md bg-primary px-2 py-1 text-xs font-semibold text-primary-foreground shadow">
                     {h.score.toFixed(1)}
                   </div>
                 </div>
@@ -121,7 +121,7 @@ export function FeaturedHomesSection({
                     <span className="text-black/40">•</span>
                     <span>{h.neighborhood}</span>
                     <span className="text-black/40">,</span>
-                    <span className="text-blue-700">{h.city}</span>
+                    <span className="text-primary">{h.city}</span>
                   </div>
                   <div className="mt-2 text-[11px] text-black/45">
                     Per night before taxes and fees

@@ -1,8 +1,5 @@
 "use client";
 
-import * as React from "react";
-import { Apple } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 
 function GoogleIcon() {
@@ -44,14 +41,6 @@ export function SocialAuthButtons() {
       >
         <GoogleIcon />
         Sign up with Google
-      </Button>
-      <Button
-        variant="outline"
-        className="h-11 justify-center rounded-full bg-white"
-        type="button"
-      >
-        <Apple className="h-4 w-4" />
-        Sign up with Apple
       </Button>
     </div>
   );

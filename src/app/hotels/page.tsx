@@ -105,7 +105,7 @@ export default async function HotelsPage({ searchParams }: HotelsPageProps) {
                   type="button"
                   className={
                     p === "1"
-                      ? "inline-flex h-9 w-9 items-center justify-center rounded-lg bg-black text-xs font-semibold text-white"
+                      ? "inline-flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-xs font-semibold text-primary-foreground hover:brightness-[0.92]"
                       : "inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-white text-xs font-semibold text-foreground hover:bg-black/5"
                   }
                   aria-label={`Page ${p}`}
@@ -125,7 +125,7 @@ export default async function HotelsPage({ searchParams }: HotelsPageProps) {
                 Resume your search from where you left off.
               </div>
             </div>
-            <Link href="#" className="text-sm font-semibold text-blue-700 hover:underline">
+            <Link href="#" className="text-sm font-semibold text-primary hover:underline">
               View all history
             </Link>
           </div>

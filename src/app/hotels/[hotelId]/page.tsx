@@ -66,7 +66,7 @@ export default async function HotelDetailsPage({ params }: PageProps) {
               The hotel you’re looking for doesn’t exist.
             </div>
             <div className="mt-6">
-              <Link href="/hotels" className="text-sm font-semibold text-blue-700 hover:underline">
+              <Link href="/hotels" className="text-sm font-semibold text-primary hover:underline">
                 Back to search
               </Link>
             </div>
@@ -271,7 +271,7 @@ export default async function HotelDetailsPage({ params }: PageProps) {
                       <div className="flex justify-end">
                         <Link
                           href="/booking/checkout"
-                          className="inline-flex h-9 items-center justify-center rounded-xl bg-black px-4 text-xs font-semibold text-white hover:bg-black/90"
+                          className="inline-flex h-9 items-center justify-center rounded-xl bg-primary px-4 text-xs font-semibold text-primary-foreground hover:brightness-[0.92]"
                         >
                           Reserve
                         </Link>
@@ -391,7 +391,7 @@ export default async function HotelDetailsPage({ params }: PageProps) {
                 </div>
 
                 <Link href="/booking/checkout">
-                  <Button className="h-11 w-full rounded-xl bg-black text-white hover:bg-black/90">
+                  <Button className="h-11 w-full rounded-xl">
                     RESERVE NOW
                   </Button>
                 </Link>
@@ -475,7 +475,7 @@ export default async function HotelDetailsPage({ params }: PageProps) {
             </div>
             <Link
               href="/hotels"
-              className="text-sm font-semibold text-blue-700 hover:underline"
+              className="text-sm font-semibold text-primary hover:underline"
             >
               Explore all
             </Link>

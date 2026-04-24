@@ -56,7 +56,7 @@ export function HotelResultsHeader() {
           </button>
           <Link
             href="/auth/sign-in"
-            className="inline-flex h-9 items-center justify-center rounded-full bg-black px-4 text-xs font-semibold text-white hover:bg-black/90"
+            className="inline-flex h-9 items-center justify-center rounded-full bg-primary px-4 text-xs font-semibold text-primary-foreground hover:brightness-[0.92]"
           >
             Sign In
           </Link>
