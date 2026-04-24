@@ -11,8 +11,8 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: "24Hotels",
-    template: "%s · 24Hotels",
+    default: "24 Hotels",
+    template: "%s · 24 Hotels",
   },
   description: "Book hotels, villas, resorts and apartments worldwide.",
 };

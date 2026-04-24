@@ -14,7 +14,7 @@ export default function CheckoutPage() {
     <div className="bg-white">
       <Container className="py-10">
         <div className="flex items-center justify-between gap-4">
-          <div className="text-sm font-semibold tracking-wide">LUXESTAY</div>
+          <div className="text-sm font-semibold tracking-wide">24 Hotels</div>
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <Lock className="h-4 w-4" />
             256-bit Encryption
@@ -116,13 +116,13 @@ export default function CheckoutPage() {
 
             <div className="text-center text-xs text-muted-foreground">
               By selecting the button below, I agree to the Property House Rules,
-              LuxeStay Terms of Service and Privacy Policy.
+              24 Hotels Terms of Service and Privacy Policy.
             </div>
           </div>
         </div>
 
         <div className="mt-16 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-6 text-xs text-muted-foreground">
-          <div>© {new Date().getFullYear()} LuxeStay Global. All rights reserved.</div>
+          <div>© {new Date().getFullYear()} 24 Hotels. All rights reserved.</div>
           <div className="flex items-center gap-4">
             <Link href="#">Privacy Policy</Link>
             <Link href="#">Terms of Service</Link>

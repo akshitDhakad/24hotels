@@ -14,7 +14,7 @@ export function PublicHeader({ className }: { className?: string }) {
           <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-primary text-primary-foreground">
             H
           </span>
-          <span className="text-sm font-semibold tracking-wide">LUXESTAY</span>
+          <span className="text-sm font-semibold tracking-wide">24 Hotels</span>
         </Link>
 
         <nav className="hidden items-center gap-6 text-sm text-muted-foreground md:flex">

@@ -8,7 +8,7 @@ export function PublicFooter() {
       <Container className="py-12">
         <div className="grid gap-10 md:grid-cols-5">
           <div className="md:col-span-2">
-            <div className="text-sm font-semibold tracking-wide">LUXESTAY</div>
+            <div className="text-sm font-semibold tracking-wide">24 Hotels</div>
             <p className="mt-3 max-w-sm text-sm text-muted-foreground">
               Discover stays worldwide with premium support and transparent
               pricing.
@@ -41,7 +41,7 @@ export function PublicFooter() {
         </div>
 
         <div className="mt-12 text-xs text-muted-foreground">
-          © {new Date().getFullYear()} LuxeStay Global. All rights reserved.
+          © {new Date().getFullYear()} 24 Hotels. All rights reserved.
         </div>
       </Container>
     </footer>

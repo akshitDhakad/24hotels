@@ -17,7 +17,7 @@ export function HeroHeader({ className }: { className?: string }) {
               H
             </span>
             <span className="text-sm font-semibold tracking-wide text-white">
-              Horizon
+              24 Hotels
             </span>
           </Link>
 

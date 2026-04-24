@@ -8,7 +8,7 @@ export function AuthBrand() {
         <MapPinHouse className="h-4 w-4" />
       </span>
       <span className="text-sm font-semibold tracking-wide text-[#0f2d1c]">
-        Hotelook
+        24 Hotels
       </span>
     </Link>
   );
