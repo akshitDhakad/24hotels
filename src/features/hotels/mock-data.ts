@@ -5,6 +5,8 @@ export type HotelSummary = {
   name: string;
   location: string;
   rating: number; // 0..10
+  /** Star row (1–5); derived from rating if omitted */
+  stars?: number;
   reviewLabel: string;
   priceUsd: number;
   perks: string[];
@@ -35,6 +37,7 @@ export const hotelSummaries: HotelSummary[] = [
     name: "The Azure Meridian",
     location: "Promenade des Anglais, Nice",
     rating: 9.4,
+    stars: 5,
     reviewLabel: "Exceptional",
     priceUsd: 890,
     perks: ["Breakfast included", "Free cancellation"],
@@ -46,6 +49,7 @@ export const hotelSummaries: HotelSummary[] = [
     name: "Villa Ethereal Waters",
     location: "Oia, Santorini",
     rating: 9.8,
+    stars: 5,
     reviewLabel: "Exceptional",
     priceUsd: 1850,
     perks: ["Private airport shuttle", "Instant booking"],
@@ -58,6 +62,7 @@ export const hotelSummaries: HotelSummary[] = [
     name: "Harbor View Penthouse",
     location: "Marina Bay, Singapore",
     rating: 8.9,
+    stars: 4,
     reviewLabel: "Excellent",
     priceUsd: 595,
     perks: ["Flexible check-in", "Free cancellation"],

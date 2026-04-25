@@ -1,35 +1,19 @@
 "use client";
 
 import * as React from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { Star } from "lucide-react";
 
+import { HotelListingCard } from "@/components/hotel/hotel-listing-card";
+import { featuredHomeToListing } from "@/features/hotels/hotel-listing-mappers";
+import {
+  FEATURED_HOME_CITIES,
+  type FeaturedHome,
+  type FeaturedHomeCity,
+} from "@/features/landing/featured-homes";
 import { cn } from "@/lib/cn";
 import { Container } from "@/components/layout/container";
 
-type CityKey = "Bangalore" | "Mumbai" | "Goa" | "Hyderabad" | "New Delhi";
-
-export type FeaturedHome = {
-  id: string;
-  name: string;
-  image: string;
-  score: number; // e.g. 8.5
-  stars: number; // 1..5
-  neighborhood: string;
-  city: CityKey;
-  priceInr: number; // per night
-};
-
-function formatInr(amount: number) {
-  return new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 2,
-  }).format(amount);
-}
-
-const cities: CityKey[] = ["Bangalore", "Mumbai", "Goa", "Hyderabad", "New Delhi"];
+export type { FeaturedHome } from "@/features/landing/featured-homes";
 
 export function FeaturedHomesSection({
   className,
@@ -40,7 +24,7 @@ export function FeaturedHomesSection({
   title?: string;
   items: FeaturedHome[];
 }) {
-  const [activeCity, setActiveCity] = React.useState<CityKey>("Bangalore");
+  const [activeCity, setActiveCity] = React.useState<FeaturedHomeCity>("Bangalore");
 
   const filtered = React.useMemo(
     () => items.filter((x) => x.city === activeCity),
@@ -61,7 +45,7 @@ export function FeaturedHomesSection({
         </div>
 
         <div className="mt-4 flex flex-wrap items-center gap-6 text-sm">
-          {cities.map((c) => {
+          {FEATURED_HOME_CITIES.map((c) => {
             const isActive = c === activeCity;
             return (
               <button
@@ -84,58 +68,14 @@ export function FeaturedHomesSection({
 
         <div className="mt-6 grid gap-6 md:grid-cols-3">
           {filtered.slice(0, 3).map((h) => (
-            <Link
+            <HotelListingCard
               key={h.id}
-              href={`/hotels?destination=${encodeURIComponent(h.city)}`}
-              className="group"
-            >
-              <div className="overflow-hidden rounded-xl">
-                <div className="relative aspect-[16/10] bg-muted">
-                  <Image
-                    src={h.image}
-                    alt={h.name}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                    sizes="(min-width: 768px) 33vw, 100vw"
-                  />
-                  <div className="absolute right-3 top-3 rounded-md bg-primary px-2 py-1 text-xs font-semibold text-primary-foreground shadow">
-                    {h.score.toFixed(1)}
-                  </div>
-                </div>
-                <div className="bg-white pt-4">
-                  <div className="text-xs font-semibold uppercase tracking-wide text-black/60">
-                    {h.name}
-                  </div>
-                  <div className="mt-2 flex items-center gap-2 text-xs text-black/60">
-                    <div className="flex items-center gap-0.5 text-[#f59e0b]">
-                      {Array.from({ length: 5 }).map((_, i) => (
-                        <Star
-                          key={i}
-                          className={cn(
-                            "h-3.5 w-3.5",
-                            i < h.stars ? "fill-current" : "fill-transparent",
-                          )}
-                        />
-                      ))}
-                    </div>
-                    <span className="text-black/40">•</span>
-                    <span>{h.neighborhood}</span>
-                    <span className="text-black/40">,</span>
-                    <span className="text-primary">{h.city}</span>
-                  </div>
-                  <div className="mt-2 text-[11px] text-black/45">
-                    Per night before taxes and fees
-                  </div>
-                  <div className="mt-1 text-sm font-semibold text-[#b91c1c]">
-                    {formatInr(h.priceInr)}
-                  </div>
-                </div>
-              </div>
-            </Link>
+              listing={featuredHomeToListing(h)}
+              imageSizes="(min-width: 768px) 33vw, 100vw"
+            />
           ))}
         </div>
       </Container>
     </section>
   );
 }
-
