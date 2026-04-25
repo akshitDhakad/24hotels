@@ -1,55 +1,16 @@
+import type { ReactNode } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 import { ShieldCheck } from "lucide-react";
 
 import { UserDashboardShell } from "@/components/user/user-dashboard-shell";
 import { Card } from "@/components/ui/card";
+import { formatMinorCurrency } from "@/lib/booking-display";
 import { cn } from "@/lib/cn";
-
-const upcomingTrips = [
-  {
-    id: "t1",
-    name: "Aura Boutique Hotel",
-    location: "Santorini, Greece",
-    dates: "SEP 12 – SEP 18",
-    image:
-      "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1600&q=80",
-  },
-  {
-    id: "t2",
-    name: "Summit Peak Lodge",
-    location: "Zermatt, Switzerland",
-    dates: "DEC 20 – DEC 27",
-    image:
-      "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&w=1600&q=80",
-  },
-] as const;
-
-const savedProperties = [
-  {
-    id: "s1",
-    name: "Glass Beach House",
-    location: "Malibu, USA",
-    price: "$1,250",
-    image:
-      "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1600&q=80",
-  },
-  {
-    id: "s2",
-    name: "Eucalyptus Villa",
-    location: "Tuscany, Italy",
-    price: "$890",
-    image:
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=80",
-  },
-  {
-    id: "s3",
-    name: "The Grand Palace",
-    location: "Tokyo, Japan",
-    price: "$2,100",
-    image:
-      "https://images.unsplash.com/photo-1551887373-6f3f3c5f6c3a?auto=format&fit=crop&w=1600&q=80",
-  },
-] as const;
+import { DIAMOND_POINTS_THRESHOLD, pointsToDiamond, progressToDiamond } from "@/lib/loyalty";
+import { getUserDashboardData, getUserNavAccount } from "@/server/services/user-dashboard.service";
+import { requireCustomerSession } from "@/server/utils/require-customer";
 
 function StatCard({ label, value }: { label: string; value: string }) {
   return (
@@ -61,16 +22,23 @@ function StatCard({ label, value }: { label: string; value: string }) {
 }
 
 function UpcomingTripCard({
+  id,
   name,
   location,
   dates,
   image,
+  guestInitial,
+  amountLabel,
 }: {
+  id: string;
   name: string;
   location: string;
   dates: string;
   image: string;
+  guestInitial: string;
+  amountLabel: string;
 }) {
+  const initial = (guestInitial.trim()[0] ?? "?").toUpperCase();
   return (
     <Card className="overflow-hidden border-black/5 bg-white shadow-sm">
       <div className="relative aspect-[16/9] bg-black/[0.04]">
@@ -89,33 +57,26 @@ function UpcomingTripCard({
             <div className="truncate text-sm font-semibold">{name}</div>
             <div className="mt-1 text-xs text-black/45">{location}</div>
           </div>
-          <span className="rounded-full border border-black/10 bg-white px-2.5 py-1 text-[10px] font-semibold text-black/60">
+          <span className="shrink-0 rounded-full border border-black/10 bg-white px-2.5 py-1 text-[10px] font-semibold text-black/60">
             {dates}
           </span>
         </div>
 
+        <div className="mt-2 text-[11px] font-medium text-black/40">{amountLabel}</div>
+
         <div className="mt-4 flex items-center justify-between gap-4">
-          <div className="flex -space-x-2">
-            {["A", "B", "C"].slice(0, 3).map((x) => (
-              <div
-                key={x}
-                className="grid h-7 w-7 place-items-center rounded-full border-2 border-white bg-black/[0.06] text-[10px] font-semibold text-black/60"
-                aria-hidden="true"
-              >
-                {x}
-              </div>
-            ))}
-            <div className="grid h-7 w-7 place-items-center rounded-full border-2 border-white bg-black text-[10px] font-semibold text-white">
-              +1
+          <div className="flex -space-x-2" aria-label="Guest">
+            <div className="grid h-7 w-7 place-items-center rounded-full border-2 border-white bg-black/[0.06] text-[10px] font-semibold text-black/60">
+              {initial}
             </div>
           </div>
 
-          <button
-            type="button"
-            className="h-9 rounded-xl bg-black px-4 text-xs font-semibold text-white hover:bg-black/90"
+          <Link
+            href={`/user/bookings#${id}`}
+            className="inline-flex h-9 items-center justify-center rounded-xl bg-black px-4 text-xs font-semibold text-white hover:bg-black/90"
           >
             Manage Booking
-          </button>
+          </Link>
         </div>
       </div>
     </Card>
@@ -128,12 +89,14 @@ function OverviewCard({
   cta,
   icon,
   tone = "light",
+  progressPct,
 }: {
   title: string;
   description: string;
   cta: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
   tone?: "light" | "dark";
+  progressPct?: number;
 }) {
   return (
     <Card
@@ -144,18 +107,26 @@ function OverviewCard({
     >
       <div className="p-6">
         <div className="flex items-start justify-between gap-4">
-          <div className={cn("grid h-10 w-10 place-items-center rounded-xl", tone === "dark" ? "bg-white/10" : "bg-black/[0.04]")}>
+          <div
+            className={cn(
+              "grid h-10 w-10 place-items-center rounded-xl",
+              tone === "dark" ? "bg-white/10" : "bg-black/[0.04]",
+            )}
+          >
             {icon}
           </div>
           {tone === "dark" ? (
-            <button type="button" className="text-xs font-semibold text-white/80 hover:text-white">
-              + New Trip
-            </button>
+            <span className="text-xs font-semibold text-white/80">Rewards</span>
           ) : null}
         </div>
 
         <div className="mt-5 text-sm font-semibold">{title}</div>
-        <div className={cn("mt-2 text-xs leading-5", tone === "dark" ? "text-white/70" : "text-black/45")}>
+        <div
+          className={cn(
+            "mt-2 text-xs leading-5",
+            tone === "dark" ? "text-white/70" : "text-black/45",
+          )}
+        >
           {description}
         </div>
 
@@ -169,9 +140,12 @@ function OverviewCard({
           {cta} <span className={cn(tone === "dark" ? "text-white/70" : "text-black/40")}>→</span>
         </button>
 
-        {tone === "dark" ? (
+        {tone === "dark" && typeof progressPct === "number" ? (
           <div className="mt-6 h-2 w-full overflow-hidden rounded-full bg-white/10">
-            <div className="h-full w-[62%] rounded-full bg-white/70" />
+            <div
+              className="h-full rounded-full bg-white/70 transition-all"
+              style={{ width: `${progressPct}%` }}
+            />
           </div>
         ) : null}
       </div>
@@ -179,40 +153,75 @@ function OverviewCard({
   );
 }
 
-export default function UserDashboardPage() {
+export default async function UserDashboardPage() {
+  const { user } = await requireCustomerSession();
+  const [account, data] = await Promise.all([getUserNavAccount(user.id), getUserDashboardData(user.id)]);
+  if (!account || !data) notFound();
+
+  const loyaltyFmt = new Intl.NumberFormat("en-US").format(data.loyaltyPoints);
+  const upcomingLabel =
+    data.upcomingStaysTotal === 0
+      ? "no upcoming stays"
+      : data.upcomingStaysTotal === 1
+        ? "1 upcoming stay"
+        : `${data.upcomingStaysTotal} upcoming stays`;
+  const diamondRemaining = pointsToDiamond(data.loyaltyPoints);
+  const eliteDescription =
+    data.loyaltyPoints >= DIAMOND_POINTS_THRESHOLD
+      ? "You’ve reached Diamond status — enjoy top-tier perks on every stay."
+      : `You’re ${new Intl.NumberFormat("en-US").format(diamondRemaining)} points away from Diamond status rewards.`;
+  const eliteProgress = progressToDiamond(data.loyaltyPoints);
+
   return (
-    <UserDashboardShell>
+    <UserDashboardShell account={account}>
       <div className="grid gap-8">
         <div className="grid gap-4 lg:grid-cols-[1fr_220px_220px] lg:items-start">
           <div>
-            <div className="text-3xl font-semibold tracking-tight">Welcome back, Julian</div>
+            <div className="text-3xl font-semibold tracking-tight">
+              Welcome back, {data.displayName}
+            </div>
             <div className="mt-1 text-sm text-black/50">
-              You have 2 upcoming stays and 12,450 points to spend.
+              You have {upcomingLabel} and {loyaltyFmt} loyalty points.
             </div>
           </div>
-          <StatCard label="Total Trips" value="14" />
-          <StatCard label="Loyalty Points" value="12,450" />
+          <StatCard label="Total Trips" value={String(data.totalTrips)} />
+          <StatCard label="Loyalty Points" value={loyaltyFmt} />
         </div>
 
         <div>
           <div className="flex items-center justify-between gap-4">
             <div className="text-lg font-semibold">Upcoming Trips</div>
-            <button type="button" className="text-xs font-semibold text-black/50 hover:text-foreground">
+            <Link
+              href="/user/bookings"
+              className="text-xs font-semibold text-black/50 hover:text-foreground"
+            >
               View all bookings
-            </button>
+            </Link>
           </div>
 
-          <div className="mt-4 grid gap-4 lg:grid-cols-2">
-            {upcomingTrips.map((t) => (
-              <UpcomingTripCard
-                key={t.id}
-                name={t.name}
-                location={t.location}
-                dates={t.dates}
-                image={t.image}
-              />
-            ))}
-          </div>
+          {data.upcomingBookings.length === 0 ? (
+            <p className="mt-4 text-sm text-black/45">
+              No upcoming trips yet.{" "}
+              <Link href="/" className="font-semibold text-foreground underline-offset-4 hover:underline">
+                Explore hotels
+              </Link>
+            </p>
+          ) : (
+            <div className="mt-4 grid gap-4 lg:grid-cols-2">
+              {data.upcomingBookings.map((b) => (
+                <UpcomingTripCard
+                  key={b.id}
+                  id={b.id}
+                  name={b.hotelName}
+                  location={b.locationLabel}
+                  dates={b.datesLabel}
+                  image={b.imageUrl}
+                  guestInitial={data.displayName}
+                  amountLabel={`Total ${formatMinorCurrency(b.finalAmountMinor, b.currency)} · ${b.status}`}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
         <div>
@@ -232,9 +241,10 @@ export default function UserDashboardPage() {
             />
             <OverviewCard
               title="Elite Status"
-              description="You’re 4 nights away from Diamond status rewards."
+              description={eliteDescription}
               cta="View benefits"
               tone="dark"
+              progressPct={eliteProgress}
               icon={<ShieldCheck className="h-5 w-5 text-white/80" />}
             />
           </div>
@@ -246,51 +256,47 @@ export default function UserDashboardPage() {
               <div className="text-lg font-semibold">Saved Properties</div>
               <div className="mt-1 text-sm text-black/45">Your favorite stays, ready when you are.</div>
             </div>
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-black/10 bg-white hover:bg-black/[0.04]"
-                aria-label="Previous"
-              >
-                ‹
-              </button>
-              <button
-                type="button"
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-black/10 bg-white hover:bg-black/[0.04]"
-                aria-label="Next"
-              >
-                ›
-              </button>
-            </div>
+            <Link
+              href="/user/wishlist"
+              className="text-xs font-semibold text-black/50 hover:text-foreground"
+            >
+              View all
+            </Link>
           </div>
 
-          <div className="mt-4 grid gap-4 lg:grid-cols-3">
-            {savedProperties.map((p) => (
-              <Card key={p.id} className="overflow-hidden border-black/5 bg-white shadow-sm">
-                <div className="relative aspect-[16/10] bg-black/[0.04]">
-                  <Image src={p.image} alt={p.name} fill className="object-cover" sizes="(min-width: 1024px) 30vw, 100vw" />
-                  <button
-                    type="button"
-                    className="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-black/60 shadow-sm ring-1 ring-black/10 hover:bg-white"
-                    aria-label="Save"
-                  >
-                    ♥
-                  </button>
-                </div>
-                <div className="p-5">
-                  <div className="text-sm font-semibold">{p.name}</div>
-                  <div className="mt-1 text-xs text-black/45">{p.location}</div>
-                  <div className="mt-4 flex items-end justify-between gap-3">
-                    <div className="text-xs text-black/45">Per night</div>
-                    <div className="text-base font-semibold">{p.price}</div>
-                  </div>
-                </div>
-              </Card>
-            ))}
-          </div>
+          {data.wishlist.length === 0 ? (
+            <p className="mt-4 text-sm text-black/45">
+              Nothing saved yet. Tap the heart on a hotel to add it here.
+            </p>
+          ) : (
+            <div className="mt-4 grid gap-4 lg:grid-cols-3">
+              {data.wishlist.map((p) => (
+                <Card key={p.wishlistItemId} className="overflow-hidden border-black/5 bg-white shadow-sm">
+                  <Link href={`/hotels/${p.hotelId}`} className="block">
+                    <div className="relative aspect-[16/10] bg-black/[0.04]">
+                      <Image
+                        src={p.imageUrl}
+                        alt={p.name}
+                        fill
+                        className="object-cover"
+                        sizes="(min-width: 1024px) 30vw, 100vw"
+                      />
+                    </div>
+                    <div className="p-5">
+                      <div className="text-sm font-semibold">{p.name}</div>
+                      <div className="mt-1 text-xs text-black/45">{p.locationLabel}</div>
+                      <div className="mt-4 flex items-end justify-between gap-3">
+                        <div className="text-xs text-black/45">From</div>
+                        <div className="text-base font-semibold">{p.pricePerNightLabel}</div>
+                      </div>
+                    </div>
+                  </Link>
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </UserDashboardShell>
   );
 }
-

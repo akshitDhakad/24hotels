@@ -1,13 +1,16 @@
 "use client";
 
+import { signIn } from "next-auth/react";
+
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/cn";
 
 function GoogleIcon() {
   return (
     <svg
       aria-hidden="true"
       viewBox="0 0 48 48"
-      className="h-4 w-4"
+      className="h-4 w-4 shrink-0"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
@@ -30,19 +33,42 @@ function GoogleIcon() {
   );
 }
 
-export function SocialAuthButtons() {
-  // Auth.js wiring comes next; keep UX identical now.
+export type SocialAuthButtonsProps = {
+  /** Where to send the user after a successful OAuth sign-in */
+  callbackUrl?: string;
+  /** Button label */
+  label?: string;
+  className?: string;
+  /** When false, Google OAuth is not started (e.g. host/admin must use email sign-up). */
+  disabled?: boolean;
+  /** Shown as tooltip / aria when disabled */
+  disabledHint?: string;
+};
+
+export function SocialAuthButtons({
+  callbackUrl = "/",
+  label = "Sign up with Google",
+  className,
+  disabled = false,
+  disabledHint,
+}: SocialAuthButtonsProps) {
   return (
-    <div className="grid gap-3">
+    <div className={cn("grid w-full gap-3", className)}>
       <Button
         variant="outline"
-        className="h-11 justify-center rounded-full bg-white"
         type="button"
+        disabled={disabled}
+        title={disabled ? disabledHint : undefined}
+        aria-disabled={disabled}
+        className="h-11 w-full min-w-0 justify-center gap-2 rounded-full border-black/10 bg-white px-4 hover:bg-black/[0.02] disabled:cursor-not-allowed disabled:opacity-50"
+        onClick={() => {
+          if (disabled) return;
+          void signIn("google", { callbackUrl });
+        }}
       >
         <GoogleIcon />
-        Sign up with Google
+        <span className="truncate">{label}</span>
       </Button>
     </div>
   );
 }
-

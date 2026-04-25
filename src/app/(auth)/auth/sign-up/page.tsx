@@ -1,8 +1,9 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff, Lock, Mail } from "lucide-react";
+import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import * as React from "react";
 import { useForm, useWatch } from "react-hook-form";
 
@@ -16,11 +17,16 @@ import { cn } from "@/lib/cn";
 import { signUpSchema, type SignUpValues } from "@/utils/validation/auth";
 
 export default function SignUpPage() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = React.useState(false);
+  const [submitError, setSubmitError] = React.useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+
+  const showAdminSignup = process.env.NEXT_PUBLIC_SHOW_ADMIN_SIGNUP === "true";
 
   const form = useForm<SignUpValues>({
     resolver: zodResolver(signUpSchema),
-    defaultValues: { role: "user", email: "", password: "" },
+    defaultValues: { role: "customer", name: "", email: "", password: "" },
     mode: "onBlur",
   });
 
@@ -28,8 +34,34 @@ export default function SignUpPage() {
   const errors = form.formState.errors;
 
   async function onSubmit(values: SignUpValues) {
-    // Auth.js + Prisma wiring comes next.
-    console.log(values);
+    setSubmitError(null);
+    setIsSubmitting(true);
+    try {
+      const nameTrim = values.name?.trim();
+      const res = await fetch("/api/v1/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: values.email.trim(),
+          password: values.password,
+          accountType: values.role,
+          ...(nameTrim ? { name: nameTrim } : {}),
+        }),
+      });
+      const json = (await res.json()) as {
+        success?: boolean;
+        message?: string;
+        code?: string;
+      };
+      if (!res.ok || json.success === false) {
+        setSubmitError(json.message ?? "Could not create account. Try again.");
+        return;
+      }
+      router.push("/auth/sign-in?registered=1");
+      router.refresh();
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -44,7 +76,7 @@ export default function SignUpPage() {
               Sign Up
             </h1>
             <p className="mt-2 text-xs text-[#58705f]">
-              Create your account to continue
+              Choose Customer, Host, or Admin — then create your account.
             </p>
 
             <RoleToggle
@@ -52,11 +84,22 @@ export default function SignUpPage() {
               onChange={(next) =>
                 form.setValue("role", next, { shouldDirty: true })
               }
+              showAdminOption={showAdminSignup}
               className="mt-5 sm:mt-6"
             />
 
-            <div className="mt-5 sm:mt-6">
-              <SocialAuthButtons />
+            <div className="mt-5 w-full sm:mt-6">
+              <SocialAuthButtons
+                callbackUrl="/user/dashboard"
+                label="Sign up with Google"
+                disabled={role !== "customer"}
+                disabledHint="Google sign-up is for guests. Switch to Customer or use email for Host/Admin."
+              />
+              {role !== "customer" ? (
+                <p className="mt-2 text-center text-[11px] text-[#58705f]">
+                  Google creates a guest account. Use email sign-up for Host or Admin.
+                </p>
+              ) : null}
             </div>
 
             <div className="mt-5 flex items-center gap-3 sm:mt-6">
@@ -69,6 +112,35 @@ export default function SignUpPage() {
               onSubmit={form.handleSubmit(onSubmit)}
               className="mt-5 grid gap-3 text-left sm:mt-6 sm:gap-4"
             >
+              {submitError ? (
+                <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-xs text-red-800">
+                  {submitError}
+                </div>
+              ) : null}
+
+              <div className="grid gap-2">
+                <Label className="text-xs text-[#0f2d1c]" htmlFor="name">
+                  Full name <span className="text-[#58705f]">(optional)</span>
+                </Label>
+                <div className="relative">
+                  <User className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#58705f]" />
+                  <Input
+                    id="name"
+                    type="text"
+                    autoComplete="name"
+                    placeholder="Alex Mitchell"
+                    className={cn(
+                      "h-12 rounded-full border-black/10 bg-white pl-11",
+                      errors.name ? "ring-2 ring-red-500/40" : "",
+                    )}
+                    {...form.register("name")}
+                  />
+                </div>
+                {errors.name ? (
+                  <p className="text-xs text-red-600">{errors.name.message}</p>
+                ) : null}
+              </div>
+
               <div className="grid gap-2">
                 <Label className="text-xs text-[#0f2d1c]" htmlFor="email">
                   Email <span className="text-red-600">*</span>
@@ -96,9 +168,6 @@ export default function SignUpPage() {
                   <Label className="text-xs text-[#0f2d1c]" htmlFor="password">
                     Password <span className="text-red-600">*</span>
                   </Label>
-                  <Link href="#" className="text-xs font-medium text-primary">
-                    Forgot password?
-                  </Link>
                 </div>
 
                 <div className="relative">
@@ -133,8 +202,8 @@ export default function SignUpPage() {
                 ) : null}
               </div>
 
-              <Button type="submit" className="mt-2 h-12 rounded-full">
-                Sign up
+              <Button type="submit" className="mt-2 h-12 rounded-full" disabled={isSubmitting}>
+                {isSubmitting ? "Creating account…" : "Sign up"}
               </Button>
 
               <div className="pb-2 pt-2 text-center text-xs text-[#58705f]">

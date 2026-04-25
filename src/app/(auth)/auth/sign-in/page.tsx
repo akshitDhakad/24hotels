@@ -3,6 +3,7 @@
 import Link from "next/link";
 
 import { AuthBrand } from "@/components/auth/auth-brand";
+import { SocialAuthButtons } from "@/components/auth/social-auth-buttons";
 import { Button } from "@/components/ui/button";
 
 export default function SignInPage() {
@@ -15,9 +16,15 @@ export default function SignInPage() {
             Sign In
           </h1>
           <p className="mt-2 text-xs text-[#58705f]">
-            Auth.js integration comes next.
+            Continue with Google or email (credentials coming soon).
           </p>
-          <div className="mt-8 grid gap-3">
+          <div className="mt-8 grid w-full gap-3">
+            <SocialAuthButtons callbackUrl="/user/dashboard" label="Sign in with Google" />
+            <div className="flex items-center gap-3">
+              <div className="h-px flex-1 bg-black/10" />
+              <span className="text-[11px] font-medium text-[#58705f]">OR</span>
+              <div className="h-px flex-1 bg-black/10" />
+            </div>
             <Button className="h-12 rounded-full">Continue</Button>
             <div className="pb-1 text-xs text-[#58705f]">
               Don&apos;t have an account?{" "}

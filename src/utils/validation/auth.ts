@@ -1,9 +1,11 @@
 import { z } from "zod";
 
-export const authRoleSchema = z.enum(["user", "vendor"]);
+/** Sign-up account type: maps to DB roles USER | HOST | ADMIN */
+export const signUpAccountTypeSchema = z.enum(["customer", "host", "admin"]);
 
 export const signUpSchema = z.object({
-  role: authRoleSchema,
+  role: signUpAccountTypeSchema,
+  name: z.string().trim().max(120, "Name is too long").optional(),
   email: z.string().trim().email("Enter a valid email"),
   password: z
     .string()
