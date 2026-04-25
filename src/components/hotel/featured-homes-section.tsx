@@ -4,16 +4,10 @@ import * as React from "react";
 import Link from "next/link";
 
 import { HotelListingCard } from "@/components/hotel/hotel-listing-card";
-import { featuredHomeToListing } from "@/features/hotels/hotel-listing-mappers";
-import {
-  FEATURED_HOME_CITIES,
-  type FeaturedHome,
-  type FeaturedHomeCity,
-} from "@/features/landing/featured-homes";
+import { hotelSummaryToListing } from "@/features/hotels/hotel-listing-mappers";
+import type { HotelSummaryDto } from "@/features/hotels/hotels-api";
 import { cn } from "@/lib/cn";
 import { Container } from "@/components/layout/container";
-
-export type { FeaturedHome } from "@/features/landing/featured-homes";
 
 export function FeaturedHomesSection({
   className,
@@ -22,13 +16,23 @@ export function FeaturedHomesSection({
 }: {
   className?: string;
   title?: string;
-  items: FeaturedHome[];
+  items: HotelSummaryDto[];
 }) {
-  const [activeCity, setActiveCity] = React.useState<FeaturedHomeCity>("Bangalore");
+  const cities = React.useMemo(() => {
+    const set = new Set<string>();
+    for (const h of items) {
+      const city = h.city ? h.city.trim() : "";
+      if (city) set.add(city);
+    }
+    return Array.from(set);
+  }, [items]);
+
+  const [activeCity, setActiveCity] = React.useState<string>(() => cities[0] ?? "");
+  const resolvedCity = activeCity || cities[0] || "";
 
   const filtered = React.useMemo(
-    () => items.filter((x) => x.city === activeCity),
-    [items, activeCity],
+    () => items.filter((x) => x.city === resolvedCity),
+    [items, resolvedCity],
   );
 
   return (
@@ -37,16 +41,16 @@ export function FeaturedHomesSection({
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="text-lg font-semibold tracking-tight">{title}</div>
           <Link
-            href={`/hotels?destination=${encodeURIComponent(activeCity)}`}
+            href={`/hotels?destination=${encodeURIComponent(resolvedCity)}`}
             className="text-sm font-semibold text-primary hover:underline"
           >
-            See more ({activeCity}) properties →
+            See more ({resolvedCity}) properties →
           </Link>
         </div>
 
         <div className="mt-4 flex flex-wrap items-center gap-6 text-sm">
-          {FEATURED_HOME_CITIES.map((c) => {
-            const isActive = c === activeCity;
+          {cities.map((c) => {
+            const isActive = c === resolvedCity;
             return (
               <button
                 key={c}
@@ -70,7 +74,7 @@ export function FeaturedHomesSection({
           {filtered.slice(0, 3).map((h) => (
             <HotelListingCard
               key={h.id}
-              listing={featuredHomeToListing(h)}
+              listing={hotelSummaryToListing(h)}
               imageSizes="(min-width: 768px) 33vw, 100vw"
             />
           ))}

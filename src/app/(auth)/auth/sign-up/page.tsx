@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 
 import { AuthBrand } from "@/components/auth/auth-brand";
 import { RoleToggle } from "@/components/auth/role-toggle";
@@ -24,7 +24,7 @@ export default function SignUpPage() {
     mode: "onBlur",
   });
 
-  const role = form.watch("role");
+  const role = useWatch({ control: form.control, name: "role" });
   const errors = form.formState.errors;
 
   async function onSubmit(values: SignUpValues) {

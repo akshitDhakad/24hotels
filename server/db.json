@@ -1,0 +1,2697 @@
+{
+  "hotels": [
+    {
+      "id": "r_1",
+      "name": "The Azure Meridian",
+      "location": "Promenade des Anglais, Nice",
+      "country": "France",
+      "city": "Nice",
+      "rating": 9.4,
+      "stars": 5,
+      "reviewLabel": "Exceptional",
+      "priceUsd": 890,
+      "perks": [
+        "Breakfast included",
+        "Free cancellation"
+      ],
+      "image": "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=80",
+      "reviewCount": 412,
+      "isTopRated": false,
+      "isFeatured": true,
+      "description": "A refined coastal retreat with panoramic sea views, curated dining, and effortless access to Nice's iconic promenade.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1551887373-6f3f3c5f6c3a?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1501117716987-c8e2a49e5f8a?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Free Wi-Fi",
+        "Breakfast included",
+        "Ocean view",
+        "Pool",
+        "Spa & wellness",
+        "Airport shuttle",
+        "Fitness center",
+        "24/7 concierge"
+      ],
+      "rooms": [
+        {
+          "id": "r_1_rm_1",
+          "name": "Deluxe King Room",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 890
+        },
+        {
+          "id": "r_1_rm_2",
+          "name": "Premier Suite with Sea View",
+          "sleeps": 3,
+          "bed": "1 king bed + sofa",
+          "refundable": false,
+          "priceUsd": 1180
+        }
+      ]
+    },
+    {
+      "id": "r_2",
+      "name": "Villa Ethereal Waters",
+      "location": "Oia, Santorini",
+      "country": "Greece",
+      "city": "Santorini",
+      "rating": 9.8,
+      "stars": 5,
+      "reviewLabel": "Exceptional",
+      "priceUsd": 1850,
+      "perks": [
+        "Private airport shuttle",
+        "Instant booking"
+      ],
+      "image": "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": true,
+      "isFeatured": true,
+      "reviewCount": 128,
+      "description": "A serene hillside villa with private terraces and sunset views over Santorini's caldera—crafted for slow luxury.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1501876725168-00c445821c9e?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Private pool",
+        "Caldera views",
+        "Chef on request",
+        "Airport shuttle",
+        "Free cancellation",
+        "Fast Wi-Fi",
+        "Daily housekeeping"
+      ],
+      "rooms": [
+        {
+          "id": "r_2_rm_1",
+          "name": "Private Villa (2BR)",
+          "sleeps": 4,
+          "bed": "2 queen beds",
+          "refundable": true,
+          "priceUsd": 1850
+        },
+        {
+          "id": "r_2_rm_2",
+          "name": "Villa (3BR) with Pool",
+          "sleeps": 6,
+          "bed": "3 queen beds",
+          "refundable": false,
+          "priceUsd": 2350
+        }
+      ]
+    },
+    {
+      "id": "r_3",
+      "name": "Harbor View Penthouse",
+      "location": "Marina Bay, Singapore",
+      "country": "Singapore",
+      "city": "Singapore",
+      "rating": 8.9,
+      "stars": 4,
+      "reviewLabel": "Excellent",
+      "priceUsd": 595,
+      "perks": [
+        "Flexible check-in",
+        "Free cancellation"
+      ],
+      "image": "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": false,
+      "reviewCount": 289,
+      "description": "A modern penthouse escape in the heart of Marina Bay with skyline views, thoughtful design, and premium service.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1561501900-3701fa6a0864?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "City views",
+        "Flexible check-in",
+        "Gym access",
+        "High-speed Wi-Fi",
+        "Workspace",
+        "Kitchenette"
+      ],
+      "rooms": [
+        {
+          "id": "r_3_rm_1",
+          "name": "Penthouse Suite",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 595
+        },
+        {
+          "id": "r_3_rm_2",
+          "name": "Penthouse Suite with Balcony",
+          "sleeps": 3,
+          "bed": "1 king bed + sofa",
+          "refundable": false,
+          "priceUsd": 760
+        }
+      ]
+    },
+    {
+      "id": "r_4",
+      "name": "Desert Rose Riad",
+      "location": "Medina, Marrakech",
+      "country": "Morocco",
+      "city": "Marrakech",
+      "rating": 9.2,
+      "stars": 5,
+      "reviewLabel": "Exceptional",
+      "priceUsd": 420,
+      "perks": [
+        "Breakfast included",
+        "Free cancellation"
+      ],
+      "image": "https://images.unsplash.com/photo-1539037116277-4db20889f2d4?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": true,
+      "reviewCount": 334,
+      "description": "A historic Moroccan riad transformed into a tranquil luxury haven with a central fountain courtyard and rooftop terrace.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1539037116277-4db20889f2d4?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1578645510447-e20b4311e3ce?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1534430480872-3498386e7856?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Rooftop terrace",
+        "Hammam spa",
+        "Breakfast included",
+        "Free Wi-Fi",
+        "Courtyard pool",
+        "Daily housekeeping",
+        "Airport transfer"
+      ],
+      "rooms": [
+        {
+          "id": "r_4_rm_1",
+          "name": "Deluxe Courtyard Room",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 420
+        },
+        {
+          "id": "r_4_rm_2",
+          "name": "Rooftop Suite",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": false,
+          "priceUsd": 590
+        }
+      ]
+    },
+    {
+      "id": "r_5",
+      "name": "The Kyoto Forest Retreat",
+      "location": "Arashiyama, Kyoto",
+      "country": "Japan",
+      "city": "Kyoto",
+      "rating": 9.6,
+      "stars": 5,
+      "reviewLabel": "Exceptional",
+      "priceUsd": 760,
+      "perks": [
+        "Breakfast & dinner included",
+        "Free cancellation"
+      ],
+      "image": "https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": true,
+      "isFeatured": true,
+      "reviewCount": 203,
+      "description": "A traditional ryokan nestled among ancient bamboo groves, offering kaiseki dining, onsen baths, and serene garden views.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1567945436213-4e6f7c9f6c3b?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Onsen bath",
+        "Kaiseki dining",
+        "Garden views",
+        "Yukata robes",
+        "Tea ceremony",
+        "Free Wi-Fi",
+        "24/7 butler"
+      ],
+      "rooms": [
+        {
+          "id": "r_5_rm_1",
+          "name": "Garden View Tatami Room",
+          "sleeps": 2,
+          "bed": "2 futons",
+          "refundable": true,
+          "priceUsd": 760
+        },
+        {
+          "id": "r_5_rm_2",
+          "name": "Private Onsen Suite",
+          "sleeps": 2,
+          "bed": "1 king bed + futon",
+          "refundable": false,
+          "priceUsd": 1100
+        }
+      ]
+    },
+    {
+      "id": "r_6",
+      "name": "Peaks & Pines Alpine Lodge",
+      "location": "Verbier, Swiss Alps",
+      "country": "Switzerland",
+      "city": "Verbier",
+      "rating": 9.1,
+      "stars": 5,
+      "reviewLabel": "Exceptional",
+      "priceUsd": 1200,
+      "perks": [
+        "Ski-in ski-out",
+        "Breakfast included"
+      ],
+      "image": "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": true,
+      "reviewCount": 176,
+      "description": "An exclusive ski lodge with direct piste access, roaring fireplaces, and panoramic views of the Swiss Alps.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1548199947-b2c8f5c02b33?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1474552226712-ac0f0961a954?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1586348943529-beaae6c28db9?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Ski-in/ski-out",
+        "Indoor pool",
+        "Spa",
+        "Fireplace lounge",
+        "Ski storage",
+        "Heated floors",
+        "Restaurant",
+        "Bar"
+      ],
+      "rooms": [
+        {
+          "id": "r_6_rm_1",
+          "name": "Alpine Double Room",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 1200
+        },
+        {
+          "id": "r_6_rm_2",
+          "name": "Mountain Chalet Suite",
+          "sleeps": 4,
+          "bed": "2 king beds",
+          "refundable": false,
+          "priceUsd": 1800
+        }
+      ]
+    },
+    {
+      "id": "r_7",
+      "name": "Bali Serenity Villas",
+      "location": "Ubud, Bali",
+      "country": "Indonesia",
+      "city": "Bali",
+      "rating": 9.5,
+      "stars": 5,
+      "reviewLabel": "Exceptional",
+      "priceUsd": 320,
+      "perks": [
+        "Free cancellation",
+        "Private pool"
+      ],
+      "image": "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": true,
+      "isFeatured": false,
+      "reviewCount": 521,
+      "description": "Lush jungle villas with private infinity pools overlooking Ubud's sacred rice terraces — the ultimate Bali escape.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1559628129-67cf63b72248?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1602343168117-bb8ffe3e2e9f?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Private infinity pool",
+        "Rice terrace views",
+        "Daily yoga",
+        "Spa treatments",
+        "Breakfast included",
+        "Free Wi-Fi",
+        "Airport transfers"
+      ],
+      "rooms": [
+        {
+          "id": "r_7_rm_1",
+          "name": "Jungle Pool Villa (1BR)",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 320
+        },
+        {
+          "id": "r_7_rm_2",
+          "name": "Rice Terrace Villa (2BR)",
+          "sleeps": 4,
+          "bed": "2 king beds",
+          "refundable": false,
+          "priceUsd": 520
+        }
+      ]
+    },
+    {
+      "id": "r_8",
+      "name": "The Manhattan Grand",
+      "location": "Midtown, New York City",
+      "country": "USA",
+      "city": "New York",
+      "rating": 8.7,
+      "stars": 5,
+      "reviewLabel": "Excellent",
+      "priceUsd": 720,
+      "perks": [
+        "Free cancellation",
+        "Late checkout"
+      ],
+      "image": "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": false,
+      "reviewCount": 892,
+      "description": "A landmark New York hotel with Central Park views, a rooftop bar, and timeless Art Deco interiors steps from Fifth Avenue.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1549294413-26f195200786?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Central Park view",
+        "Rooftop bar",
+        "Fitness center",
+        "Concierge",
+        "Room service",
+        "Valet parking",
+        "Business center",
+        "Spa"
+      ],
+      "rooms": [
+        {
+          "id": "r_8_rm_1",
+          "name": "City View King Room",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 720
+        },
+        {
+          "id": "r_8_rm_2",
+          "name": "Park View Suite",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 1050
+        },
+        {
+          "id": "r_8_rm_3",
+          "name": "Penthouse with Terrace",
+          "sleeps": 4,
+          "bed": "2 king beds",
+          "refundable": false,
+          "priceUsd": 2200
+        }
+      ]
+    },
+    {
+      "id": "r_9",
+      "name": "Cape Point Clifftop Hotel",
+      "location": "Camps Bay, Cape Town",
+      "country": "South Africa",
+      "city": "Cape Town",
+      "rating": 9.0,
+      "stars": 5,
+      "reviewLabel": "Excellent",
+      "priceUsd": 480,
+      "perks": [
+        "Breakfast included",
+        "Ocean view"
+      ],
+      "image": "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": true,
+      "reviewCount": 267,
+      "description": "Perched on Cape Town's dramatic coastline with 180° Atlantic views, a world-class cellar, and private beach access.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1506059612708-99d6128a11f7?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Ocean view",
+        "Private beach",
+        "Wine cellar",
+        "Pool",
+        "Spa",
+        "Restaurant",
+        "Free Wi-Fi",
+        "Airport shuttle"
+      ],
+      "rooms": [
+        {
+          "id": "r_9_rm_1",
+          "name": "Ocean View Room",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 480
+        },
+        {
+          "id": "r_9_rm_2",
+          "name": "Clifftop Suite",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": false,
+          "priceUsd": 680
+        }
+      ]
+    },
+    {
+      "id": "r_10",
+      "name": "Maldives Overwater Sanctuary",
+      "location": "North Malé Atoll, Maldives",
+      "country": "Maldives",
+      "city": "North Malé Atoll",
+      "rating": 9.9,
+      "stars": 5,
+      "reviewLabel": "Exceptional",
+      "priceUsd": 2800,
+      "perks": [
+        "All-inclusive",
+        "Seaplane transfer"
+      ],
+      "image": "https://images.unsplash.com/photo-1573843981267-be1999ff37cd?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": true,
+      "isFeatured": true,
+      "reviewCount": 89,
+      "description": "Overwater bungalows rising above the clearest lagoon on earth — where coral gardens glow beneath your glass floor.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1573843981267-be1999ff37cd?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1540202404-a2f29016b523?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1548574505-5e239809ee19?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1602002418082-a4443978a5d1?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Overwater bungalow",
+        "Glass floor",
+        "Snorkeling gear",
+        "All meals included",
+        "Seaplane transfer",
+        "Private deck",
+        "Diving center"
+      ],
+      "rooms": [
+        {
+          "id": "r_10_rm_1",
+          "name": "Overwater Bungalow",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": false,
+          "priceUsd": 2800
+        },
+        {
+          "id": "r_10_rm_2",
+          "name": "Two-Bedroom Water Villa",
+          "sleeps": 4,
+          "bed": "2 king beds",
+          "refundable": false,
+          "priceUsd": 4200
+        }
+      ]
+    },
+    {
+      "id": "r_11",
+      "name": "The Parisian Loft",
+      "location": "Le Marais, Paris",
+      "country": "France",
+      "city": "Paris",
+      "rating": 8.8,
+      "stars": 4,
+      "reviewLabel": "Excellent",
+      "priceUsd": 390,
+      "perks": [
+        "Free cancellation",
+        "Breakfast included"
+      ],
+      "image": "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": false,
+      "reviewCount": 445,
+      "description": "A chic boutique hotel in the heart of Le Marais — haussmann stone facades, exposed beams, and curated Parisian art.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1520637736862-4d197d17c93a?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1506059612708-99d6128a11f7?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Breakfast included",
+        "City center",
+        "Concierge",
+        "Free Wi-Fi",
+        "Art gallery",
+        "Bar",
+        "Rooftop terrace"
+      ],
+      "rooms": [
+        {
+          "id": "r_11_rm_1",
+          "name": "Classic Double Room",
+          "sleeps": 2,
+          "bed": "1 double bed",
+          "refundable": true,
+          "priceUsd": 390
+        },
+        {
+          "id": "r_11_rm_2",
+          "name": "Loft Suite",
+          "sleeps": 3,
+          "bed": "1 king bed + mezzanine",
+          "refundable": false,
+          "priceUsd": 580
+        }
+      ]
+    },
+    {
+      "id": "r_12",
+      "name": "Amalfi Coast Cliffside Hotel",
+      "location": "Positano, Amalfi Coast",
+      "country": "Italy",
+      "city": "Positano",
+      "rating": 9.3,
+      "stars": 5,
+      "reviewLabel": "Exceptional",
+      "priceUsd": 740,
+      "perks": [
+        "Breakfast included",
+        "Sea view room"
+      ],
+      "image": "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": true,
+      "reviewCount": 318,
+      "description": "Clinging to the cliffs of Positano, this legendary hotel blends painted tiles, bougainvillea, and cerulean sea views.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1534430480872-3498386e7856?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1565967511849-76a60a516170?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Sea view",
+        "Pool",
+        "Breakfast included",
+        "Boat tours",
+        "Spa",
+        "Restaurant",
+        "Bar",
+        "Free Wi-Fi"
+      ],
+      "rooms": [
+        {
+          "id": "r_12_rm_1",
+          "name": "Sea View Room",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 740
+        },
+        {
+          "id": "r_12_rm_2",
+          "name": "Junior Suite with Terrace",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": false,
+          "priceUsd": 1050
+        }
+      ]
+    },
+    {
+      "id": "r_13",
+      "name": "The Bangkok Riverside",
+      "location": "Chao Phraya Riverside, Bangkok",
+      "country": "Thailand",
+      "city": "Bangkok",
+      "rating": 8.6,
+      "stars": 5,
+      "reviewLabel": "Excellent",
+      "priceUsd": 280,
+      "perks": [
+        "Free river shuttle",
+        "Breakfast included"
+      ],
+      "image": "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": false,
+      "reviewCount": 673,
+      "description": "A grand riverside property with its own pier, golden temple views, and the finest rooftop pool in Bangkok.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1549294413-26f195200786?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1559628129-67cf63b72248?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "River view",
+        "Rooftop pool",
+        "Spa",
+        "Multiple restaurants",
+        "Free shuttle boat",
+        "Fitness center",
+        "Concierge",
+        "Free Wi-Fi"
+      ],
+      "rooms": [
+        {
+          "id": "r_13_rm_1",
+          "name": "Deluxe River View Room",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 280
+        },
+        {
+          "id": "r_13_rm_2",
+          "name": "River Suite",
+          "sleeps": 3,
+          "bed": "1 king bed + sofa",
+          "refundable": true,
+          "priceUsd": 420
+        }
+      ]
+    },
+    {
+      "id": "r_14",
+      "name": "Dolomites Sky Chalet",
+      "location": "Cortina d'Ampezzo, Italy",
+      "country": "Italy",
+      "city": "Cortina d'Ampezzo",
+      "rating": 9.4,
+      "stars": 5,
+      "reviewLabel": "Exceptional",
+      "priceUsd": 980,
+      "perks": [
+        "Half board",
+        "Free ski pass"
+      ],
+      "image": "https://images.unsplash.com/photo-1586348943529-beaae6c28db9?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": true,
+      "reviewCount": 142,
+      "description": "A postcard-perfect mountain chalet with stone fireplaces, panoramic Dolomite peaks, and a celebrated wine cellar.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1586348943529-beaae6c28db9?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1474552226712-ac0f0961a954?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1548199947-b2c8f5c02b33?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Mountain view",
+        "Ski storage",
+        "Spa",
+        "Restaurant",
+        "Bar",
+        "Fireplace lounge",
+        "Free Wi-Fi",
+        "Sauna"
+      ],
+      "rooms": [
+        {
+          "id": "r_14_rm_1",
+          "name": "Mountain Double",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 980
+        },
+        {
+          "id": "r_14_rm_2",
+          "name": "Panorama Suite",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": false,
+          "priceUsd": 1380
+        }
+      ]
+    },
+    {
+      "id": "r_15",
+      "name": "Havana Heritage Hotel",
+      "location": "Old Havana, Cuba",
+      "country": "Cuba",
+      "city": "Havana",
+      "rating": 8.5,
+      "stars": 4,
+      "reviewLabel": "Excellent",
+      "priceUsd": 195,
+      "perks": [
+        "Breakfast included",
+        "Rooftop bar access"
+      ],
+      "image": "https://images.unsplash.com/photo-1534430480872-3498386e7856?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": false,
+      "reviewCount": 388,
+      "description": "A lovingly restored colonial mansion in Habana Vieja with live salsa, classic cars, and a rooftop overlooking the Malecón.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1534430480872-3498386e7856?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1539037116277-4db20889f2d4?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1546436836-07a91091f160?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Rooftop bar",
+        "Breakfast included",
+        "Live music",
+        "Courtyard",
+        "Free Wi-Fi",
+        "Tour desk",
+        "Classic car tours"
+      ],
+      "rooms": [
+        {
+          "id": "r_15_rm_1",
+          "name": "Colonial Double Room",
+          "sleeps": 2,
+          "bed": "1 double bed",
+          "refundable": true,
+          "priceUsd": 195
+        },
+        {
+          "id": "r_15_rm_2",
+          "name": "Heritage Suite",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": false,
+          "priceUsd": 290
+        }
+      ]
+    },
+    {
+      "id": "r_16",
+      "name": "Rajasthan Palace Hotel",
+      "location": "City Palace Area, Udaipur",
+      "country": "India",
+      "city": "Udaipur",
+      "rating": 9.5,
+      "stars": 5,
+      "reviewLabel": "Exceptional",
+      "priceUsd": 550,
+      "perks": [
+        "Breakfast included",
+        "Lake view"
+      ],
+      "image": "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": true,
+      "isFeatured": true,
+      "reviewCount": 291,
+      "description": "A magnificent palace-turned-hotel on the shores of Lake Pichola, with hand-painted frescoes, royal suites, and a rooftop with sunset dhow rides.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1578645510447-e20b4311e3ce?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1567945436213-4e6f7c9f6c3b?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Lake view",
+        "Pool",
+        "Spa",
+        "Rooftop restaurant",
+        "Cultural performances",
+        "Boat rides",
+        "Free Wi-Fi",
+        "24/7 butler"
+      ],
+      "rooms": [
+        {
+          "id": "r_16_rm_1",
+          "name": "Lake View Room",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 550
+        },
+        {
+          "id": "r_16_rm_2",
+          "name": "Royal Suite",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": false,
+          "priceUsd": 950
+        }
+      ]
+    },
+    {
+      "id": "r_17",
+      "name": "The Sydney Harbour Lights",
+      "location": "Circular Quay, Sydney",
+      "country": "Australia",
+      "city": "Sydney",
+      "rating": 8.9,
+      "stars": 5,
+      "reviewLabel": "Excellent",
+      "priceUsd": 620,
+      "perks": [
+        "Opera House view",
+        "Free cancellation"
+      ],
+      "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": false,
+      "reviewCount": 502,
+      "description": "Iconic harbour-front hotel where every room frames the Opera House and Harbour Bridge — the most recognisable view in Australia.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1602343168117-bb8ffe3e2e9f?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1548574505-5e239809ee19?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Harbour view",
+        "Rooftop pool",
+        "Fitness center",
+        "Restaurant",
+        "Bar",
+        "Concierge",
+        "Free Wi-Fi",
+        "Valet parking"
+      ],
+      "rooms": [
+        {
+          "id": "r_17_rm_1",
+          "name": "Harbour View King",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 620
+        },
+        {
+          "id": "r_17_rm_2",
+          "name": "Deluxe Harbour Suite",
+          "sleeps": 3,
+          "bed": "1 king bed + sofa",
+          "refundable": true,
+          "priceUsd": 880
+        }
+      ]
+    },
+    {
+      "id": "r_18",
+      "name": "Petra Sands Desert Camp",
+      "location": "Wadi Rum, Jordan",
+      "country": "Jordan",
+      "city": "Wadi Rum",
+      "rating": 9.2,
+      "stars": 4,
+      "reviewLabel": "Exceptional",
+      "priceUsd": 340,
+      "perks": [
+        "All meals included",
+        "Jeep safari"
+      ],
+      "image": "https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": false,
+      "reviewCount": 198,
+      "description": "Luxury tented camp in the rose-red desert of Wadi Rum — sleep under a billion stars in transparent bubble domes.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1474552226712-ac0f0961a954?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Star-gazing dome",
+        "Desert jeep tour",
+        "All meals included",
+        "Bedouin culture",
+        "Sunrise camel ride",
+        "Free Wi-Fi"
+      ],
+      "rooms": [
+        {
+          "id": "r_18_rm_1",
+          "name": "Deluxe Tent",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 340
+        },
+        {
+          "id": "r_18_rm_2",
+          "name": "Stargazing Bubble Dome",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": false,
+          "priceUsd": 540
+        }
+      ]
+    },
+    {
+      "id": "r_19",
+      "name": "Rio Beachfront Palace",
+      "location": "Ipanema Beach, Rio de Janeiro",
+      "country": "Brazil",
+      "city": "Rio de Janeiro",
+      "rating": 8.7,
+      "stars": 5,
+      "reviewLabel": "Excellent",
+      "priceUsd": 490,
+      "perks": [
+        "Beachfront",
+        "Free cancellation"
+      ],
+      "image": "https://images.unsplash.com/photo-1501117716987-c8e2a49e5f8a?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": false,
+      "reviewCount": 367,
+      "description": "Brazil's most glamorous address — right on Ipanema with Sugarloaf views, a rooftop infinity pool, and world-class caipirinha bar.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1501117716987-c8e2a49e5f8a?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1506059612708-99d6128a11f7?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Beachfront",
+        "Rooftop pool",
+        "Spa",
+        "Fitness center",
+        "Multiple restaurants",
+        "Bar",
+        "Concierge",
+        "Free Wi-Fi"
+      ],
+      "rooms": [
+        {
+          "id": "r_19_rm_1",
+          "name": "Ocean View Room",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 490
+        },
+        {
+          "id": "r_19_rm_2",
+          "name": "Beachfront Suite",
+          "sleeps": 4,
+          "bed": "2 queen beds",
+          "refundable": false,
+          "priceUsd": 820
+        }
+      ]
+    },
+    {
+      "id": "r_20",
+      "name": "Northern Lights Ice Lodge",
+      "location": "Saariselkä, Finnish Lapland",
+      "country": "Finland",
+      "city": "Lapland",
+      "rating": 9.7,
+      "stars": 5,
+      "reviewLabel": "Exceptional",
+      "priceUsd": 1650,
+      "perks": [
+        "Aurora viewing guaranteed",
+        "All meals included"
+      ],
+      "image": "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": true,
+      "isFeatured": true,
+      "reviewCount": 74,
+      "description": "Glass-roofed aurora cabins deep in the Finnish wilderness — fall asleep to the northern lights dancing above your bed.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1548199947-b2c8f5c02b33?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1474552226712-ac0f0961a954?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Aurora glass roof",
+        "Snowmobile tours",
+        "Husky safari",
+        "All meals included",
+        "Sauna",
+        "Snowshoeing",
+        "Free Wi-Fi"
+      ],
+      "rooms": [
+        {
+          "id": "r_20_rm_1",
+          "name": "Aurora Glass Cabin",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": false,
+          "priceUsd": 1650
+        },
+        {
+          "id": "r_20_rm_2",
+          "name": "Luxury Forest Suite",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": false,
+          "priceUsd": 1980
+        }
+      ]
+    },
+    {
+      "id": "r_21",
+      "name": "The Lisbon Garden Hotel",
+      "location": "Chiado, Lisbon",
+      "country": "Portugal",
+      "city": "Lisbon",
+      "rating": 8.9,
+      "stars": 4,
+      "reviewLabel": "Excellent",
+      "priceUsd": 290,
+      "perks": [
+        "Free cancellation",
+        "Rooftop pool"
+      ],
+      "image": "https://images.unsplash.com/photo-1513735492246-483525079686?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": false,
+      "reviewCount": 419,
+      "description": "A stylish boutique hotel in Chiado with an acclaimed rooftop bar, artisan breakfast, and panoramic views of the Tagus River.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1513735492246-483525079686?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1565967511849-76a60a516170?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1520637736862-4d197d17c93a?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Rooftop pool",
+        "Breakfast included",
+        "City views",
+        "Bar",
+        "Concierge",
+        "Free Wi-Fi",
+        "Bike rental"
+      ],
+      "rooms": [
+        {
+          "id": "r_21_rm_1",
+          "name": "Classic City View Room",
+          "sleeps": 2,
+          "bed": "1 double bed",
+          "refundable": true,
+          "priceUsd": 290
+        },
+        {
+          "id": "r_21_rm_2",
+          "name": "Tagus River Suite",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 440
+        }
+      ]
+    },
+    {
+      "id": "r_22",
+      "name": "Dubai Skyline Tower",
+      "location": "Downtown Dubai, UAE",
+      "country": "UAE",
+      "city": "Dubai",
+      "rating": 9.0,
+      "stars": 5,
+      "reviewLabel": "Excellent",
+      "priceUsd": 850,
+      "perks": [
+        "Burj Khalifa view",
+        "Breakfast included"
+      ],
+      "image": "https://images.unsplash.com/photo-1574068468669-a6b8d2f02e4f?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": true,
+      "reviewCount": 733,
+      "description": "At the foot of Burj Khalifa, this ultra-modern tower hotel merges high-tech luxury with Dubai's electric skyline.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1574068468669-a6b8d2f02e4f?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1549294413-26f195200786?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Burj view",
+        "Infinity pool",
+        "Spa",
+        "Multiple restaurants",
+        "Private beach club",
+        "Fitness center",
+        "Butler service",
+        "Free Wi-Fi"
+      ],
+      "rooms": [
+        {
+          "id": "r_22_rm_1",
+          "name": "Deluxe Burj View Room",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 850
+        },
+        {
+          "id": "r_22_rm_2",
+          "name": "Panoramic Suite",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": false,
+          "priceUsd": 1400
+        },
+        {
+          "id": "r_22_rm_3",
+          "name": "Royal Penthouse",
+          "sleeps": 4,
+          "bed": "2 king beds",
+          "refundable": false,
+          "priceUsd": 3500
+        }
+      ]
+    },
+    {
+      "id": "r_23",
+      "name": "Tulum Jungle Cenote Resort",
+      "location": "Tulum Ruins Zone, Mexico",
+      "country": "Mexico",
+      "city": "Tulum",
+      "rating": 9.1,
+      "stars": 4,
+      "reviewLabel": "Exceptional",
+      "priceUsd": 360,
+      "perks": [
+        "Private cenote access",
+        "Breakfast included"
+      ],
+      "image": "https://images.unsplash.com/photo-1552308995-2baac1ad5490?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": true,
+      "reviewCount": 284,
+      "description": "Eco-luxury cabanas hidden in the Tulum jungle, each with a private outdoor shower, hammock, and access to a private cenote.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1552308995-2baac1ad5490?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1602343168117-bb8ffe3e2e9f?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1559628129-67cf63b72248?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Private cenote",
+        "Yoga deck",
+        "Breakfast included",
+        "Bicycle rental",
+        "Spa",
+        "No plastic policy",
+        "Beach club access",
+        "Free Wi-Fi"
+      ],
+      "rooms": [
+        {
+          "id": "r_23_rm_1",
+          "name": "Jungle Cabana",
+          "sleeps": 2,
+          "bed": "1 queen bed",
+          "refundable": true,
+          "priceUsd": 360
+        },
+        {
+          "id": "r_23_rm_2",
+          "name": "Cenote Cabana with Plunge Pool",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": false,
+          "priceUsd": 560
+        }
+      ]
+    },
+    {
+      "id": "r_24",
+      "name": "The Reykjavik Geothermal Spa Hotel",
+      "location": "City Center, Reykjavik",
+      "country": "Iceland",
+      "city": "Reykjavik",
+      "rating": 9.0,
+      "stars": 4,
+      "reviewLabel": "Excellent",
+      "priceUsd": 430,
+      "perks": [
+        "Spa access included",
+        "Late checkout"
+      ],
+      "image": "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": false,
+      "reviewCount": 231,
+      "description": "A design-forward Reykjavik hotel with geothermal spa pools, lava stone interiors, and Northern Lights excursion desk.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1513735492246-483525079686?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1565967511849-76a60a516170?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Geothermal spa",
+        "Sauna",
+        "Northern Lights tours",
+        "Restaurant",
+        "Bar",
+        "Free Wi-Fi",
+        "Concierge"
+      ],
+      "rooms": [
+        {
+          "id": "r_24_rm_1",
+          "name": "Standard Room",
+          "sleeps": 2,
+          "bed": "1 double bed",
+          "refundable": true,
+          "priceUsd": 430
+        },
+        {
+          "id": "r_24_rm_2",
+          "name": "Spa Suite",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": false,
+          "priceUsd": 620
+        }
+      ]
+    },
+    {
+      "id": "r_25",
+      "name": "Vienna Palais Grand",
+      "location": "1st District, Vienna",
+      "country": "Austria",
+      "city": "Vienna",
+      "rating": 9.2,
+      "stars": 5,
+      "reviewLabel": "Exceptional",
+      "priceUsd": 560,
+      "perks": [
+        "Breakfast included",
+        "Free cancellation"
+      ],
+      "image": "https://images.unsplash.com/photo-1520637736862-4d197d17c93a?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": false,
+      "reviewCount": 398,
+      "description": "A grand Habsburg-era palace hotel steps from St. Stephen's Cathedral, with gilded ballrooms and a legendary pastry chef.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1520637736862-4d197d17c93a?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1549294413-26f195200786?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Historic palace",
+        "Fine dining",
+        "Ballroom",
+        "Spa",
+        "Concierge",
+        "Breakfast included",
+        "Free Wi-Fi",
+        "Valet parking"
+      ],
+      "rooms": [
+        {
+          "id": "r_25_rm_1",
+          "name": "Classic Grand Room",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 560
+        },
+        {
+          "id": "r_25_rm_2",
+          "name": "Imperial Suite",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": false,
+          "priceUsd": 1100
+        }
+      ]
+    },
+    {
+      "id": "r_26",
+      "name": "Petra Cliffside Lodge",
+      "location": "Wadi Musa, Petra",
+      "country": "Jordan",
+      "city": "Petra",
+      "rating": 8.8,
+      "stars": 4,
+      "reviewLabel": "Excellent",
+      "priceUsd": 255,
+      "perks": [
+        "Breakfast included",
+        "Petra guide included"
+      ],
+      "image": "https://images.unsplash.com/photo-1546436836-07a91091f160?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": false,
+      "reviewCount": 176,
+      "description": "Perched above the ancient rose-red city, this lodge offers morning views of the Treasury and expert local guides.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1546436836-07a91091f160?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1474552226712-ac0f0961a954?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Petra Treasury views",
+        "Breakfast included",
+        "Guided tours",
+        "Restaurant",
+        "Rooftop terrace",
+        "Free Wi-Fi"
+      ],
+      "rooms": [
+        {
+          "id": "r_26_rm_1",
+          "name": "Cliffside Room",
+          "sleeps": 2,
+          "bed": "1 double bed",
+          "refundable": true,
+          "priceUsd": 255
+        },
+        {
+          "id": "r_26_rm_2",
+          "name": "Treasury View Suite",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": false,
+          "priceUsd": 380
+        }
+      ]
+    },
+    {
+      "id": "r_27",
+      "name": "Phuket Pearl Beach Resort",
+      "location": "Surin Beach, Phuket",
+      "country": "Thailand",
+      "city": "Phuket",
+      "rating": 8.8,
+      "stars": 5,
+      "reviewLabel": "Excellent",
+      "priceUsd": 310,
+      "perks": [
+        "Beachfront",
+        "Free cancellation"
+      ],
+      "image": "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": false,
+      "reviewCount": 554,
+      "description": "A lavish beach resort on Phuket's most pristine bay, with Thai pavilion dining, overwater bar, and a beach butler.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1559628129-67cf63b72248?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1602343168117-bb8ffe3e2e9f?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Beachfront",
+        "Pool",
+        "Spa",
+        "Water sports",
+        "Restaurant",
+        "Bar",
+        "Kids club",
+        "Free Wi-Fi"
+      ],
+      "rooms": [
+        {
+          "id": "r_27_rm_1",
+          "name": "Deluxe Garden Room",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 310
+        },
+        {
+          "id": "r_27_rm_2",
+          "name": "Beachfront Pool Villa",
+          "sleeps": 3,
+          "bed": "1 king bed + sofa",
+          "refundable": false,
+          "priceUsd": 620
+        }
+      ]
+    },
+    {
+      "id": "r_28",
+      "name": "Barcelona Harbour Arc",
+      "location": "Port Vell, Barcelona",
+      "country": "Spain",
+      "city": "Barcelona",
+      "rating": 8.7,
+      "stars": 5,
+      "reviewLabel": "Excellent",
+      "priceUsd": 495,
+      "perks": [
+        "Sea view",
+        "Breakfast included"
+      ],
+      "image": "https://images.unsplash.com/photo-1565967511849-76a60a516170?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": false,
+      "reviewCount": 612,
+      "description": "A sleek waterfront hotel at Barcelona's yacht harbour with Sagrada Família views from the upper floors and Michelin dining.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1565967511849-76a60a516170?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1513735492246-483525079686?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1534430480872-3498386e7856?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Sea view",
+        "Rooftop pool",
+        "Michelin restaurant",
+        "Spa",
+        "Fitness center",
+        "Concierge",
+        "Free Wi-Fi",
+        "Valet"
+      ],
+      "rooms": [
+        {
+          "id": "r_28_rm_1",
+          "name": "Superior Harbour View",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 495
+        },
+        {
+          "id": "r_28_rm_2",
+          "name": "Premium Sea View Suite",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": false,
+          "priceUsd": 780
+        }
+      ]
+    },
+    {
+      "id": "r_29",
+      "name": "Serengeti Tented Camp",
+      "location": "Central Serengeti, Tanzania",
+      "country": "Tanzania",
+      "city": "Serengeti",
+      "rating": 9.7,
+      "stars": 5,
+      "reviewLabel": "Exceptional",
+      "priceUsd": 2100,
+      "perks": [
+        "All-inclusive",
+        "Safari drives included"
+      ],
+      "image": "https://images.unsplash.com/photo-1501876725168-00c445821c9e?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": true,
+      "isFeatured": true,
+      "reviewCount": 112,
+      "description": "An ultra-luxury mobile camp at the heart of the Great Migration — wake to elephants grazing at your tent flap.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1501876725168-00c445821c9e?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1546436836-07a91091f160?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "All meals & drinks",
+        "Twice-daily game drives",
+        "Sundowner cocktails",
+        "Bush walks",
+        "Private guide",
+        "Stargazing",
+        "Air transfer"
+      ],
+      "rooms": [
+        {
+          "id": "r_29_rm_1",
+          "name": "Luxury Safari Tent",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": false,
+          "priceUsd": 2100
+        },
+        {
+          "id": "r_29_rm_2",
+          "name": "Family Tent (2BR)",
+          "sleeps": 4,
+          "bed": "2 king beds",
+          "refundable": false,
+          "priceUsd": 3200
+        }
+      ]
+    },
+    {
+      "id": "r_30",
+      "name": "Colosseum View Boutique",
+      "location": "Rione Monti, Rome",
+      "country": "Italy",
+      "city": "Rome",
+      "rating": 9.0,
+      "stars": 4,
+      "reviewLabel": "Excellent",
+      "priceUsd": 420,
+      "perks": [
+        "Colosseum view",
+        "Breakfast included"
+      ],
+      "image": "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": false,
+      "reviewCount": 329,
+      "description": "Terrazza rooms with direct Colosseum views, a rooftop aperitivo bar, and breakfast served on the ancient city's rooftops.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1565967511849-76a60a516170?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1513735492246-483525079686?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Colosseum view",
+        "Rooftop bar",
+        "Breakfast included",
+        "Historic center",
+        "Concierge",
+        "Free Wi-Fi"
+      ],
+      "rooms": [
+        {
+          "id": "r_30_rm_1",
+          "name": "Classic Terrace Room",
+          "sleeps": 2,
+          "bed": "1 double bed",
+          "refundable": true,
+          "priceUsd": 420
+        },
+        {
+          "id": "r_30_rm_2",
+          "name": "Colosseum Suite",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": false,
+          "priceUsd": 680
+        }
+      ]
+    },
+    {
+      "id": "r_31",
+      "name": "The Cochin Spice Heritage",
+      "location": "Fort Kochi, Kerala",
+      "country": "India",
+      "city": "Kochi",
+      "rating": 9.1,
+      "stars": 4,
+      "reviewLabel": "Exceptional",
+      "priceUsd": 180,
+      "perks": [
+        "Breakfast included",
+        "Free cancellation"
+      ],
+      "image": "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": false,
+      "reviewCount": 347,
+      "description": "A Portuguese colonial mansion restored into a fragrant heritage hotel — courtyard gardens, Ayurvedic spa, and backwater views.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1590766940554-4f8fb1b8c7cc?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1578645510447-e20b4311e3ce?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1567945436213-4e6f7c9f6c3b?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Ayurvedic spa",
+        "Backwater views",
+        "Breakfast included",
+        "Cooking classes",
+        "Courtyard garden",
+        "Free Wi-Fi",
+        "Heritage walks"
+      ],
+      "rooms": [
+        {
+          "id": "r_31_rm_1",
+          "name": "Colonial Heritage Room",
+          "sleeps": 2,
+          "bed": "1 queen bed",
+          "refundable": true,
+          "priceUsd": 180
+        },
+        {
+          "id": "r_31_rm_2",
+          "name": "Garden Suite",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 270
+        }
+      ]
+    },
+    {
+      "id": "r_32",
+      "name": "Machu Picchu Cloud Forest Inn",
+      "location": "Aguas Calientes, Machu Picchu",
+      "country": "Peru",
+      "city": "Machu Picchu",
+      "rating": 9.3,
+      "stars": 5,
+      "reviewLabel": "Exceptional",
+      "priceUsd": 680,
+      "perks": [
+        "Ruins entrance included",
+        "Breakfast included"
+      ],
+      "image": "https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": true,
+      "reviewCount": 155,
+      "description": "The closest luxury hotel to Machu Picchu — suspended in the cloud forest, with early ruins access before the crowds arrive.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1501876725168-00c445821c9e?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1546436836-07a91091f160?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Early ruins access",
+        "Breakfast included",
+        "Cloud forest views",
+        "Hot springs access",
+        "Restaurant",
+        "Free Wi-Fi",
+        "Llama petting farm"
+      ],
+      "rooms": [
+        {
+          "id": "r_32_rm_1",
+          "name": "Andean Deluxe Room",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 680
+        },
+        {
+          "id": "r_32_rm_2",
+          "name": "Cloud Forest Suite",
+          "sleeps": 3,
+          "bed": "1 king bed + sofa",
+          "refundable": false,
+          "priceUsd": 980
+        }
+      ]
+    },
+    {
+      "id": "r_33",
+      "name": "The Marrakech Jardin Secret",
+      "location": "Mouassine, Marrakech",
+      "country": "Morocco",
+      "city": "Marrakech",
+      "rating": 8.6,
+      "stars": 4,
+      "reviewLabel": "Excellent",
+      "priceUsd": 250,
+      "perks": [
+        "Garden access",
+        "Breakfast included"
+      ],
+      "image": "https://images.unsplash.com/photo-1578645510447-e20b4311e3ce?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": false,
+      "reviewCount": 208,
+      "description": "Hidden behind ancient medina walls, this riad opens onto a historic Islamic garden with fountain-fed orange groves.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1578645510447-e20b4311e3ce?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1539037116277-4db20889f2d4?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1534430480872-3498386e7856?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Secret garden",
+        "Breakfast included",
+        "Hammam",
+        "Rooftop terrace",
+        "Library",
+        "Free Wi-Fi",
+        "Tour desk"
+      ],
+      "rooms": [
+        {
+          "id": "r_33_rm_1",
+          "name": "Garden View Room",
+          "sleeps": 2,
+          "bed": "1 double bed",
+          "refundable": true,
+          "priceUsd": 250
+        },
+        {
+          "id": "r_33_rm_2",
+          "name": "Pasha Suite",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": false,
+          "priceUsd": 390
+        }
+      ]
+    },
+    {
+      "id": "r_34",
+      "name": "The Honolulu Breeze",
+      "location": "Waikiki, Honolulu",
+      "country": "USA",
+      "city": "Honolulu",
+      "rating": 8.8,
+      "stars": 4,
+      "reviewLabel": "Excellent",
+      "priceUsd": 415,
+      "perks": [
+        "Beachfront",
+        "Free cancellation"
+      ],
+      "image": "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": false,
+      "reviewCount": 489,
+      "description": "A breezy Waikiki classic with direct beach access, Diamond Head views, and the world's best luau right on the lawn.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Beachfront",
+        "Pool",
+        "Luau events",
+        "Surfing lessons",
+        "Restaurant",
+        "Bar",
+        "Free Wi-Fi",
+        "Concierge"
+      ],
+      "rooms": [
+        {
+          "id": "r_34_rm_1",
+          "name": "Ocean View Room",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 415
+        },
+        {
+          "id": "r_34_rm_2",
+          "name": "Diamond Head Suite",
+          "sleeps": 4,
+          "bed": "2 queen beds",
+          "refundable": true,
+          "priceUsd": 680
+        }
+      ]
+    },
+    {
+      "id": "r_35",
+      "name": "Oslo Fjord Design Hotel",
+      "location": "Aker Brygge, Oslo",
+      "country": "Norway",
+      "city": "Oslo",
+      "rating": 8.9,
+      "stars": 4,
+      "reviewLabel": "Excellent",
+      "priceUsd": 380,
+      "perks": [
+        "Fjord view",
+        "Free cancellation"
+      ],
+      "image": "https://images.unsplash.com/photo-1548199947-b2c8f5c02b33?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": false,
+      "reviewCount": 261,
+      "description": "A Scandinavian design masterpiece on Oslo's waterfront — minimal pine interiors, Viking museum access, and fjord breakfast.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1548199947-b2c8f5c02b33?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1474552226712-ac0f0961a954?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Fjord view",
+        "Sauna",
+        "Breakfast included",
+        "Bike rental",
+        "Restaurant",
+        "Bar",
+        "Free Wi-Fi",
+        "EV charging"
+      ],
+      "rooms": [
+        {
+          "id": "r_35_rm_1",
+          "name": "Fjord View Room",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 380
+        },
+        {
+          "id": "r_35_rm_2",
+          "name": "Nordic Suite",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 560
+        }
+      ]
+    },
+    {
+      "id": "r_36",
+      "name": "Zanzibar Spice Island Resort",
+      "location": "Stone Town, Zanzibar",
+      "country": "Tanzania",
+      "city": "Zanzibar",
+      "rating": 9.2,
+      "stars": 5,
+      "reviewLabel": "Exceptional",
+      "priceUsd": 510,
+      "perks": [
+        "All-inclusive",
+        "Snorkeling gear"
+      ],
+      "image": "https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": true,
+      "reviewCount": 187,
+      "description": "A Swahili-style beachfront resort on Zanzibar's powder-white coast, with dhow sunset cruises and a celebrity chef.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1501876725168-00c445821c9e?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1546436836-07a91091f160?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Beachfront",
+        "All meals included",
+        "Snorkeling",
+        "Dhow cruise",
+        "Spa",
+        "Spice garden",
+        "Free Wi-Fi",
+        "Water sports"
+      ],
+      "rooms": [
+        {
+          "id": "r_36_rm_1",
+          "name": "Ocean Bandas",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 510
+        },
+        {
+          "id": "r_36_rm_2",
+          "name": "Beach Villa with Pool",
+          "sleeps": 3,
+          "bed": "1 king bed + daybed",
+          "refundable": false,
+          "priceUsd": 820
+        }
+      ]
+    },
+    {
+      "id": "r_37",
+      "name": "The Hong Kong Harbour Grand",
+      "location": "Harbour City, Kowloon",
+      "country": "China",
+      "city": "Hong Kong",
+      "rating": 8.8,
+      "stars": 5,
+      "reviewLabel": "Excellent",
+      "priceUsd": 445,
+      "perks": [
+        "Harbour view",
+        "Breakfast included"
+      ],
+      "image": "https://images.unsplash.com/photo-1567945436213-4e6f7c9f6c3b?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": false,
+      "reviewCount": 629,
+      "description": "Kowloon's most celebrated harbour hotel — the Symphony of Lights is visible from every room, and dim sum is exceptional.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1567945436213-4e6f7c9f6c3b?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Harbour view",
+        "Rooftop pool",
+        "Dim sum restaurant",
+        "Spa",
+        "Fitness center",
+        "Concierge",
+        "Free Wi-Fi",
+        "Airport express access"
+      ],
+      "rooms": [
+        {
+          "id": "r_37_rm_1",
+          "name": "Harbour View Deluxe",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 445
+        },
+        {
+          "id": "r_37_rm_2",
+          "name": "Harbour Grand Suite",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": false,
+          "priceUsd": 680
+        }
+      ]
+    },
+    {
+      "id": "r_38",
+      "name": "Queenstown Lake's Edge Lodge",
+      "location": "Frankton, Queenstown",
+      "country": "New Zealand",
+      "city": "Queenstown",
+      "rating": 9.3,
+      "stars": 5,
+      "reviewLabel": "Exceptional",
+      "priceUsd": 720,
+      "perks": [
+        "Lake view",
+        "Free adventure activity"
+      ],
+      "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": true,
+      "reviewCount": 193,
+      "description": "A lakeside lodge with the Remarkables mountain range as a backdrop — bungee jump at dawn, wine tasting at dusk.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1474552226712-ac0f0961a954?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1548199947-b2c8f5c02b33?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Lake view",
+        "Adventure activity included",
+        "Restaurant",
+        "Bar",
+        "Spa",
+        "Helipad",
+        "Free Wi-Fi",
+        "Wine cellar"
+      ],
+      "rooms": [
+        {
+          "id": "r_38_rm_1",
+          "name": "Lake View Room",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 720
+        },
+        {
+          "id": "r_38_rm_2",
+          "name": "Remarkables Suite",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": false,
+          "priceUsd": 1080
+        }
+      ]
+    },
+    {
+      "id": "r_39",
+      "name": "The Mumbai Sea Deck",
+      "location": "Marine Drive, Mumbai",
+      "country": "India",
+      "city": "Mumbai",
+      "rating": 8.7,
+      "stars": 5,
+      "reviewLabel": "Excellent",
+      "priceUsd": 320,
+      "perks": [
+        "Sea view",
+        "Breakfast included"
+      ],
+      "image": "https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": false,
+      "reviewCount": 478,
+      "description": "On the famed Queen's Necklace, this art deco icon overlooks the Arabian Sea with legendary sunset views and Bollywood glamour.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1590766940554-4f8fb1b8c7cc?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1578645510447-e20b4311e3ce?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Sea view",
+        "Rooftop pool",
+        "Spa",
+        "Multiple restaurants",
+        "Jazz bar",
+        "Fitness center",
+        "Concierge",
+        "Free Wi-Fi"
+      ],
+      "rooms": [
+        {
+          "id": "r_39_rm_1",
+          "name": "Sea View Deluxe",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 320
+        },
+        {
+          "id": "r_39_rm_2",
+          "name": "Art Deco Suite",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": false,
+          "priceUsd": 520
+        }
+      ]
+    },
+    {
+      "id": "r_40",
+      "name": "The Cappadocia Cave Hotel",
+      "location": "Göreme, Cappadocia",
+      "country": "Turkey",
+      "city": "Cappadocia",
+      "rating": 9.5,
+      "stars": 5,
+      "reviewLabel": "Exceptional",
+      "priceUsd": 580,
+      "perks": [
+        "Hot air balloon view",
+        "Breakfast included"
+      ],
+      "image": "https://images.unsplash.com/photo-1570939274717-7eda259b50ed?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": true,
+      "isFeatured": true,
+      "reviewCount": 344,
+      "description": "Carved into the volcanic tufa cliffs of Göreme, these cave suites offer a dawn hot-air balloon panorama that defines bucket-list travel.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1570939274717-7eda259b50ed?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1546436836-07a91091f160?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Cave suite",
+        "Hot air balloon views",
+        "Rooftop pool",
+        "Hammam",
+        "Breakfast included",
+        "Wine tasting",
+        "Free Wi-Fi",
+        "Airport transfer"
+      ],
+      "rooms": [
+        {
+          "id": "r_40_rm_1",
+          "name": "Standard Cave Room",
+          "sleeps": 2,
+          "bed": "1 queen bed",
+          "refundable": true,
+          "priceUsd": 580
+        },
+        {
+          "id": "r_40_rm_2",
+          "name": "Deluxe Cave Suite with Jacuzzi",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": false,
+          "priceUsd": 880
+        }
+      ]
+    },
+    {
+      "id": "r_41",
+      "name": "Seychelles Coral Nest",
+      "location": "Anse Lazio, Praslin Island",
+      "country": "Seychelles",
+      "city": "Praslin",
+      "rating": 9.6,
+      "stars": 5,
+      "reviewLabel": "Exceptional",
+      "priceUsd": 1680,
+      "perks": [
+        "All-inclusive",
+        "Watersports included"
+      ],
+      "image": "https://images.unsplash.com/photo-1602002418082-a4443978a5d1?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": true,
+      "isFeatured": true,
+      "reviewCount": 96,
+      "description": "A private island resort on the whitest beach in the world — granite boulders, turquoise coves, and zero other guests.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1602002418082-a4443978a5d1?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1573843981267-be1999ff37cd?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1540202404-a2f29016b523?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1548574505-5e239809ee19?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Private beach",
+        "All-inclusive",
+        "Snorkeling & diving",
+        "Kayaking",
+        "Spa",
+        "Chef on request",
+        "Free Wi-Fi",
+        "Helicopter transfer"
+      ],
+      "rooms": [
+        {
+          "id": "r_41_rm_1",
+          "name": "Beach Villa",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": false,
+          "priceUsd": 1680
+        },
+        {
+          "id": "r_41_rm_2",
+          "name": "Presidential Beachfront Villa",
+          "sleeps": 4,
+          "bed": "2 king beds",
+          "refundable": false,
+          "priceUsd": 2800
+        }
+      ]
+    },
+    {
+      "id": "r_42",
+      "name": "The Goa Spice Garden",
+      "location": "Anjuna Beach, Goa",
+      "country": "India",
+      "city": "Goa",
+      "rating": 8.5,
+      "stars": 4,
+      "reviewLabel": "Excellent",
+      "priceUsd": 145,
+      "perks": [
+        "Breakfast included",
+        "Beach access"
+      ],
+      "image": "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": false,
+      "reviewCount": 612,
+      "description": "A breezy boutique resort in North Goa with frangipani gardens, a beach-shack style pool bar, and legendary Sunday market access.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1559628129-67cf63b72248?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1602343168117-bb8ffe3e2e9f?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Beach access",
+        "Pool",
+        "Garden",
+        "Restaurant",
+        "Bar",
+        "Yoga classes",
+        "Free Wi-Fi",
+        "Bike rental"
+      ],
+      "rooms": [
+        {
+          "id": "r_42_rm_1",
+          "name": "Garden Cottage",
+          "sleeps": 2,
+          "bed": "1 double bed",
+          "refundable": true,
+          "priceUsd": 145
+        },
+        {
+          "id": "r_42_rm_2",
+          "name": "Pool View Suite",
+          "sleeps": 3,
+          "bed": "1 king bed + sofa",
+          "refundable": true,
+          "priceUsd": 220
+        }
+      ]
+    },
+    {
+      "id": "r_43",
+      "name": "Amsterdam Canal Suite",
+      "location": "Prinsengracht, Amsterdam",
+      "country": "Netherlands",
+      "city": "Amsterdam",
+      "rating": 9.0,
+      "stars": 4,
+      "reviewLabel": "Excellent",
+      "priceUsd": 340,
+      "perks": [
+        "Canal view",
+        "Bike rental included"
+      ],
+      "image": "https://images.unsplash.com/photo-1508980011755-04e6826a2e62?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": false,
+      "reviewCount": 376,
+      "description": "A converted 17th-century canal merchant house with creaky wooden staircases, Rembrandt prints, and breakfast on a floating terrace.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1508980011755-04e6826a2e62?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1513735492246-483525079686?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1520637736862-4d197d17c93a?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1565967511849-76a60a516170?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Canal view",
+        "Free bike rental",
+        "Breakfast included",
+        "Historic building",
+        "Bar",
+        "Free Wi-Fi",
+        "Concierge"
+      ],
+      "rooms": [
+        {
+          "id": "r_43_rm_1",
+          "name": "Canal View Room",
+          "sleeps": 2,
+          "bed": "1 double bed",
+          "refundable": true,
+          "priceUsd": 340
+        },
+        {
+          "id": "r_43_rm_2",
+          "name": "Grand Canal Suite",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": false,
+          "priceUsd": 520
+        }
+      ]
+    },
+    {
+      "id": "r_44",
+      "name": "Tuscany Vineyard Estate",
+      "location": "Chianti, Florence",
+      "country": "Italy",
+      "city": "Florence",
+      "rating": 9.4,
+      "stars": 5,
+      "reviewLabel": "Exceptional",
+      "priceUsd": 680,
+      "perks": [
+        "Wine tasting included",
+        "Breakfast included"
+      ],
+      "image": "https://images.unsplash.com/photo-1523531294919-4bcd7c65e216?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": true,
+      "reviewCount": 229,
+      "description": "A 14th-century stone estate surrounded by vine rows, olive groves, and cypress trees — Chianti pours freely at sunset.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1523531294919-4bcd7c65e216?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1534430480872-3498386e7856?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Wine tasting",
+        "Cooking classes",
+        "Pool",
+        "Vineyard tours",
+        "Breakfast included",
+        "Restaurant",
+        "Free Wi-Fi",
+        "Shuttle to Florence"
+      ],
+      "rooms": [
+        {
+          "id": "r_44_rm_1",
+          "name": "Vineyard Double Room",
+          "sleeps": 2,
+          "bed": "1 double bed",
+          "refundable": true,
+          "priceUsd": 680
+        },
+        {
+          "id": "r_44_rm_2",
+          "name": "Villa Suite with Vineyard View",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": false,
+          "priceUsd": 980
+        }
+      ]
+    },
+    {
+      "id": "r_45",
+      "name": "The Seoul Hanok Guesthouse",
+      "location": "Bukchon Hanok Village, Seoul",
+      "country": "South Korea",
+      "city": "Seoul",
+      "rating": 9.1,
+      "stars": 4,
+      "reviewLabel": "Exceptional",
+      "priceUsd": 260,
+      "perks": [
+        "Breakfast included",
+        "Hanok experience"
+      ],
+      "image": "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": false,
+      "reviewCount": 298,
+      "description": "A beautifully restored Joseon-era hanok with ondol heated floors, a bonsai garden, and a private tea ceremony room.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1567945436213-4e6f7c9f6c3b?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Traditional architecture",
+        "Ondol heating",
+        "Tea ceremony",
+        "Breakfast included",
+        "Hanbok rental",
+        "Garden",
+        "Free Wi-Fi"
+      ],
+      "rooms": [
+        {
+          "id": "r_45_rm_1",
+          "name": "Traditional Ondol Room",
+          "sleeps": 2,
+          "bed": "Floor mattress",
+          "refundable": true,
+          "priceUsd": 260
+        },
+        {
+          "id": "r_45_rm_2",
+          "name": "Master Hanok Suite",
+          "sleeps": 2,
+          "bed": "1 king bed + floor option",
+          "refundable": false,
+          "priceUsd": 390
+        }
+      ]
+    },
+    {
+      "id": "r_46",
+      "name": "The Prague Old Town Manor",
+      "location": "Staré Město, Prague",
+      "country": "Czech Republic",
+      "city": "Prague",
+      "rating": 9.0,
+      "stars": 5,
+      "reviewLabel": "Excellent",
+      "priceUsd": 380,
+      "perks": [
+        "Breakfast included",
+        "Free cancellation"
+      ],
+      "image": "https://images.unsplash.com/photo-1540202404-a2f29016b523?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": false,
+      "reviewCount": 414,
+      "description": "A Baroque manor in Prague's fairy-tale old town — vaulted cellars, candlelit Czech dining, and the Astronomical Clock from your window.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1540202404-a2f29016b523?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1520637736862-4d197d17c93a?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1513735492246-483525079686?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1565967511849-76a60a516170?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Historic building",
+        "Cellar restaurant",
+        "Breakfast included",
+        "Spa",
+        "Wine bar",
+        "Concierge",
+        "Free Wi-Fi"
+      ],
+      "rooms": [
+        {
+          "id": "r_46_rm_1",
+          "name": "Classic Old Town Room",
+          "sleeps": 2,
+          "bed": "1 double bed",
+          "refundable": true,
+          "priceUsd": 380
+        },
+        {
+          "id": "r_46_rm_2",
+          "name": "Baroque Suite",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": false,
+          "priceUsd": 580
+        }
+      ]
+    },
+    {
+      "id": "r_47",
+      "name": "Agadir Ocean Club",
+      "location": "Taghazout Bay, Morocco",
+      "country": "Morocco",
+      "city": "Agadir",
+      "rating": 8.6,
+      "stars": 4,
+      "reviewLabel": "Excellent",
+      "priceUsd": 210,
+      "perks": [
+        "Surf lessons included",
+        "Breakfast included"
+      ],
+      "image": "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": false,
+      "reviewCount": 265,
+      "description": "The go-to surf resort on Morocco's Atlantic coast — board rentals, expert guides, yoga at sunrise, and the freshest tagine after.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1539037116277-4db20889f2d4?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1578645510447-e20b4311e3ce?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Surf school",
+        "Yoga deck",
+        "Breakfast included",
+        "Pool",
+        "Beach access",
+        "Restaurant",
+        "Free Wi-Fi",
+        "Bike rental"
+      ],
+      "rooms": [
+        {
+          "id": "r_47_rm_1",
+          "name": "Ocean Breeze Room",
+          "sleeps": 2,
+          "bed": "1 double bed",
+          "refundable": true,
+          "priceUsd": 210
+        },
+        {
+          "id": "r_47_rm_2",
+          "name": "Surfer's Suite",
+          "sleeps": 4,
+          "bed": "2 bunk beds + 1 queen",
+          "refundable": true,
+          "priceUsd": 320
+        }
+      ]
+    },
+    {
+      "id": "r_48",
+      "name": "The Jaipur Palace Haveli",
+      "location": "Pink City, Jaipur",
+      "country": "India",
+      "city": "Jaipur",
+      "rating": 9.3,
+      "stars": 5,
+      "reviewLabel": "Exceptional",
+      "priceUsd": 420,
+      "perks": [
+        "Breakfast included",
+        "Elephant experience"
+      ],
+      "image": "https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": true,
+      "reviewCount": 381,
+      "description": "A Rajput royal haveli with mirrored rooms, elephant processions at breakfast, and a rooftop with views over Amer Fort.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1590766940554-4f8fb1b8c7cc?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1578645510447-e20b4311e3ce?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Heritage architecture",
+        "Elephant experience",
+        "Pool",
+        "Spa",
+        "Breakfast included",
+        "Cultural shows",
+        "Rooftop bar",
+        "Free Wi-Fi"
+      ],
+      "rooms": [
+        {
+          "id": "r_48_rm_1",
+          "name": "Heritage Deluxe Room",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 420
+        },
+        {
+          "id": "r_48_rm_2",
+          "name": "Maharaja Suite",
+          "sleeps": 2,
+          "bed": "1 super king bed",
+          "refundable": false,
+          "priceUsd": 750
+        }
+      ]
+    },
+    {
+      "id": "r_49",
+      "name": "The Medellin Treetop Hotel",
+      "location": "El Poblado, Medellín",
+      "country": "Colombia",
+      "city": "Medellín",
+      "rating": 8.9,
+      "stars": 4,
+      "reviewLabel": "Excellent",
+      "priceUsd": 185,
+      "perks": [
+        "Free cancellation",
+        "Rooftop pool"
+      ],
+      "image": "https://images.unsplash.com/photo-1559628129-67cf63b72248?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": false,
+      "reviewCount": 342,
+      "description": "A contemporary jungle hotel in Medellín's coolest barrio — treetop terraces, cable-car views, and the best craft cocktails in Colombia.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1559628129-67cf63b72248?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1552308995-2baac1ad5490?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Rooftop pool",
+        "City views",
+        "Cocktail bar",
+        "Fitness center",
+        "Concierge",
+        "Free Wi-Fi",
+        "Bike rental"
+      ],
+      "rooms": [
+        {
+          "id": "r_49_rm_1",
+          "name": "Treetop Double Room",
+          "sleeps": 2,
+          "bed": "1 double bed",
+          "refundable": true,
+          "priceUsd": 185
+        },
+        {
+          "id": "r_49_rm_2",
+          "name": "Panorama Suite",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": true,
+          "priceUsd": 280
+        }
+      ]
+    },
+    {
+      "id": "r_50",
+      "name": "The Valletta Grand Harbour Hotel",
+      "location": "Valletta Waterfront, Malta",
+      "country": "Malta",
+      "city": "Valletta",
+      "rating": 9.1,
+      "stars": 5,
+      "reviewLabel": "Exceptional",
+      "priceUsd": 430,
+      "perks": [
+        "Breakfast included",
+        "Harbour view"
+      ],
+      "image": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1600&q=80",
+      "isTopRated": false,
+      "isFeatured": true,
+      "reviewCount": 219,
+      "description": "A restored Baroque palazzo in Europe's smallest capital — limestone-arched rooms with Grand Harbour views and Knights of Malta history.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1565967511849-76a60a516170?auto=format&fit=crop&w=2000&q=80",
+        "https://images.unsplash.com/photo-1513735492246-483525079686?auto=format&fit=crop&w=2000&q=80"
+      ],
+      "amenities": [
+        "Grand Harbour view",
+        "Rooftop pool",
+        "Breakfast included",
+        "Historic palace",
+        "Restaurant",
+        "Bar",
+        "Free Wi-Fi",
+        "Concierge"
+      ],
+      "rooms": [
+        {
+          "id": "r_50_rm_1",
+          "name": "Classic Harbour Room",
+          "sleeps": 2,
+          "bed": "1 double bed",
+          "refundable": true,
+          "priceUsd": 430
+        },
+        {
+          "id": "r_50_rm_2",
+          "name": "Grand Harbour Suite",
+          "sleeps": 2,
+          "bed": "1 king bed",
+          "refundable": false,
+          "priceUsd": 660
+        }
+      ]
+    }
+  ],
+  "bookings": []
+}

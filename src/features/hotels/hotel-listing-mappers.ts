@@ -2,7 +2,9 @@ import type { FeaturedHome } from "@/features/landing/featured-homes";
 import type { TrendingStay } from "@/features/landing/trending-stays";
 
 import type { HotelListingCardData } from "./hotel-listing-types";
-import type { HotelSummary } from "./mock-data";
+import type { HotelSummaryDto } from "./hotels-api";
+import type { CurrencyCode } from "@/types/search";
+import { convertFromUsd } from "@/lib/currency";
 
 function splitLocation(location: string): { neighborhood: string; city: string } {
   const idx = location.lastIndexOf(",");
@@ -22,8 +24,12 @@ function starsFromRating(rating: number, explicit?: number): number {
   return Math.min(5, Math.max(1, Math.round(rating / 2)));
 }
 
-export function hotelSummaryToListing(hotel: HotelSummary): HotelListingCardData {
+export function hotelSummaryToListing(
+  hotel: HotelSummaryDto,
+  currency: CurrencyCode = "INR",
+): HotelListingCardData {
   const { neighborhood, city } = splitLocation(hotel.location);
+  const amount = convertFromUsd(hotel.priceUsd, currency);
   return {
     id: hotel.id,
     href: `/hotels/${hotel.id}`,
@@ -36,7 +42,7 @@ export function hotelSummaryToListing(hotel: HotelSummary): HotelListingCardData
     imageBadges: hotel.perks.length ? hotel.perks.slice(0, 2) : undefined,
     ribbonBadge: hotel.isTopRated ? "Top rated" : undefined,
     wishlistHref: "/auth/sign-in",
-    price: { currency: "USD", amount: hotel.priceUsd },
+    price: { currency, amount },
   };
 }
 

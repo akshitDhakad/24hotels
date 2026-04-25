@@ -11,9 +11,10 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import * as React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 
 import { cn } from "@/lib/cn";
+import { useHotelsResultsStore } from "@/store/hotels-results-store";
 import { useSearchStore } from "@/store/search-store";
 import {
   searchFormSchema,
@@ -66,6 +67,7 @@ const pillFilters = ["Hotels", "Villas", "Apartments", "Resorts", "Cottages"];
 export function HeroSearchBar({ className }: { className?: string }) {
   const router = useRouter();
   const { params, setParams } = useSearchStore();
+  const resetPaging = useHotelsResultsStore((s) => s.resetPaging);
   const [guestsOpen, setGuestsOpen] = React.useState(false);
 
   const form = useForm<SearchFormValues>({
@@ -82,10 +84,11 @@ export function HeroSearchBar({ className }: { className?: string }) {
     mode: "onChange",
   });
 
-  const values = form.watch();
+  const values = useWatch({ control: form.control });
 
   function onSubmit(v: SearchFormValues) {
     setParams(v);
+    resetPaging();
     const sp = new URLSearchParams();
     sp.set("destination", v.destination);
     if (v.checkIn) sp.set("checkIn", v.checkIn);
@@ -94,6 +97,7 @@ export function HeroSearchBar({ className }: { className?: string }) {
     sp.set("children", String(v.children));
     sp.set("rooms", String(v.rooms));
     sp.set("currency", v.currency);
+    sp.set("page", "1");
     router.push(`/hotels?${sp.toString()}`);
   }
 

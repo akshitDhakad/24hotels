@@ -13,90 +13,104 @@ import { PopularDestinationsCarousel } from "@/components/hotel/popular-destinat
 import { FeaturedHomesSection } from "@/components/hotel/featured-homes-section";
 import { HotelListingCard } from "@/components/hotel/hotel-listing-card";
 import { PromoShowcaseSection } from "@/components/hotel/promo-showcase-section";
-import { trendingStayToListing } from "@/features/hotels/hotel-listing-mappers";
-import { featuredHomes } from "@/features/landing/featured-homes";
-import { trendingStays } from "@/features/landing/trending-stays";
+import { hotelSummaryToListing } from "@/features/hotels/hotel-listing-mappers";
+import type { HotelSummaryDto } from "@/features/hotels/hotels-api";
 import { NewsletterSignupSection } from "@/components/marketing/newsletter-signup-section";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+import { readDb } from "@/app/api/_db/db";
 
-const topDestinations = [
-  {
-    name: "Paris",
-    country: "France",
-    href: "/hotels?destination=Paris",
-    image:
-      "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    name: "Tokyo",
-    country: "Japan",
-    href: "/hotels?destination=Tokyo",
-    image:
-      "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    name: "Bali",
-    country: "Indonesia",
-    href: "/hotels?destination=Bali",
-    image:
-      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    name: "Sydney",
-    country: "Australia",
-    href: "/hotels?destination=Sydney",
-    image:
-      "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=1200&q=80",
-  },
-];
+type DestinationSummary = {
+  name: string;
+  country: string;
+  accommodations: number;
+  image: string;
+  href: string;
+  avgRating: number;
+};
 
-const popularOutsideIndia = [
-  {
-    name: "Kuala Lumpur",
-    accommodations: 19902,
-    href: "/hotels?destination=Kuala%20Lumpur",
-    image:
-      "https://images.unsplash.com/photo-1562564055-71e051d33c19?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    name: "Manila",
-    accommodations: 13223,
-    href: "/hotels?destination=Manila",
-    image:
-      "https://images.unsplash.com/photo-1589893931034-bd7a0d2c9b8a?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    name: "Jakarta",
-    accommodations: 14249,
-    href: "/hotels?destination=Jakarta",
-    image:
-      "https://images.unsplash.com/photo-1555899434-94d1368aa6a7?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    name: "Bangkok",
-    accommodations: 12048,
-    href: "/hotels?destination=Bangkok",
-    image:
-      "https://images.unsplash.com/photo-1508009603885-50cf7c579365?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    name: "Dubai",
-    accommodations: 19464,
-    href: "/hotels?destination=Dubai",
-    image:
-      "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    name: "Singapore",
-    accommodations: 11802,
-    href: "/hotels?destination=Singapore",
-    image:
-      "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&w=1200&q=80",
-  },
-];
+function normalizeDestination(hotel: HotelSummaryDto): { city: string; country: string } | null {
+  const city = (hotel.city ?? "").trim();
+  const country = (hotel.country ?? "").trim();
+  if (!city || !country) return null;
+  return { city, country };
+}
 
-export default function LandingPage() {
+function buildDestinationSummaries(hotels: HotelSummaryDto[]): DestinationSummary[] {
+  const map = new Map<string, {
+    city: string;
+    country: string;
+    count: number;
+    ratingSum: number;
+    image: string;
+    imageRating: number;
+  }>();
+
+  for (const h of hotels) {
+    const d = normalizeDestination(h);
+    if (!d) continue;
+
+    const key = `${d.city}__${d.country}`;
+    const prev = map.get(key);
+    if (!prev) {
+      map.set(key, {
+        city: d.city,
+        country: d.country,
+        count: 1,
+        ratingSum: h.rating,
+        image: h.image,
+        imageRating: h.rating,
+      });
+      continue;
+    }
+
+    prev.count += 1;
+    prev.ratingSum += h.rating;
+    if (h.rating > prev.imageRating && h.image) {
+      prev.image = h.image;
+      prev.imageRating = h.rating;
+    }
+  }
+
+  return Array.from(map.values()).map((x) => {
+    const avgRating = x.count ? x.ratingSum / x.count : 0;
+    return {
+      name: x.city,
+      country: x.country,
+      accommodations: x.count,
+      image: x.image,
+      href: `/hotels?destination=${encodeURIComponent(x.city)}`,
+      avgRating,
+    };
+  });
+}
+
+function pickFeatured(hotels: HotelSummaryDto[]) {
+  const featured = hotels.filter((h) => Boolean(h.isFeatured));
+  if (featured.length > 0) return featured;
+  return [...hotels].sort((a, b) => b.rating - a.rating).slice(0, 12);
+}
+
+function pickTrending(hotels: HotelSummaryDto[]) {
+  return [...hotels].sort((a, b) => b.rating - a.rating).slice(0, 3);
+}
+
+export default async function LandingPage() {
+  const db = await readDb();
+  const hotels = (db.hotels ?? []) as HotelSummaryDto[];
+  const featuredHotels = pickFeatured(hotels);
+  const trendingHotels = pickTrending(hotels);
+
+  const destinations = buildDestinationSummaries(hotels);
+  const indiaPopular = destinations
+    .filter((d) => d.country.toLowerCase() === "india")
+    .sort((a, b) => b.accommodations - a.accommodations)
+    .slice(0, 10)
+    .map(({ name, accommodations, href, image }) => ({ name, accommodations, href, image }));
+
+  const topDestinations = [...destinations]
+    .sort((a, b) => (b.avgRating - a.avgRating) || (b.accommodations - a.accommodations))
+    .slice(0, 4);
+
   return (
     <div className="bg-[#fafafa]">
       <section className="relative overflow-hidden min-h-[75svh]">
@@ -170,8 +184,11 @@ export default function LandingPage() {
         </Container>
       </section>
 
-      <PopularDestinationsCarousel items={popularOutsideIndia} />
-      <FeaturedHomesSection items={featuredHomes} />
+      <PopularDestinationsCarousel
+        title="Popular destinations in India"
+        items={indiaPopular}
+      />
+      <FeaturedHomesSection items={featuredHotels} />
 
 
       <Container className="py-14">
@@ -229,10 +246,10 @@ export default function LandingPage() {
         </div>
 
         <div className="mt-8 grid gap-6 md:grid-cols-3">
-          {trendingStays.map((h) => (
+          {trendingHotels.map((h) => (
             <HotelListingCard
               key={h.id}
-              listing={trendingStayToListing(h)}
+              listing={hotelSummaryToListing(h, "INR")}
               imageSizes="(min-width: 768px) 33vw, 100vw"
             />
           ))}

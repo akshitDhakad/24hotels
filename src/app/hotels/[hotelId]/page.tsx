@@ -20,9 +20,9 @@ import {
 import { Container } from "@/components/layout/container";
 import { HotelResultsHeader } from "@/components/hotel/hotel-results-header";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { getHotelDetails } from "@/features/hotels/mock-data";
+import { getHotelByIdFromDb } from "@/features/hotels/hotels-server";
+import { convertFromUsd, formatCurrency } from "@/lib/currency";
 
 type PageProps = {
   params: Promise<{ hotelId: string }>;
@@ -30,7 +30,7 @@ type PageProps = {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { hotelId } = await params;
-  const hotel = getHotelDetails(hotelId);
+  const hotel = await getHotelByIdFromDb(hotelId);
   if (!hotel) return { title: "Hotel not found" };
   return {
     title: hotel.name,
@@ -43,17 +43,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-function formatEur(amount: number) {
-  return new Intl.NumberFormat("en-IE", {
-    style: "currency",
-    currency: "EUR",
-    maximumFractionDigits: 0,
-  }).format(amount);
+function formatInrFromUsd(amountUsd: number) {
+  return formatCurrency(convertFromUsd(amountUsd, "INR"), "INR");
 }
 
 export default async function HotelDetailsPage({ params }: PageProps) {
   const { hotelId } = await params;
-  const hotel = getHotelDetails(hotelId);
+  const hotel = await getHotelByIdFromDb(hotelId);
 
   if (!hotel) {
     return (
@@ -78,7 +74,7 @@ export default async function HotelDetailsPage({ params }: PageProps) {
 
   const [hero, ...thumbs] = hotel.gallery;
   const nights = 6;
-  const total = hotel.priceUsd * nights + 240 + 185;
+  const totalUsd = hotel.priceUsd * nights + 240 + 185;
 
   return (
     <div className="bg-[#fafafa]">
@@ -267,7 +263,9 @@ export default async function HotelDetailsPage({ params }: PageProps) {
                         </div>
                       </div>
                       <div className="text-sm text-muted-foreground">{r.sleeps} Adults</div>
-                      <div className="text-sm font-semibold">{formatEur(r.priceUsd)}</div>
+                      <div className="text-sm font-semibold">
+                        {formatInrFromUsd(r.priceUsd)}
+                      </div>
                       <div className="flex justify-end">
                         <Link
                           href="/booking/checkout"
@@ -324,7 +322,7 @@ export default async function HotelDetailsPage({ params }: PageProps) {
                     PRICE
                   </div>
                   <div className="mt-1 text-2xl font-semibold">
-                    {formatEur(hotel.priceUsd)}
+                    {formatInrFromUsd(hotel.priceUsd)}
                     <span className="text-xs font-medium text-muted-foreground">
                       {" "}
                       / night
@@ -371,22 +369,22 @@ export default async function HotelDetailsPage({ params }: PageProps) {
                 <div className="grid gap-2 text-sm">
                   <div className="flex items-center justify-between">
                     <div className="text-muted-foreground">
-                      {formatEur(hotel.priceUsd)} × {nights} nights
+                      {formatInrFromUsd(hotel.priceUsd)} × {nights} nights
                     </div>
-                    <div className="font-medium">{formatEur(hotel.priceUsd * nights)}</div>
+                    <div className="font-medium">{formatInrFromUsd(hotel.priceUsd * nights)}</div>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="text-muted-foreground">Concierge Service Fee</div>
-                    <div className="font-medium">{formatEur(240)}</div>
+                    <div className="font-medium">{formatInrFromUsd(240)}</div>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="text-muted-foreground">Occupancy taxes & fees</div>
-                    <div className="font-medium">{formatEur(185)}</div>
+                    <div className="font-medium">{formatInrFromUsd(185)}</div>
                   </div>
                   <Separator className="my-1" />
                   <div className="flex items-center justify-between">
                     <div className="text-sm font-semibold">Total</div>
-                    <div className="text-xl font-semibold">{formatEur(total)}</div>
+                    <div className="text-xl font-semibold">{formatInrFromUsd(totalUsd)}</div>
                   </div>
                 </div>
 
@@ -527,7 +525,7 @@ export default async function HotelDetailsPage({ params }: PageProps) {
                 <div className="p-4">
                   <div className="text-sm font-semibold">{x.name}</div>
                   <div className="mt-1 text-xs text-muted-foreground">
-                    {formatEur(x.price)} / night
+                    {formatInrFromUsd(x.price)} / night
                   </div>
                 </div>
               </Link>
