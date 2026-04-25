@@ -101,7 +101,7 @@ export function HeroSearchBar({ className }: { className?: string }) {
     <form
       onSubmit={form.handleSubmit(onSubmit)}
       className={cn(
-        "rounded-2xl border border-black/10 bg-white/85 p-4 shadow-2xl backdrop-blur-md",
+        "rounded-xl border border-black/10 bg-white/85 p-4 shadow-2xl backdrop-blur-md",
         className,
       )}
     >
@@ -160,7 +160,7 @@ export function HeroSearchBar({ className }: { className?: string }) {
           </button>
 
           {guestsOpen ? (
-            <div className="absolute right-0 top-[72px] z-20 w-[260px] rounded-2xl bg-primary/95 p-4 shadow-2xl backdrop-blur">
+            <div className="absolute right-0 top-[72px] z-20 w-[260px] rounded-xl bg-primary/95 p-4 shadow-2xl backdrop-blur">
               <div className="mb-3 flex items-center justify-between">
                 <div className="text-[11px] font-semibold text-white/80">
                   GUESTS & ROOMS

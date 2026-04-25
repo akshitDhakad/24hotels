@@ -34,7 +34,7 @@ export default function CheckoutPage() {
         </div>
 
         <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_420px]">
-          <div className="rounded-2xl border border-border bg-white p-6">
+          <div className="rounded-xl border border-border bg-white p-6">
             <CheckoutForm />
           </div>
 

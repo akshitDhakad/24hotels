@@ -20,7 +20,7 @@ export function HotelResultCard({ hotel }: { hotel: HotelResult }) {
   return (
     <Link
       href={`/hotels/${hotel.id}`}
-      className="overflow-hidden rounded-2xl border border-border bg-white shadow-sm transition hover:shadow-md flex flex-col"
+      className="overflow-hidden rounded-xl border border-border bg-white shadow-sm transition hover:shadow-md flex flex-col"
     >
       <div className="relative">
         <div className="relative aspect-[16/10] md:aspect-auto md:h-56">

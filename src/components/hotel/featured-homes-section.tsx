@@ -89,7 +89,7 @@ export function FeaturedHomesSection({
               href={`/hotels?destination=${encodeURIComponent(h.city)}`}
               className="group"
             >
-              <div className="overflow-hidden rounded-2xl">
+              <div className="overflow-hidden rounded-xl">
                 <div className="relative aspect-[16/10] bg-muted">
                   <Image
                     src={h.image}

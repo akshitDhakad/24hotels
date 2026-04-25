@@ -132,7 +132,7 @@ export default async function HotelsPage({ searchParams }: HotelsPageProps) {
 
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {recentlyViewed.map((x) => (
-              <div key={x.id} className="overflow-hidden rounded-2xl border border-border bg-white">
+              <div key={x.id} className="overflow-hidden rounded-xl border border-border bg-white">
                 <div className="relative aspect-[16/10] bg-muted">
                   <Image
                     src={x.image}

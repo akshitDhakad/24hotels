@@ -38,7 +38,7 @@ export function PromoShowcaseSection() {
         <div className="mt-6 grid gap-4 sm:grid-cols-2 sm:gap-5">
           <Link
             href="/hotels"
-            className="group relative isolate block min-h-[280px] overflow-hidden rounded-2xl sm:min-h-[300px]"
+            className="group relative isolate block min-h-[280px] overflow-hidden rounded-xl sm:min-h-[300px]"
           >
             <Image
               src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=1400&q=80"
@@ -70,7 +70,7 @@ export function PromoShowcaseSection() {
 
           <Link
             href="/hotels"
-            className="group relative isolate block min-h-[280px] overflow-hidden rounded-2xl sm:min-h-[300px]"
+            className="group relative isolate block min-h-[280px] overflow-hidden rounded-xl sm:min-h-[300px]"
           >
             <Image
               src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1400&q=80"
@@ -116,7 +116,7 @@ export function PromoShowcaseSection() {
         {/* Bottom grid: left stack + right tall */}
         <div className="mt-10 grid gap-4 lg:min-h-[520px] lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-5 lg:items-stretch">
           <div className="flex min-h-0 flex-col gap-4 lg:h-full">
-            <div className="relative isolate min-h-[220px] flex-1 overflow-hidden rounded-2xl bg-neutral-900 lg:min-h-0">
+            <div className="relative isolate min-h-[220px] flex-1 overflow-hidden rounded-xl bg-neutral-900 lg:min-h-0">
               <Image
                 src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80"
                 alt=""
@@ -149,7 +149,7 @@ export function PromoShowcaseSection() {
 
             <Link
               href="/hotels"
-              className="group relative isolate min-h-[220px] flex-1 overflow-hidden rounded-2xl lg:min-h-0"
+              className="group relative isolate min-h-[220px] flex-1 overflow-hidden rounded-xl lg:min-h-0"
             >
               <Image
                 src="https://images.unsplash.com/photo-1611892440504-42a792e54d34?auto=format&fit=crop&w=1200&q=80"
@@ -168,7 +168,7 @@ export function PromoShowcaseSection() {
             </Link>
           </div>
 
-          <div className="relative min-h-[320px] overflow-hidden rounded-2xl lg:min-h-0">
+          <div className="relative min-h-[320px] overflow-hidden rounded-xl lg:min-h-0">
             <Image
               src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=1400&q=80"
               alt="Luxury bedroom"

@@ -13,7 +13,7 @@ export function HeroHeader({ className }: { className?: string }) {
   return (
     <header className={cn("absolute inset-x-0 top-0 z-20", className)}>
       <Container className="pt-5">
-        <div className="flex items-center gap-4 rounded-2xl border border-white/15 bg-white/10 px-4 py-3 backdrop-blur-md">
+        <div className="flex items-center gap-4 rounded-xl border border-white/15 bg-white/10 px-4 py-3 backdrop-blur-md">
           <Link href="/" className="flex shrink-0 items-center" aria-label="24 Hotels home">
             <SiteLogo priority className="h-7 sm:h-8 md:h-9" />
           </Link>

@@ -30,7 +30,7 @@ export function HotelsFiltersSidebar({ className }: { className?: string }) {
 
   return (
     <aside className={cn("w-full lg:w-72", className)}>
-      <div className="rounded-2xl border border-border bg-white p-5">
+      <div className="rounded-xl border border-border bg-white p-5">
         <div className="text-sm font-semibold">Filters</div>
         <div className="mt-5 grid gap-6">
           <div>

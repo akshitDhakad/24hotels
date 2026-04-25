@@ -60,7 +60,7 @@ export default async function HotelDetailsPage({ params }: PageProps) {
       <div className="bg-[#fafafa]">
         <HotelResultsHeader />
         <Container className="py-10">
-          <div className="rounded-2xl border border-border bg-white p-8">
+          <div className="rounded-xl border border-border bg-white p-8">
             <div className="text-lg font-semibold">Hotel not found</div>
             <div className="mt-2 text-sm text-muted-foreground">
               The hotel you’re looking for doesn’t exist.
@@ -90,7 +90,7 @@ export default async function HotelDetailsPage({ params }: PageProps) {
           {/* Gallery: full width inside container; lg main + 2×2 share one height */}
           <div className="lg:col-span-2 -mx-4 mb-6 w-auto sm:-mx-6 sm:mb-8 lg:-mx-8 lg:mb-10">
             <div className="grid gap-3 lg:aspect-[2.25/1] lg:grid-cols-[minmax(0,1.65fr)_minmax(0,1fr)] lg:items-stretch">
-              <div className="relative aspect-[16/10] min-h-0 w-full overflow-hidden rounded-2xl bg-muted lg:aspect-auto lg:h-full">
+              <div className="relative aspect-[16/10] min-h-0 w-full overflow-hidden rounded-xl bg-muted lg:aspect-auto lg:h-full">
                 <Image
                   src={hero}
                   alt={`${hotel.name} main photo`}
@@ -102,7 +102,7 @@ export default async function HotelDetailsPage({ params }: PageProps) {
               </div>
 
               <div className="grid min-h-0 grid-cols-2 grid-rows-2 gap-3 lg:h-full">
-                <div className="relative min-h-0 aspect-[16/10] overflow-hidden rounded-2xl bg-muted lg:aspect-auto">
+                <div className="relative min-h-0 aspect-[16/10] overflow-hidden rounded-xl bg-muted lg:aspect-auto">
                   <Image
                     src={thumbs[0] ?? hero}
                     alt="Gallery photo"
@@ -111,7 +111,7 @@ export default async function HotelDetailsPage({ params }: PageProps) {
                     sizes="(min-width: 1024px) 18vw, 50vw"
                   />
                 </div>
-                <div className="relative min-h-0 aspect-[16/10] overflow-hidden rounded-2xl bg-[#f3f5f4] lg:aspect-auto">
+                <div className="relative min-h-0 aspect-[16/10] overflow-hidden rounded-xl bg-[#f3f5f4] lg:aspect-auto">
                   <div className="absolute inset-0 bg-[radial-gradient(60%_90%_at_70%_20%,rgba(34,211,238,0.55),rgba(255,255,255,0.0))]" />
                   <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(255,255,255,0.85),rgba(255,255,255,0.55))]" />
                   <div className="absolute inset-0 p-4">
@@ -123,7 +123,7 @@ export default async function HotelDetailsPage({ params }: PageProps) {
                     </div>
                   </div>
                 </div>
-                <div className="relative min-h-0 aspect-[16/10] overflow-hidden rounded-2xl bg-muted lg:aspect-auto">
+                <div className="relative min-h-0 aspect-[16/10] overflow-hidden rounded-xl bg-muted lg:aspect-auto">
                   <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(0,0,0,0.85),rgba(0,0,0,0.35))]" />
                   <div className="absolute inset-0 p-4">
                     <div className="text-xs font-semibold text-white/70">
@@ -139,7 +139,7 @@ export default async function HotelDetailsPage({ params }: PageProps) {
                     </div>
                   </div>
                 </div>
-                <div className="relative min-h-0 aspect-[16/10] overflow-hidden rounded-2xl bg-muted lg:aspect-auto">
+                <div className="relative min-h-0 aspect-[16/10] overflow-hidden rounded-xl bg-muted lg:aspect-auto">
                   <Image
                     src={thumbs[1] ?? thumbs[2] ?? hero}
                     alt="Gallery photo"
@@ -197,7 +197,7 @@ export default async function HotelDetailsPage({ params }: PageProps) {
                   ] as const
                 ).map((x) => (
                   <div key={x.label} className="flex items-center gap-3">
-                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-black/5">
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-black/5">
                       <x.icon className="h-5 w-5" />
                     </span>
                     <div className="leading-tight">
@@ -223,7 +223,7 @@ export default async function HotelDetailsPage({ params }: PageProps) {
                     {hotel.description}
                   </p>
                 </div>
-                <div className="grid gap-3 rounded-2xl border border-border bg-white p-4">
+                <div className="grid gap-3 rounded-xl border border-border bg-white p-4">
                   <div className="text-sm font-semibold">Highlights</div>
                   <div className="grid gap-2 text-sm text-muted-foreground">
                     {hotel.amenities.slice(0, 5).map((a) => (
@@ -241,7 +241,7 @@ export default async function HotelDetailsPage({ params }: PageProps) {
               {/* Accommodation table */}
               <div>
                 <div className="text-base font-semibold">Select your accommodation</div>
-                <div className="mt-4 overflow-hidden rounded-2xl border border-border">
+                <div className="mt-4 overflow-hidden rounded-xl border border-border">
                   <div className="grid grid-cols-[1.2fr_0.7fr_0.7fr_0.7fr] bg-black/5 px-4 py-3 text-[11px] font-semibold text-black/50">
                     <div>ROOM TYPE</div>
                     <div>SLEEPS</div>
@@ -302,7 +302,7 @@ export default async function HotelDetailsPage({ params }: PageProps) {
                   ].map((r) => (
                     <div
                       key={r.name}
-                      className="rounded-2xl border border-border bg-white p-5"
+                      className="rounded-xl border border-border bg-white p-5"
                     >
                       <div className="text-sm font-semibold">{r.name}</div>
                       <div className="mt-2 text-sm leading-6 text-muted-foreground">
@@ -317,7 +317,7 @@ export default async function HotelDetailsPage({ params }: PageProps) {
 
           {/* Booking Section */}
           <div className="lg:sticky lg:top-24 lg:h-fit lg:w-full">
-            <div className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-black/5">
+            <div className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-black/5">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <div className="text-xs font-semibold tracking-wide text-black/50">
@@ -340,25 +340,25 @@ export default async function HotelDetailsPage({ params }: PageProps) {
 
               <div className="grid gap-3">
                 <div className="grid grid-cols-2 gap-3">
-                  <div className="rounded-2xl border border-border bg-white p-3">
+                  <div className="rounded-xl border border-border bg-white p-3">
                     <div className="text-[11px] font-semibold text-black/50">
                       CHECK-IN
                     </div>
                     <div className="mt-1 text-sm font-semibold">Oct 24, 2024</div>
                   </div>
-                  <div className="rounded-2xl border border-border bg-white p-3">
+                  <div className="rounded-xl border border-border bg-white p-3">
                     <div className="text-[11px] font-semibold text-black/50">
                       CHECK-OUT
                     </div>
                     <div className="mt-1 text-sm font-semibold">Oct 30, 2024</div>
                   </div>
-                  <div className="rounded-2xl border border-border bg-white p-3">
+                  <div className="rounded-xl border border-border bg-white p-3">
                     <div className="text-[11px] font-semibold text-black/50">
                       GUESTS
                     </div>
                     <div className="mt-1 text-sm font-semibold">2 Adults</div>
                   </div>
-                  <div className="rounded-2xl border border-border bg-white p-3">
+                  <div className="rounded-xl border border-border bg-white p-3">
                     <div className="text-[11px] font-semibold text-black/50">
                       ROOMS
                     </div>
@@ -396,7 +396,7 @@ export default async function HotelDetailsPage({ params }: PageProps) {
                   </Button>
                 </Link>
 
-                <div className="flex items-start gap-2 rounded-2xl bg-black/5 p-3 text-xs text-muted-foreground">
+                <div className="flex items-start gap-2 rounded-xl bg-black/5 p-3 text-xs text-muted-foreground">
                   <Shield className="mt-0.5 h-4 w-4 text-black/50" />
                   <div>
                     You won’t be charged yet. Free cancellation available before
@@ -510,7 +510,7 @@ export default async function HotelDetailsPage({ params }: PageProps) {
               <Link
                 key={x.name}
                 href="/hotels"
-                className="group overflow-hidden rounded-2xl border border-border bg-white"
+                className="group overflow-hidden rounded-xl border border-border bg-white"
               >
                 <div className="relative aspect-[16/10] bg-muted">
                   <Image

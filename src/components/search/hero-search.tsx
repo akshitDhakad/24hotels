@@ -91,7 +91,7 @@ export function HeroSearch({ className }: { className?: string }) {
     <form
       onSubmit={form.handleSubmit(onSubmit)}
       className={cn(
-        "w-full rounded-2xl border border-border bg-white/90 p-3 shadow-lg backdrop-blur",
+        "w-full rounded-xl border border-border bg-white/90 p-3 shadow-lg backdrop-blur",
         className,
       )}
     >
@@ -133,7 +133,7 @@ export function HeroSearch({ className }: { className?: string }) {
           ) : null}
         </div>
 
-        <div className="rounded-2xl border border-input bg-background px-4 py-3">
+        <div className="rounded-xl border border-input bg-background px-4 py-3">
           <div className="mb-2 flex items-center gap-2 text-xs font-semibold text-muted-foreground">
             <Users className="h-4 w-4" />
             GUESTS & ROOMS
@@ -165,7 +165,7 @@ export function HeroSearch({ className }: { className?: string }) {
           </div>
         </div>
 
-        <Button className="h-11 rounded-2xl px-8" type="submit">
+        <Button className="h-11 rounded-xl px-8" type="submit">
           Search
         </Button>
       </div>

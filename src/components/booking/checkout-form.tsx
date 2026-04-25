@@ -102,7 +102,7 @@ export function CheckoutForm({ onSubmit }: CheckoutFormProps) {
       <div className="grid gap-3">
         <div className="text-sm font-semibold">Payment method</div>
 
-        <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-border p-4">
+        <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-border p-4">
           <input
             type="radio"
             value="card"
@@ -119,7 +119,7 @@ export function CheckoutForm({ onSubmit }: CheckoutFormProps) {
           </div>
         </label>
 
-        <label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-border p-4">
+        <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-border p-4">
           <input
             type="radio"
             value="paypal"
@@ -129,7 +129,7 @@ export function CheckoutForm({ onSubmit }: CheckoutFormProps) {
           <div className="text-sm font-medium">PayPal</div>
         </label>
 
-        <label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-border p-4">
+        <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-border p-4">
           <input
             type="radio"
             value="apple_pay"

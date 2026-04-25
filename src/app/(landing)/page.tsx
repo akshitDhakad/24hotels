@@ -334,7 +334,7 @@ export default function LandingPage() {
         <Container className="py-10">
           <div className="grid gap-6 md:grid-cols-4">
             <div>
-              <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-black/5 text-black">
+              <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-black/5 text-black">
                 <BadgeDollarSign className="h-5 w-5" />
               </div>
               <div className="text-sm font-semibold">Best Price Guarantee</div>
@@ -343,7 +343,7 @@ export default function LandingPage() {
               </div>
             </div>
             <div>
-              <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-black/5 text-black">
+              <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-black/5 text-black">
                 <Zap className="h-5 w-5" />
               </div>
               <div className="text-sm font-semibold">Fast Confirmation</div>
@@ -352,7 +352,7 @@ export default function LandingPage() {
               </div>
             </div>
             <div>
-              <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-black/5 text-black">
+              <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-black/5 text-black">
                 <ShieldCheck className="h-5 w-5" />
               </div>
               <div className="text-sm font-semibold">Verified Reviews</div>
@@ -361,7 +361,7 @@ export default function LandingPage() {
               </div>
             </div>
             <div>
-              <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-black/5 text-black">
+              <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-black/5 text-black">
                 <Headphones className="h-5 w-5" />
               </div>
               <div className="text-sm font-semibold">24/7 Customer Support</div>
@@ -395,7 +395,7 @@ export default function LandingPage() {
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {topDestinations.map((d) => (
             <Link key={d.name} href={d.href} className="group">
-              <div className="relative h-44 overflow-hidden rounded-2xl bg-muted">
+              <div className="relative h-44 overflow-hidden rounded-xl bg-muted">
                 <Image
                   src={d.image}
                   alt={`${d.name} destination`}
@@ -434,7 +434,7 @@ export default function LandingPage() {
         <div className="mt-8 grid gap-6 md:grid-cols-3">
           {trendingHotels.map((h) => (
             <Link key={h.id} href="/hotels" className="group">
-              <div className="overflow-hidden rounded-2xl">
+              <div className="overflow-hidden rounded-xl">
                 <div className="relative aspect-[16/10] bg-muted">
                   <Image
                     src={h.image}

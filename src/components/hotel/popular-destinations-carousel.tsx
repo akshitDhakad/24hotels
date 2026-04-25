@@ -62,7 +62,7 @@ export function PopularDestinationsCarousel({
                 aria-label={d.name}
               >
                 <div className="w-[170px] sm:w-[190px]">
-                  <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-muted">
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-muted">
                     <Image
                       src={d.image}
                       alt={d.name}
