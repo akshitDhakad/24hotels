@@ -13,7 +13,8 @@ import { HotelsFiltersSidebar } from "@/components/search/hotels-filters-sidebar
 import { getIntParam, getStringParam, setOrDelete } from "@/lib/url-state";
 import { listHotels } from "@/features/hotels/hotels-api";
 import { useHotelsResultsStore } from "@/store/hotels-results-store";
-import { useSearchStore } from "@/store/search-store";
+import { useBookingModeStore } from "@/store/booking-mode-store";
+import { convertFromUsd, formatCurrency } from "@/lib/currency";
 
 const recentlyViewed = [
   {
@@ -76,7 +77,7 @@ export function HotelsClientPage() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const currency = useSearchStore((s) => s.params.currency);
+  const mode = useBookingModeStore((s) => s.mode);
 
   const destination = React.useMemo(() => {
     const sp = new URLSearchParams(searchParams?.toString());
@@ -171,7 +172,7 @@ export function HotelsClientPage() {
                 </div>
               ) : (
                 (data?.items ?? []).map((h) => (
-                  <HotelResultCard key={h.id} hotel={h} currency={currency} />
+                  <HotelResultCard key={h.id} hotel={h} mode={mode} />
                 ))
               )}
             </div>
@@ -261,7 +262,10 @@ export function HotelsClientPage() {
                 <div className="p-4">
                   <div className="text-sm font-semibold">{x.name}</div>
                   <div className="mt-1 text-xs text-muted-foreground">{x.location}</div>
-                  <div className="mt-2 text-xs font-semibold">${x.price.toLocaleString()}</div>
+                  <div className="mt-2 text-xs font-semibold">
+                    {formatCurrency(convertFromUsd(x.price, "INR"), "INR")}
+                    <span className="ml-1 font-medium text-muted-foreground">/night</span>
+                  </div>
                 </div>
               </div>
             ))}

@@ -16,7 +16,7 @@ const defaultSearchParams: SearchParams = {
   adults: 2,
   children: 0,
   rooms: 1,
-  currency: "USD",
+  currency: "INR",
 };
 
 export const useSearchStore = create<SearchState>()(
@@ -29,8 +29,19 @@ export const useSearchStore = create<SearchState>()(
     }),
     {
       name: "24hotels.search",
-      version: 1,
+      version: 3,
       partialize: (state) => ({ params: state.params }),
+      migrate: (persisted: unknown) => {
+        const obj = persisted as { params?: Partial<SearchParams> } | null;
+        const params = obj?.params ?? {};
+        return {
+          params: {
+            ...defaultSearchParams,
+            ...params,
+            currency: "INR",
+          },
+        };
+      },
     },
   ),
 );

@@ -1,20 +1,20 @@
 import { HotelListingCard } from "@/components/hotel/hotel-listing-card";
 import { hotelSummaryToListing } from "@/features/hotels/hotel-listing-mappers";
 import type { HotelSummaryDto } from "@/features/hotels/hotels-api";
-import type { CurrencyCode } from "@/types/search";
+import type { BookingMode } from "@/store/booking-mode-store";
 
 export type HotelResult = HotelSummaryDto;
 
 export function HotelResultCard({
   hotel,
-  currency = "INR",
+  mode = "rooms",
 }: {
   hotel: HotelResult;
-  currency?: CurrencyCode;
+  mode?: BookingMode;
 }) {
   return (
     <HotelListingCard
-      listing={hotelSummaryToListing(hotel, currency)}
+      listing={hotelSummaryToListing(hotel, mode)}
       imageSizes="(min-width: 1024px) 40vw, 100vw"
     />
   );

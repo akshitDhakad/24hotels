@@ -1,6 +1,4 @@
-export type HotelListingPrice =
-  | { currency: "INR"; amount: number }
-  | { currency: "USD"; amount: number };
+export type HotelListingPrice = { currency: "INR"; amount: number };
 
 export type HotelListingCardData = {
   id: string;
@@ -18,4 +16,6 @@ export type HotelListingCardData = {
   ribbonBadge?: string;
   wishlistHref?: string | null;
   price: HotelListingPrice;
+  priceSubtitle?: string;
+  priceUnit?: "hr" | "night";
 };

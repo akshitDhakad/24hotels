@@ -10,7 +10,7 @@ export const searchFormSchema = z
     adults: z.number().int().min(1).max(10),
     children: z.number().int().min(0).max(10),
     rooms: z.number().int().min(1).max(10),
-    currency: z.enum(["USD", "EUR", "GBP", "INR"]),
+    currency: z.literal("INR"),
   })
   .refine(
     (v) => {

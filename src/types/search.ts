@@ -7,6 +7,7 @@ export type SearchParams = {
   adults: number;
   children: number;
   rooms: number;
-  currency: CurrencyCode;
+  /** Product is India-first; prices are always shown in INR. */
+  currency: "INR";
 };
 

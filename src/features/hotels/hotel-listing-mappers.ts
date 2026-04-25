@@ -3,8 +3,8 @@ import type { TrendingStay } from "@/features/landing/trending-stays";
 
 import type { HotelListingCardData } from "./hotel-listing-types";
 import type { HotelSummaryDto } from "./hotels-api";
-import type { CurrencyCode } from "@/types/search";
-import { convertFromUsd } from "@/lib/currency";
+import { convertFromUsd, formatCurrency } from "@/lib/currency";
+import type { BookingMode } from "@/store/booking-mode-store";
 
 function splitLocation(location: string): { neighborhood: string; city: string } {
   const idx = location.lastIndexOf(",");
@@ -26,10 +26,13 @@ function starsFromRating(rating: number, explicit?: number): number {
 
 export function hotelSummaryToListing(
   hotel: HotelSummaryDto,
-  currency: CurrencyCode = "INR",
+  mode: BookingMode = "rooms",
 ): HotelListingCardData {
   const { neighborhood, city } = splitLocation(hotel.location);
-  const amount = convertFromUsd(hotel.priceUsd, currency);
+  const base = convertFromUsd(hotel.priceUsd, "INR");
+  const perHour = base / 24;
+  const fourHours = perHour * 4;
+  const amount = mode === "hours" ? perHour : base;
   return {
     id: hotel.id,
     href: `/hotels/${hotel.id}`,
@@ -42,7 +45,12 @@ export function hotelSummaryToListing(
     imageBadges: hotel.perks.length ? hotel.perks.slice(0, 2) : undefined,
     ribbonBadge: hotel.isTopRated ? "Top rated" : undefined,
     wishlistHref: "/auth/sign-in",
-    price: { currency, amount },
+    price: { currency: "INR", amount },
+    priceSubtitle:
+      mode === "hours"
+        ? `${formatCurrency(fourHours, "INR")} for 4 hours`
+        : "Per night before taxes and fees",
+    priceUnit: mode === "hours" ? "hr" : "night",
   };
 }
 

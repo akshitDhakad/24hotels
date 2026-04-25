@@ -3,6 +3,7 @@
 import * as React from "react";
 
 import { cn } from "@/lib/cn";
+import { convertFromUsd, formatCurrency } from "@/lib/currency";
 
 type CheckboxProps = {
   label: string;
@@ -25,7 +26,9 @@ function Checkbox({ label, checked, onCheckedChange }: CheckboxProps) {
 }
 
 export function HotelsFiltersSidebar({ className }: { className?: string }) {
-  const [price, setPrice] = React.useState(1200);
+  const minInr = 0;
+  const maxInr = convertFromUsd(2000, "INR");
+  const [price, setPrice] = React.useState(convertFromUsd(1200, "INR"));
   const [star, setStar] = React.useState<3 | 4 | 5 | null>(4);
 
   return (
@@ -40,17 +43,17 @@ export function HotelsFiltersSidebar({ className }: { className?: string }) {
             <div className="mt-3">
               <input
                 type="range"
-                min={0}
-                max={2000}
+                min={minInr}
+                max={maxInr}
                 value={price}
                 onChange={(e) => setPrice(Number(e.target.value))}
                 className="w-full"
                 aria-label="Price range"
               />
               <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
-                <span>$0</span>
-                <span>${price.toLocaleString()}</span>
-                <span>$2,000+</span>
+                <span>{formatCurrency(minInr, "INR")}</span>
+                <span className="font-mono font-semibold">{formatCurrency(price, "INR")}</span>
+                <span>{formatCurrency(maxInr, "INR")}+</span>
               </div>
             </div>
           </div>

@@ -1,9 +1,4 @@
-import {
-  BadgeDollarSign,
-  Headphones,
-  ShieldCheck,
-  Zap,
-} from "lucide-react";
+import { Headphones, IndianRupee, ShieldCheck, Zap } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/layout/container";
@@ -146,7 +141,7 @@ export default async function LandingPage() {
           <div className="grid gap-6 md:grid-cols-4">
             <div>
               <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-black/5 text-black">
-                <BadgeDollarSign className="h-5 w-5" />
+                <IndianRupee className="h-5 w-5" />
               </div>
               <div className="text-sm font-semibold">Best Price Guarantee</div>
               <div className="mt-1 text-sm text-muted-foreground">
@@ -249,7 +244,7 @@ export default async function LandingPage() {
           {trendingHotels.map((h) => (
             <HotelListingCard
               key={h.id}
-              listing={hotelSummaryToListing(h, "INR")}
+              listing={hotelSummaryToListing(h)}
               imageSizes="(min-width: 768px) 33vw, 100vw"
             />
           ))}

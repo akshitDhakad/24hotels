@@ -1,3 +1,5 @@
+"use client";
+
 import { Lock } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,8 +11,24 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { formatCurrency, convertFromUsd } from "@/lib/currency";
+import { useBookingModeStore } from "@/store/booking-mode-store";
 
 export default function CheckoutPage() {
+  const mode = useBookingModeStore((s) => s.mode);
+  const isHours = mode === "hours";
+
+  // Placeholder pricing for UI; in a real flow this comes from selected hotel/room.
+  const nightlyUsd = 1200;
+  const baseInr = convertFromUsd(nightlyUsd, "INR");
+  const hours = 4;
+  const hoursTotalInr = baseInr / 6; // 4 hours of 24
+  const stayTotalInr = baseInr * 6;
+  const conciergeFeeInr = convertFromUsd(240, "INR");
+  const taxesInr = convertFromUsd(185, "INR");
+  const totalInr =
+    (isHours ? hoursTotalInr : stayTotalInr) + conciergeFeeInr + taxesInr;
+
   return (
     <div className="bg-[#fafafa]">
       <div className="bg-white/50 ">
@@ -89,20 +107,28 @@ export default function CheckoutPage() {
 
                 <div className="grid gap-2 text-sm">
                   <div className="flex items-center justify-between">
-                    <div className="text-muted-foreground">$1,200 × 6 nights</div>
-                    <div className="font-medium">$7,200.00</div>
+                    <div className="text-muted-foreground">
+                      {isHours
+                        ? `${formatCurrency(baseInr / 24, "INR")} × ${hours} hours`
+                        : `${formatCurrency(baseInr, "INR")} × 6 nights`}
+                    </div>
+                    <div className="font-medium">
+                      {isHours
+                        ? formatCurrency(hoursTotalInr, "INR")
+                        : formatCurrency(stayTotalInr, "INR")}
+                    </div>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="text-muted-foreground">
                       Concierge Service Fee
                     </div>
-                    <div className="font-medium">$240.00</div>
+                    <div className="font-medium">{formatCurrency(conciergeFeeInr, "INR")}</div>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="text-muted-foreground">
                       Occupancy taxes & fees
                     </div>
-                    <div className="font-medium">$185.00</div>
+                    <div className="font-medium">{formatCurrency(taxesInr, "INR")}</div>
                   </div>
                 </div>
 
@@ -110,7 +136,7 @@ export default function CheckoutPage() {
 
                 <div className="flex items-center justify-between">
                   <div className="text-sm font-semibold">Total</div>
-                  <div className="text-2xl font-semibold">$7,625.00</div>
+                  <div className="text-2xl font-semibold">{formatCurrency(totalInr, "INR")}</div>
                 </div>
 
                 <Button className="h-11 rounded-xl">Pay Now</Button>

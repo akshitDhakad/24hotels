@@ -6,19 +6,10 @@ import { Heart, Star } from "lucide-react";
 
 import type { HotelListingCardData, HotelListingPrice } from "@/features/hotels/hotel-listing-types";
 import { cn } from "@/lib/cn";
+import { formatCurrency } from "@/lib/currency";
 
 function formatListingPrice(price: HotelListingPrice): string {
-  if (price.currency === "INR") {
-    return `₹${price.amount.toLocaleString("en-IN", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    })}`;
-  }
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  }).format(price.amount);
+  return formatCurrency(price.amount, price.currency);
 }
 
 export type HotelListingCardProps = {
@@ -106,10 +97,17 @@ export function HotelListingCard({
           </div>
 
           <div className="text-[11px] text-gray-500">
-            Per night before taxes and fees
+            {L.priceSubtitle ?? "Per night before taxes and fees"}
           </div>
 
-          <div className="text-base font-bold text-[#8b2020]">{formatListingPrice(L.price)}</div>
+          <div className="text-base font-bold text-[#8b2020]">
+            {formatListingPrice(L.price)}
+            {L.priceUnit ? (
+              <span className="ml-1 text-xs font-semibold text-black/45">
+                /{L.priceUnit}
+              </span>
+            ) : null}
+          </div>
         </div>
       </Link>
 

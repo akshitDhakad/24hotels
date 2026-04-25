@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 
 import { Container } from "@/components/layout/container";
+import { HotelHourlyRatesSection } from "@/components/hotel/hotel-hourly-rates-section";
 import { HotelResultsHeader } from "@/components/hotel/hotel-results-header";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -231,6 +232,12 @@ export default async function HotelDetailsPage({ params }: PageProps) {
                   </div>
                 </div>
               </div>
+
+              <Separator className="my-6" />
+
+              <HotelHourlyRatesSection
+                baseNightInr={convertFromUsd(hotel.priceUsd, "INR")}
+              />
 
               <Separator className="my-6" />
 
