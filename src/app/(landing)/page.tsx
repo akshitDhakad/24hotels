@@ -15,6 +15,7 @@ import { HeroSearchBar } from "@/components/search/hero-search-bar";
 import { PopularDestinationsCarousel } from "@/components/hotel/popular-destinations-carousel";
 import { FeaturedHomesSection } from "@/components/hotel/featured-homes-section";
 import { PromoShowcaseSection } from "@/components/hotel/promo-showcase-section";
+import { NewsletterSignupSection } from "@/components/marketing/newsletter-signup-section";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
@@ -486,28 +487,7 @@ export default function LandingPage() {
 
       <PromoShowcaseSection />
 
-      <section className="bg-gradient-to-b from-white to-gray-50">
-        <Container>
-          <div className="mx-auto py-16 max-w-2xl text-center">
-            <h3 className="text-2xl font-semibold tracking-tight">
-              Join the inner circle of global travelers.
-            </h3>
-            <p className="mt-3 text-sm text-gray-500/70">
-              Get early access to promotions, hidden deals and concierge offers
-              directly in your inbox.
-            </p>
-
-            <div className="mx-auto mt-8 flex max-w-lg gap-2 rounded-2xl  p-2">
-              <input
-                className="border border-border h-11 flex-1 rounded-xl bg-transparent px-4 text-sm outline-none placeholder:text-gray-500/50"
-                placeholder="Your email address"
-                aria-label="Email address"
-              />
-              <Button className="h-11 rounded-xl px-6">Subscribe</Button>
-            </div>
-          </div>
-        </Container>
-      </section>
+      <NewsletterSignupSection />
     </div>
   );
 }

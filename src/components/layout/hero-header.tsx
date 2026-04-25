@@ -6,6 +6,7 @@ import { Globe, Search } from "lucide-react";
 import { SiteLogo } from "@/components/brand/site-logo";
 import { cn } from "@/lib/cn";
 import { Container } from "@/components/layout/container";
+import { HoursRoomsLink } from "@/components/layout/hours-rooms-link";
 import { Input } from "@/components/ui/input";
 
 export function HeroHeader({ className }: { className?: string }) {
@@ -22,6 +23,7 @@ export function HeroHeader({ className }: { className?: string }) {
               Hotel
             </Link>
             <Link href="/tour">Travel</Link>
+            <HoursRoomsLink className="text-[11px] md:text-xs" />
           </nav>
 
           <div className="ml-auto hidden max-w-sm flex-1 md:block">
@@ -36,6 +38,7 @@ export function HeroHeader({ className }: { className?: string }) {
           </div>
 
           <div className="ml-auto flex items-center gap-2 md:ml-0">
+            <HoursRoomsLink className="h-9 shrink-0 px-3 text-[11px] md:hidden" />
             <button
               type="button"
               className="hidden items-center gap-2 rounded-full px-3 py-2 text-xs font-medium text-white/85 hover:bg-white/10 md:flex"

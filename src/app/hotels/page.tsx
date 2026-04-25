@@ -92,7 +92,7 @@ export default async function HotelsPage({ searchParams }: HotelsPageProps) {
               </div>
             </div>
 
-            <div className="mt-6 grid gap-4">
+            <div className="mt-6 grid lg:grid-cols-2 gap-4">
               {mockResults.map((h) => (
                 <HotelResultCard key={h.id} hotel={h} />
               ))}

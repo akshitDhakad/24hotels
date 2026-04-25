@@ -8,7 +8,7 @@ export type HotelResult = {
   id: string;
   name: string;
   location: string;
-  rating: number; // 0..10 badge
+  rating: number;
   reviewLabel: string;
   priceUsd: number;
   perks: string[];
@@ -20,10 +20,10 @@ export function HotelResultCard({ hotel }: { hotel: HotelResult }) {
   return (
     <Link
       href={`/hotels/${hotel.id}`}
-      className="grid overflow-hidden rounded-2xl border border-border bg-white shadow-sm transition hover:shadow-md md:grid-cols-[280px_1fr]"
+      className="overflow-hidden rounded-2xl border border-border bg-white shadow-sm transition hover:shadow-md flex flex-col"
     >
       <div className="relative">
-        <div className="relative aspect-[16/10] md:aspect-auto md:h-full">
+        <div className="relative aspect-[16/10] md:aspect-auto md:h-56">
           <Image
             src={hotel.image}
             alt={hotel.name}
@@ -40,6 +40,18 @@ export function HotelResultCard({ hotel }: { hotel: HotelResult }) {
         >
           <Heart className="h-4 w-4" />
         </Link>
+        <div
+          className="absolute left-3 top-3 inline-flex  items-center justify-center"
+          aria-label="Add to wishlist"
+        >
+          <div className="grid gap-1">
+            {hotel.perks.slice(0, 2).map((p) => (
+              <div key={p} className="rounded-full bg-white/80 px-1.5 shadow hover:bg-white text-xs text-emerald-700">
+                {p}
+              </div>
+            ))}
+          </div>
+        </div>
 
         {hotel.isTopRated ? (
           <div className="absolute bottom-3 left-3 rounded-full bg-black px-3 py-1 text-[10px] font-semibold text-white">
@@ -79,21 +91,15 @@ export function HotelResultCard({ hotel }: { hotel: HotelResult }) {
         </div>
 
         <div className="mt-auto grid gap-3 md:grid-cols-[1fr_auto] md:items-end">
-          <div className="grid gap-1">
-            {hotel.perks.slice(0, 2).map((p) => (
-              <div key={p} className="text-xs text-emerald-700">
-                {p}
-              </div>
-            ))}
+          <div className="text-right flex items-baseline">
+            <div className="text-2xl font-semibold">
+              ${hotel.priceUsd.toLocaleString()}
+            </div>
+            <div className="text-xs text-muted-foreground">/ night</div>
           </div>
 
           <div className="flex items-end justify-between gap-4 md:flex-col md:items-end md:justify-end">
-            <div className="text-right">
-              <div className="text-2xl font-semibold">
-                ${hotel.priceUsd.toLocaleString()}
-              </div>
-              <div className="text-xs text-muted-foreground">/ night</div>
-            </div>
+
             <span
               className={cn(
                 "inline-flex h-10 items-center justify-center rounded-xl bg-primary px-5 text-xs font-semibold text-primary-foreground hover:brightness-[0.92]",

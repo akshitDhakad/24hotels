@@ -5,6 +5,7 @@ import { SiteLogo } from "@/components/brand/site-logo";
 import { cn } from "@/lib/cn";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/layout/container";
+import { HoursRoomsLink } from "@/components/layout/hours-rooms-link";
 import { Input } from "@/components/ui/input";
 
 export function PublicHeader({ className }: { className?: string }) {
@@ -21,6 +22,7 @@ export function PublicHeader({ className }: { className?: string }) {
           </Link>
           <Link href="/hotels">Hotels</Link>
           <Link href="/tour">Tour</Link>
+          <HoursRoomsLink />
         </nav>
 
         <div className="ml-auto hidden max-w-sm flex-1 md:block">
@@ -35,6 +37,7 @@ export function PublicHeader({ className }: { className?: string }) {
         </div>
 
         <div className="ml-auto flex items-center gap-1 md:ml-0">
+          <HoursRoomsLink className="mr-1 md:hidden" />
           <Button variant="ghost" size="icon" aria-label="Wishlist">
             <Heart className="h-4 w-4" />
           </Button>

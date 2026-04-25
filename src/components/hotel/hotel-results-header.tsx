@@ -3,6 +3,7 @@ import { Bell, Globe, Search, User } from "lucide-react";
 
 import { SiteLogo } from "@/components/brand/site-logo";
 import { Container } from "@/components/layout/container";
+import { HoursRoomsLink } from "@/components/layout/hours-rooms-link";
 import { Input } from "@/components/ui/input";
 
 export function HotelResultsHeader() {
@@ -19,6 +20,7 @@ export function HotelResultsHeader() {
           </Link>
           <Link href="#">Concierge</Link>
           <Link href="#">Reservations</Link>
+          <HoursRoomsLink />
         </nav>
 
         <div className="ml-auto hidden max-w-xs flex-1 md:block">
@@ -33,6 +35,7 @@ export function HotelResultsHeader() {
         </div>
 
         <div className="ml-auto flex items-center gap-2 md:ml-0">
+          <HoursRoomsLink className="md:hidden" />
           <button
             type="button"
             className="hidden items-center gap-2 rounded-full px-3 py-2 text-xs font-medium text-foreground hover:bg-black/5 md:flex"
