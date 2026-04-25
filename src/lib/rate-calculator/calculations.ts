@@ -56,7 +56,7 @@ export function computeAllSlots(
   const fullDayIndex = slotConfigs.findIndex((s) => s.hours === 24);
   const fullDaySubtotal = fullDayIndex >= 0 ? prices[fullDayIndex] : prices[prices.length - 1] ?? 0;
 
-  const slotData = slotConfigs.map((s, idx) => {
+  const slotData: SlotData[] = slotConfigs.map((s, idx) => {
     const subtotal = prices[idx] ?? 0;
     const withTax = subtotal * (1 + taxRate / 100);
     const effectiveRatePerHour = s.hours > 0 ? subtotal / s.hours : 0;
@@ -73,7 +73,7 @@ export function computeAllSlots(
       wasAdjusted: adjusted[idx] ?? false,
       isBestValue: false,
       isFullDay: s.hours === 24,
-    } satisfies SlotData;
+    };
   });
 
   // best value = lowest effective per-hour rate

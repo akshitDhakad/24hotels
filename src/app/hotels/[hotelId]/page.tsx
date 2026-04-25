@@ -16,11 +16,12 @@ import {
   Users,
   Wifi,
 } from "lucide-react";
+import { IconPhoto } from "@tabler/icons-react";
 
 import { Container } from "@/components/layout/container";
-import { HotelHourlyRatesSection } from "@/components/hotel/hotel-hourly-rates-section";
+import { HotelDetailBookingCard } from "@/components/hotel/hotel-detail-booking-card";
+import { HotelHourlyRatesGate } from "@/components/hotel/hotel-hourly-rates-gate";
 import { HotelResultsHeader } from "@/components/hotel/hotel-results-header";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { getHotelByIdFromDb } from "@/features/hotels/hotels-server";
 import { convertFromUsd, formatCurrency } from "@/lib/currency";
@@ -75,7 +76,6 @@ export default async function HotelDetailsPage({ params }: PageProps) {
 
   const [hero, ...thumbs] = hotel.gallery;
   const nights = 6;
-  const totalUsd = hotel.priceUsd * nights + 240 + 185;
 
   return (
     <div className="bg-[#fafafa]">
@@ -86,7 +86,7 @@ export default async function HotelDetailsPage({ params }: PageProps) {
 
           {/* Gallery: full width inside container; lg main + 2×2 share one height */}
           <div className="lg:col-span-2 -mx-4 mb-6 w-auto sm:-mx-6 sm:mb-8 lg:-mx-8 lg:mb-10">
-            <div className="grid gap-3 lg:aspect-[2.25/1] lg:grid-cols-[minmax(0,1.65fr)_minmax(0,1fr)] lg:items-stretch">
+            <div className="relative grid gap-3 lg:aspect-[2.25/1] lg:grid-cols-[minmax(0,1.65fr)_minmax(0,1fr)] lg:items-stretch">
               <div className="relative aspect-[16/10] min-h-0 w-full overflow-hidden rounded-xl bg-muted lg:aspect-auto lg:h-full">
                 <Image
                   src={hero}
@@ -146,6 +146,15 @@ export default async function HotelDetailsPage({ params }: PageProps) {
                   />
                 </div>
               </div>
+
+              <Link
+                href="#"
+                className="absolute bottom-3 right-3 z-10 inline-flex h-8 items-center justify-center gap-2 rounded-lg bg-white/95 px-2 text-sm font-semibold text-foreground shadow-sm ring-1 ring-black/10 backdrop-blur transition hover:bg-white"
+                aria-label="See more photos"
+              >
+                <IconPhoto className="h-4 w-4" aria-hidden />
+                See more
+              </Link>
             </div>
           </div>
 
@@ -233,13 +242,7 @@ export default async function HotelDetailsPage({ params }: PageProps) {
                 </div>
               </div>
 
-              <Separator className="my-6" />
-
-              <HotelHourlyRatesSection
-                baseNightInr={convertFromUsd(hotel.priceUsd, "INR")}
-              />
-
-              <Separator className="my-6" />
+              <HotelHourlyRatesGate baseNightInr={convertFromUsd(hotel.priceUsd, "INR")} />
 
               {/* Accommodation table */}
               <div>
@@ -322,94 +325,12 @@ export default async function HotelDetailsPage({ params }: PageProps) {
 
           {/* Booking Section */}
           <div className="lg:sticky lg:top-24 lg:h-fit lg:w-full">
-            <div className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-black/5">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <div className="text-xs font-semibold tracking-wide text-black/50">
-                    PRICE
-                  </div>
-                  <div className="mt-1 text-2xl font-semibold">
-                    {formatInrFromUsd(hotel.priceUsd)}
-                    <span className="text-xs font-medium text-muted-foreground">
-                      {" "}
-                      / night
-                    </span>
-                  </div>
-                </div>
-                <div className="rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-semibold text-emerald-700">
-                  FREE CANCELLATION
-                </div>
-              </div>
-
-              <Separator className="my-4" />
-
-              <div className="grid gap-3">
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="rounded-xl border border-border bg-white p-3">
-                    <div className="text-[11px] font-semibold text-black/50">
-                      CHECK-IN
-                    </div>
-                    <div className="mt-1 text-sm font-semibold">Oct 24, 2024</div>
-                  </div>
-                  <div className="rounded-xl border border-border bg-white p-3">
-                    <div className="text-[11px] font-semibold text-black/50">
-                      CHECK-OUT
-                    </div>
-                    <div className="mt-1 text-sm font-semibold">Oct 30, 2024</div>
-                  </div>
-                  <div className="rounded-xl border border-border bg-white p-3">
-                    <div className="text-[11px] font-semibold text-black/50">
-                      GUESTS
-                    </div>
-                    <div className="mt-1 text-sm font-semibold">2 Adults</div>
-                  </div>
-                  <div className="rounded-xl border border-border bg-white p-3">
-                    <div className="text-[11px] font-semibold text-black/50">
-                      ROOMS
-                    </div>
-                    <div className="mt-1 text-sm font-semibold">1 Room</div>
-                  </div>
-                </div>
-
-                <Separator className="my-2" />
-
-                <div className="grid gap-2 text-sm">
-                  <div className="flex items-center justify-between">
-                    <div className="text-muted-foreground">
-                      {formatInrFromUsd(hotel.priceUsd)} × {nights} nights
-                    </div>
-                    <div className="font-medium">{formatInrFromUsd(hotel.priceUsd * nights)}</div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="text-muted-foreground">Concierge Service Fee</div>
-                    <div className="font-medium">{formatInrFromUsd(240)}</div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="text-muted-foreground">Occupancy taxes & fees</div>
-                    <div className="font-medium">{formatInrFromUsd(185)}</div>
-                  </div>
-                  <Separator className="my-1" />
-                  <div className="flex items-center justify-between">
-                    <div className="text-sm font-semibold">Total</div>
-                    <div className="text-xl font-semibold">{formatInrFromUsd(totalUsd)}</div>
-                  </div>
-                </div>
-
-                <Link href="/booking/checkout">
-                  <Button className="h-11 w-full rounded-xl">
-                    RESERVE NOW
-                  </Button>
-                </Link>
-
-                <div className="flex items-start gap-2 rounded-xl bg-black/5 p-3 text-xs text-muted-foreground">
-                  <Shield className="mt-0.5 h-4 w-4 text-black/50" />
-                  <div>
-                    You won’t be charged yet. Free cancellation available before
-                    check‑in.
-                  </div>
-                </div>
-              </div>
-            </div>
+            <HotelDetailBookingCard
+              priceUsd={hotel.priceUsd}
+              nights={nights}
+              conciergeFeeUsd={240}
+              occupancyTaxesUsd={185}
+            />
           </div>
         </div>
 

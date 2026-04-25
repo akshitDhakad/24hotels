@@ -9,9 +9,14 @@ import {
   ReferenceLine,
   ResponsiveContainer,
   Tooltip,
+  type TooltipProps,
   XAxis,
   YAxis,
 } from "recharts";
+import type {
+  NameType,
+  ValueType,
+} from "recharts/types/component/DefaultTooltipContent";
 
 import { Card } from "@/components/ui/card";
 import type { SlotData } from "@/lib/rate-calculator/types";
@@ -44,6 +49,23 @@ export function RateCalculatorChart({
     [slotData],
   );
 
+  const tooltipFormatter = React.useCallback<
+    NonNullable<TooltipProps<ValueType, NameType>["formatter"]>
+  >(
+    (value, name) => {
+      const n =
+        typeof value === "number"
+          ? value
+          : typeof value === "string"
+            ? Number(value)
+            : Number.NaN;
+      const key = (name ?? "").toString();
+      const label = key === "withTax" ? "With tax" : "Subtotal";
+      return [formatCurrency(n, { locale, currencySymbol }), label];
+    },
+    [currencySymbol, locale],
+  );
+
   return (
     <Card className="border-border bg-white/90 p-5 shadow-sm dark:bg-background">
       <div className="text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
@@ -60,11 +82,7 @@ export function RateCalculatorChart({
               }
             />
             <Tooltip
-              formatter={(value: unknown, name: string) => {
-                const n = typeof value === "number" ? value : Number(value);
-                const label = name === "withTax" ? "With tax" : "Subtotal";
-                return [formatCurrency(n, { locale, currencySymbol }), label];
-              }}
+              formatter={tooltipFormatter}
             />
             <Legend />
             <ReferenceLine

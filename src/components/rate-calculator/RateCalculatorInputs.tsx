@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronDown, RotateCcw } from "lucide-react";
 import * as React from "react";
+import type { Resolver } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -20,6 +21,8 @@ const schema = z.object({
   taxRate: z.coerce.number().min(0).max(50),
   minSlot: z.coerce.number().min(1).max(4),
 });
+
+type FormValues = z.output<typeof schema>;
 
 export function RateCalculatorInputs({
   baseRate,
@@ -50,8 +53,8 @@ export function RateCalculatorInputs({
   onSurchargeChange: (hours: number, v: number) => void;
   onResetSurcharges: () => void;
 }) {
-  const form = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
+  const form = useForm<FormValues>({
+    resolver: zodResolver(schema) as unknown as Resolver<FormValues>,
     values: { baseRate, taxRate, minSlot },
     mode: "onChange",
   });

@@ -10,8 +10,8 @@ type HotelHourlyRatesSectionProps = {
 };
 
 /**
- * Guest-facing summary of flexible-stay slot totals, aligned with the rate
- * calculator’s default surcharges and monotonic pricing rules.
+ * Guest-facing flexible-stay prices (pre-tax `subtotal`), matching the nightly
+ * headline. Slot surcharges and monotonic rules come from `computeAllSlots`.
  */
 export function HotelHourlyRatesSection({ baseNightInr }: HotelHourlyRatesSectionProps) {
   const slots = computeAllSlots(baseNightInr, DEFAULT_TAX_RATE, DEFAULT_SLOTS);
@@ -32,26 +32,30 @@ export function HotelHourlyRatesSection({ baseNightInr }: HotelHourlyRatesSectio
         <ul className="grid gap-2.5 text-sm text-muted-foreground">
           {slots.map((s) => (
             <li key={s.hours} className="flex items-start justify-between gap-3">
-              <span className="flex min-w-0 items-center gap-2">
-                <Check className="h-4 w-4 shrink-0 text-emerald-700" aria-hidden />
-                <span className="text-foreground">
-                  {s.hours} hour{s.hours === 1 ? "" : "s"}
-                  {s.isBestValue ? (
-                    <span className="ml-1.5 text-[11px] font-semibold uppercase tracking-wide text-emerald-700">
-                      Best value
+              <span className="flex min-w-0 flex-1 items-start gap-2">
+                <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-700" aria-hidden />
+                <span className="min-w-0 text-foreground">
+                  <span className="inline-flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                    <span>
+                      {s.hours} hour{s.hours === 1 ? "" : "s"}
                     </span>
-                  ) : null}
+                    {s.isBestValue ? (
+                      <span className="whitespace-nowrap text-[11px] font-semibold uppercase tracking-wide text-emerald-700">
+                        Best value
+                      </span>
+                    ) : null}
+                  </span>
                 </span>
               </span>
               <span className="shrink-0 font-semibold tabular-nums text-foreground">
-                {formatCurrency(s.withTax, "INR")}
+                {formatCurrency(s.subtotal, "INR")}
               </span>
             </li>
           ))}
         </ul>
         <p className="text-[11px] leading-relaxed text-muted-foreground">
-          Indicative totals include {DEFAULT_TAX_RATE}% GST. Shorter slots may include
-          a premium versus dividing the full-night rate by hours.
+          Amounts are before taxes and fees (same basis as the nightly rate). Shorter
+          slots may include a premium versus dividing the full-night rate by hours.
         </p>
       </div>
     </div>

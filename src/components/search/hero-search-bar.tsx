@@ -85,6 +85,9 @@ export function HeroSearchBar({ className }: { className?: string }) {
   });
 
   const values = useWatch({ control: form.control });
+  const adults = values.adults ?? 1;
+  const children = values.children ?? 0;
+  const rooms = values.rooms ?? 1;
 
   function onSubmit(v: SearchFormValues) {
     setParams(v);
@@ -158,7 +161,7 @@ export function HeroSearchBar({ className }: { className?: string }) {
             className="flex h-[54px] w-full items-center justify-between rounded-xl bg-white/70 px-4 text-sm text-black"
           >
             <div>
-              {values.adults + values.children} guests, {values.rooms} room
+              {adults + children} guests, {rooms} room
             </div>
             <span className="text-black/40">▾</span>
           </button>
@@ -179,7 +182,7 @@ export function HeroSearchBar({ className }: { className?: string }) {
               </div>
               <div className="grid gap-3">
                 <Stepper
-                  value={values.adults}
+                  value={adults}
                   onChange={(v) =>
                     form.setValue("adults", v, { shouldDirty: true })
                   }
@@ -188,7 +191,7 @@ export function HeroSearchBar({ className }: { className?: string }) {
                   label="Adults"
                 />
                 <Stepper
-                  value={values.children}
+                  value={children}
                   onChange={(v) =>
                     form.setValue("children", v, { shouldDirty: true })
                   }
@@ -197,7 +200,7 @@ export function HeroSearchBar({ className }: { className?: string }) {
                   label="Children"
                 />
                 <Stepper
-                  value={values.rooms}
+                  value={rooms}
                   onChange={(v) =>
                     form.setValue("rooms", v, { shouldDirty: true })
                   }
