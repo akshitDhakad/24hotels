@@ -14,6 +14,27 @@ enum Role {
   ADMIN
 }
 
+enum SignupContactType {
+  EMAIL
+  PHONE
+}
+
+enum HostIdDocumentType {
+  AADHAAR
+  PASSPORT
+  DRIVERS_LICENSE
+  NATIONAL_ID
+}
+
+enum VerificationStatus {
+  DRAFT
+  SUBMITTED
+  PENDING
+  VERIFIED
+  MANUAL_REVIEW
+  REJECTED
+}
+
 enum BookingStatus {
   PENDING
   CONFIRMED
@@ -44,6 +65,19 @@ model User {
   /** Loyalty balance (display points); adjust via your rewards rules. */
   loyaltyPoints Int       @default(0)
   passwordHash  String?
+  phone         String?   @unique
+  phoneVerified DateTime?
+  /** Signup channel used to lock verified identifiers (email vs phone). */
+  registrationContactType SignupContactType?
+  /** One-time profile edit OTP + token (after OTP verify) for sensitive profile updates. */
+  profileEditOtpHash          String?
+  profileEditOtpExpiresAt     DateTime?
+  profileEditOtpLockedUntil   DateTime?
+  profileEditOtpAttempts      Int       @default(0)
+  profileEditOtpLastSentAt    DateTime?
+  profileEditOtpChannel       SignupContactType?
+  profileEditTokenHash        String?
+  profileEditTokenExpiresAt   DateTime?
   deletedAt     DateTime?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -54,9 +88,112 @@ model User {
   bookings      Booking[]
   reviews       Review[]
   wishlist      WishlistItem[]
+  profile       UserProfile?
+  hostKyc       HostKycSubmission?
+  hostSettings  HostSettings?
 
   @@index([role])
   @@index([deletedAt])
+}
+
+model HostSettings {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Business profile
+  businessName   String?
+  businessEmail  String?
+  businessPhone  String?
+  businessAddress String?
+  taxId          String?
+
+  // Payout / bank
+  accountHolderName String?
+  bankName          String?
+  accountNumberLast4 String?
+  ifsc              String?
+  swift             String?
+  payoutStatus      VerificationStatus @default(DRAFT)
+
+  // Compliance summary (high-level)
+  complianceStatus  VerificationStatus @default(DRAFT)
+  complianceNotes   String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SignupSession {
+  id              String            @id @default(cuid())
+  role            Role
+  contactType     SignupContactType
+  email           String?
+  phone           String?
+  legalName       String
+  passwordHash    String
+
+  /** Hash of the one-time signup token returned to client after OTP verification */
+  clientTokenHash String            @unique
+
+  otpHash         String
+  otpExpiresAt    DateTime
+  otpAttempts     Int               @default(0)
+  otpLockedUntil  DateTime?
+  otpLastSentAt   DateTime?
+  verifiedAt      DateTime?
+  consumedAt      DateTime?
+
+  ipAddress       String?
+  userAgent       String?
+  deviceFingerprint String?
+
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  @@index([role])
+  @@index([contactType, email])
+  @@index([contactType, phone])
+  @@index([verifiedAt])
+  @@index([consumedAt])
+}
+
+model UserProfile {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  age       Int?
+  dob       DateTime?
+  businessPhone String?
+  businessEmail String?
+  address1  String?
+  address2  String?
+  city      String?
+  state     String?
+  postalCode String?
+  country   String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model HostKycSubmission {
+  id              String             @id @default(cuid())
+  userId          String             @unique
+  user            User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  status          VerificationStatus @default(DRAFT)
+  documentType    HostIdDocumentType?
+  documentFrontUrl String?
+  documentBackUrl  String?
+  selfieUrl       String?
+  reviewReason    String?
+  submittedAt     DateTime?
+  verifiedAt      DateTime?
+
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
 }
 
 // NextAuth (OAuth + optional database sessions)
@@ -101,10 +238,19 @@ model Hotel {
   owner       User     @relation("OwnerHotels", fields: [ownerId], references: [id])
   name        String
   slug        String   @unique
+  /** Human-readable location string shown on hotel details page */
+  location    String?
   city        String
   country     String
   address     String?
   stars       Int      @default(0)
+  rating      Float    @default(0)
+  reviewCount Int      @default(0)
+  reviewLabel String   @default("New")
+  /** Base price in USD for display (nightly) */
+  priceUsd    Float    @default(0)
+  /** Primary hero image URL */
+  image       String?
   description String?
   coverImage  String?
   isVerified  Boolean  @default(false)
@@ -114,6 +260,9 @@ model Hotel {
   updatedAt   DateTime @updatedAt
 
   rooms       Room[]
+  gallery     HotelImage[]
+  amenities   HotelAmenity[]
+  perks       HotelPerk[]
   reviews     Review[]
   bookings    Booking[]
   wishlistItems WishlistItem[]
@@ -124,13 +273,47 @@ model Hotel {
   @@index([deletedAt])
 }
 
+model HotelImage {
+  id        String   @id @default(cuid())
+  hotelId   String
+  hotel     Hotel    @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+  url       String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([hotelId, sortOrder])
+}
+
+model HotelAmenity {
+  id      String @id @default(cuid())
+  hotelId String
+  hotel   Hotel   @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+  name    String
+
+  @@index([hotelId])
+  @@unique([hotelId, name])
+}
+
+model HotelPerk {
+  id      String @id @default(cuid())
+  hotelId String
+  hotel   Hotel   @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+  name    String
+
+  @@index([hotelId])
+  @@unique([hotelId, name])
+}
+
 model Room {
   id            String   @id @default(cuid())
   hotelId       String
   hotel         Hotel    @relation(fields: [hotelId], references: [id])
   name          String
+  sleeps        Int      @default(2)
+  bed           String   @default("Double")
+  refundable    Boolean  @default(false)
+  priceUsd      Float    @default(0)
   isActive      Boolean  @default(true)
-  pricePerNight Int
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 

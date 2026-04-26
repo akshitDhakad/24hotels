@@ -7,6 +7,7 @@ import type { TooltipProps } from "recharts";
 
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/cn";
+import { useIsClient } from "@/lib/use-is-client";
 
 type RangeKey = "weekly" | "monthly" | "yearly";
 
@@ -74,10 +75,8 @@ function SegmentedControl({
 
 export function HostPerformanceInsights() {
   const [range, setRange] = React.useState<RangeKey>("weekly");
-  const [mounted, setMounted] = React.useState(false);
+  const isClient = useIsClient();
   const data = DATA[range];
-
-  React.useEffect(() => setMounted(true), []);
 
   const formatter = React.useCallback<
     NonNullable<TooltipProps<ValueType, NameType>["formatter"]>
@@ -105,7 +104,7 @@ export function HostPerformanceInsights() {
       </div>
 
       <div className="mt-5 h-[260px] min-h-[260px]">
-        {mounted ? (
+        {isClient ? (
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={data} margin={{ left: 0, right: 0, top: 10, bottom: 0 }}>
               <CartesianGrid vertical={false} stroke="rgba(0,0,0,0.06)" />

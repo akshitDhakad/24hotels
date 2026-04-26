@@ -32,6 +32,7 @@ export async function registerUser(input: RegisterBodyInput) {
       passwordHash,
       name: input.name?.trim() ? input.name.trim() : null,
       role,
+      registrationContactType: "EMAIL",
     },
     select: {
       id: true,

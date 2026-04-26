@@ -135,9 +135,9 @@ export async function getUserDashboardData(userId: string): Promise<UserDashboar
             coverImage: true,
             rooms: {
               where: { isActive: true },
-              orderBy: { pricePerNight: "asc" },
+              orderBy: { priceUsd: "asc" },
               take: 1,
-              select: { pricePerNight: true },
+              select: { priceUsd: true },
             },
           },
         },
@@ -186,7 +186,7 @@ type WishlistQueryRow = {
     city: string;
     country: string;
     coverImage: string | null;
-    rooms: Array<{ pricePerNight: number }>;
+    rooms: Array<{ priceUsd: number }>;
   };
 };
 
@@ -196,7 +196,7 @@ function mapWishlistRows(wishlistRaw: WishlistQueryRow[]): UserDashboardWishlist
     const minRoom = h.rooms[0];
     const currency = "INR";
     const pricePerNightLabel = minRoom
-      ? `${formatMajorCurrency(minRoom.pricePerNight, currency)} / night`
+      ? `${formatMajorCurrency(minRoom.priceUsd, currency)} / night`
       : "See hotel";
 
     return {
@@ -224,9 +224,9 @@ export async function getUserWishlistRows(userId: string): Promise<UserDashboard
           coverImage: true,
           rooms: {
             where: { isActive: true },
-            orderBy: { pricePerNight: "asc" },
+            orderBy: { priceUsd: "asc" },
             take: 1,
-            select: { pricePerNight: true },
+            select: { priceUsd: true },
           },
         },
       },

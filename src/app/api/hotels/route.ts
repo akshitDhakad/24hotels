@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { readDb } from "@/app/api/_db/db";
-
-type DbHotel = Record<string, unknown>;
+import { prisma } from "@/server/config/database";
 
 function getInt(sp: URLSearchParams, key: string, fallback: number) {
   const raw = sp.get(key);
@@ -16,10 +14,9 @@ function getString(sp: URLSearchParams, key: string) {
   return v ? v.trim() : "";
 }
 
-function matchesQ(hotel: DbHotel, q: string) {
+function matchesQ(hay: string, q: string) {
   if (!q) return true;
-  const hay = `${String(hotel.name ?? "")} ${String(hotel.location ?? "")} ${String(hotel.city ?? "")} ${String(hotel.country ?? "")}`.toLowerCase();
-  return hay.includes(q.toLowerCase());
+  return hay.toLowerCase().includes(q.toLowerCase());
 }
 
 export async function GET(req: Request) {
@@ -33,22 +30,44 @@ export async function GET(req: Request) {
   const sortKey = getString(sp, "_sort") || "rating";
   const order = (getString(sp, "_order") || "desc").toLowerCase() === "asc" ? 1 : -1;
 
-  const { hotels } = await readDb();
-  const list = hotels as DbHotel[];
-  const filtered = list.filter((h) => matchesQ(h, q));
+  const where = {
+    deletedAt: null as Date | null,
+    isActive: true,
+  };
 
-  filtered.sort((a, b) => {
-    const av = a[sortKey];
-    const bv = b[sortKey];
-    if (typeof av === "number" && typeof bv === "number") return (av - bv) * order;
-    const as = String(av ?? "");
-    const bs = String(bv ?? "");
-    return as.localeCompare(bs) * order;
+  const all = await prisma.hotel.findMany({
+    where,
+    select: {
+      id: true,
+      name: true,
+      location: true,
+      city: true,
+      country: true,
+      rating: true,
+      stars: true,
+      reviewLabel: true,
+      priceUsd: true,
+      image: true,
+      coverImage: true,
+    },
+    orderBy:
+      sortKey === "rating"
+        ? { rating: order === 1 ? "asc" : "desc" }
+        : sortKey === "priceUsd"
+          ? { priceUsd: order === 1 ? "asc" : "desc" }
+          : { createdAt: "desc" },
   });
 
+  const filtered = all.filter((h) =>
+    matchesQ(`${h.name} ${h.location ?? ""} ${h.city ?? ""} ${h.country ?? ""}`, q),
+  );
   const total = filtered.length;
   const start = (page - 1) * limit;
-  const items = filtered.slice(start, start + limit);
+  const items = filtered.slice(start, start + limit).map((h) => ({
+    ...h,
+    perks: [] as string[],
+    image: h.image ?? h.coverImage ?? "",
+  }));
 
   const res = NextResponse.json(items, {
     headers: {

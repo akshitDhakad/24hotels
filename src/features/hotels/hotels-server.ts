@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { readDb } from "@/app/api/_db/db";
+import { prisma } from "@/server/config/database";
 
 const hotelRoomSchema = z
   .object({
@@ -33,6 +33,18 @@ const hotelDetailsSchema = z
     amenities: z.array(z.string()),
     rooms: z.array(hotelRoomSchema),
     reviewCount: z.number(),
+    host: z
+      .object({
+        name: z.string(),
+        image: z.string().nullable().optional(),
+        reviewCount: z.number(),
+        rating: z.number(),
+        monthsHosting: z.number(),
+        isSuperhost: z.boolean(),
+        responseRate: z.number(),
+        responseTimeLabel: z.string(),
+      })
+      .optional(),
   })
   .passthrough();
 
@@ -44,15 +56,72 @@ export async function getHotelByIdFromDb(
   const trimmed = id.trim();
   if (!trimmed) return null;
 
-  const db = await readDb();
-  const found = (db.hotels as unknown[]).find((h) => {
-    const obj = h as Record<string, unknown>;
-    return String(obj.id) === trimmed;
+  const hotel = await prisma.hotel.findFirst({
+    where: { id: trimmed, deletedAt: null, isActive: true },
+    include: {
+      gallery: { orderBy: { sortOrder: "asc" } },
+      amenities: { orderBy: { name: "asc" } },
+      perks: { orderBy: { name: "asc" } },
+      rooms: { where: { isActive: true }, orderBy: { createdAt: "asc" } },
+      owner: { select: { id: true, name: true, image: true, createdAt: true } },
+    },
   });
-  if (!found) return null;
+  if (!hotel) return null;
+
+  const hostAgg = await prisma.review.aggregate({
+    where: {
+      isApproved: true,
+      hotel: { ownerId: hotel.ownerId, deletedAt: null },
+    },
+    _avg: { rating: true },
+    _count: { rating: true },
+  });
+
+  const monthsHosting = Math.max(
+    1,
+    Math.round((Date.now() - hotel.owner.createdAt.getTime()) / (30 * 24 * 60 * 60 * 1000)),
+  );
+  const hostRating = Number(hostAgg._avg.rating ?? hotel.rating ?? 0);
+  const hostReviewCount = Number(hostAgg._count.rating ?? hotel.reviewCount ?? 0);
+
+  const dto: Record<string, unknown> = {
+    id: hotel.id,
+    name: hotel.name,
+    location: hotel.location ?? `${hotel.city}, ${hotel.country}`,
+    country: hotel.country,
+    city: hotel.city,
+    rating: hotel.rating ?? 0,
+    stars: hotel.stars ?? 0,
+    reviewLabel: hotel.reviewLabel ?? "New",
+    priceUsd: hotel.priceUsd ?? 0,
+    perks: hotel.perks.map((p) => p.name),
+    image: hotel.image ?? hotel.coverImage ?? hotel.gallery[0]?.url ?? "",
+    description: hotel.description ?? "",
+    gallery: hotel.gallery.map((g) => g.url),
+    amenities: hotel.amenities.map((a) => a.name),
+    rooms: hotel.rooms.map((r) => ({
+      id: r.id,
+      name: r.name,
+      sleeps: r.sleeps,
+      bed: r.bed,
+      refundable: r.refundable,
+      priceUsd: r.priceUsd,
+    })),
+    reviewCount: hotel.reviewCount ?? 0,
+    host: {
+      name: hotel.owner.name ?? "Host",
+      image: hotel.owner.image,
+      reviewCount: hostReviewCount,
+      rating: hostRating,
+      monthsHosting,
+      isSuperhost: hostRating >= 4.8 && hostReviewCount >= 10,
+      responseRate: 100,
+      responseTimeLabel: "Responds within an hour",
+    },
+  };
 
   try {
-    return hotelDetailsSchema.parse(found);
+    return hotelDetailsSchema.parse(dto);
   } catch {
     return null;
   }

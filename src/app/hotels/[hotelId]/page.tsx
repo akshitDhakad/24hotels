@@ -49,6 +49,156 @@ function formatInrFromUsd(amountUsd: number) {
   return formatCurrency(convertFromUsd(amountUsd, "INR"), "INR");
 }
 
+function RatingBanner({
+  rating,
+  stars,
+  reviewCount,
+}: {
+  rating: number;
+  stars?: number;
+  reviewCount: number;
+}) {
+  const filled = Math.max(
+    0,
+    Math.min(5, Number.isFinite(stars) && stars ? Math.round(stars) : Math.round(rating)),
+  );
+  return (
+    <div className="rounded-2xl border border-border bg-white px-6 py-5">
+      <div className="grid gap-5 md:grid-cols-[1.1fr_1.6fr_0.9fr_0.9fr] md:items-center">
+        <div className="flex items-center gap-4">
+          <div className="text-3xl leading-none">🏆</div>
+          <div className="leading-tight">
+            <div className="text-lg font-semibold tracking-tight">Guest</div>
+            <div className="-mt-0.5 text-lg font-semibold tracking-tight">favourite</div>
+          </div>
+        </div>
+
+        <div className="text-base font-semibold leading-6 text-foreground">
+          One of the most loved homes on Airbnb, according to guests
+        </div>
+
+        <div className="flex items-center justify-start gap-3 md:justify-center">
+          <div className="text-2xl font-semibold tabular-nums">{rating.toFixed(1)}</div>
+          <div className="flex items-center gap-0.5">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Star
+                key={i}
+                className={i < filled ? "h-4 w-4 fill-current text-foreground" : "h-4 w-4 text-black/20"}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className="flex items-center justify-start gap-2 md:justify-center">
+          <div className="text-2xl font-semibold tabular-nums">{reviewCount}</div>
+          <div className="text-sm font-semibold text-black/60">Reviews</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function HostDetailsSection({
+  host,
+}: {
+  host: {
+    name: string;
+    image?: string | null;
+    reviewCount: number;
+    rating: number;
+    monthsHosting: number;
+    isSuperhost: boolean;
+    responseRate: number;
+    responseTimeLabel: string;
+  };
+}) {
+  const initial = (host.name.trim()[0] ?? "?").toUpperCase();
+  return (
+    <div className="mt-10">
+      <div className="text-base font-semibold">Meet your host</div>
+
+      <div className="mt-4 grid gap-6 lg:grid-cols-[360px_1fr] lg:items-start">
+        <div className="rounded-2xl border border-border bg-white p-6">
+          <div className="flex items-start gap-5">
+            <div className="relative">
+              <div className="relative h-20 w-20 overflow-hidden rounded-full bg-black/[0.04]">
+                {host.image ? (
+                  <Image src={host.image} alt={host.name} fill className="object-cover" sizes="80px" />
+                ) : (
+                  <div className="grid h-full w-full place-items-center text-xl font-semibold text-black/60">
+                    {initial}
+                  </div>
+                )}
+              </div>
+              {host.isSuperhost ? (
+                <div
+                  className="absolute -bottom-1 -right-1 grid h-8 w-8 place-items-center rounded-full bg-[#ff385c] text-white shadow-sm ring-2 ring-white"
+                  aria-label="Superhost badge"
+                  title="Superhost"
+                >
+                  ✓
+                </div>
+              ) : null}
+            </div>
+
+            <div className="min-w-0 flex-1">
+              <div className="truncate text-2xl font-semibold tracking-tight">{host.name}</div>
+              <div className="mt-1 text-xs font-semibold text-black/45">
+                {host.isSuperhost ? "Superhost" : "Host"}
+              </div>
+            </div>
+
+            <div className="grid gap-3 text-right">
+              <div>
+                <div className="text-lg font-semibold tabular-nums">{host.reviewCount}</div>
+                <div className="text-[11px] font-semibold text-black/45">Reviews</div>
+              </div>
+              <div className="h-px w-20 bg-black/10" />
+              <div>
+                <div className="text-lg font-semibold tabular-nums">
+                  {host.rating.toFixed(1)}
+                  <span className="ml-1 text-sm">★</span>
+                </div>
+                <div className="text-[11px] font-semibold text-black/45">Rating</div>
+              </div>
+              <div className="h-px w-20 bg-black/10" />
+              <div>
+                <div className="text-lg font-semibold tabular-nums">{host.monthsHosting}</div>
+                <div className="text-[11px] font-semibold text-black/45">Months hosting</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-border bg-white p-6">
+          <div className="text-sm font-semibold text-foreground">
+            {host.name} {host.isSuperhost ? "is a Superhost" : "is a host"}
+          </div>
+          <div className="mt-2 text-sm text-muted-foreground">
+            Superhosts are experienced, highly rated hosts who are committed to providing great
+            stays for guests.
+          </div>
+
+          <div className="mt-6 text-sm font-semibold">Host details</div>
+          <div className="mt-2 text-sm text-muted-foreground">
+            <div>Response rate: {host.responseRate}%</div>
+            <div>{host.responseTimeLabel}</div>
+          </div>
+
+          <div className="mt-6">
+            <button
+              type="button"
+              className="h-11 rounded-xl border border-black/10 bg-white px-4 text-sm font-semibold text-foreground hover:bg-black/[0.04]"
+            >
+              Message host
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default async function HotelDetailsPage({ params }: PageProps) {
   const { hotelId } = await params;
   const hotel = await getHotelByIdFromDb(hotelId);
@@ -82,6 +232,9 @@ export default async function HotelDetailsPage({ params }: PageProps) {
       <HotelResultsHeader />
 
       <Container className="py-8">
+        <div className="mb-6">
+          <RatingBanner rating={hotel.rating} stars={hotel.stars} reviewCount={hotel.reviewCount} />
+        </div>
         <div className="grid gap-8 lg:grid-cols-[1fr_360px]">
 
           {/* Gallery: full width inside container; lg main + 2×2 share one height */}
@@ -320,6 +473,8 @@ export default async function HotelDetailsPage({ params }: PageProps) {
                   ))}
                 </div>
               </div>
+
+              {hotel.host ? <HostDetailsSection host={hotel.host} /> : null}
             </div>
           </div>
 
@@ -330,6 +485,7 @@ export default async function HotelDetailsPage({ params }: PageProps) {
               nights={nights}
               conciergeFeeUsd={240}
               occupancyTaxesUsd={185}
+              cityLabel={hotel.city ?? ""}
             />
           </div>
         </div>

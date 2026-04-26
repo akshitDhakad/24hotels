@@ -4,10 +4,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import * as React from "react";
 import { useForm, useWatch } from "react-hook-form";
 
 import { AuthBrand } from "@/components/auth/auth-brand";
+import { OtpModal } from "@/components/auth/otp-modal";
 import { RoleToggle } from "@/components/auth/role-toggle";
 import { SocialAuthButtons } from "@/components/auth/social-auth-buttons";
 import { Button } from "@/components/ui/button";
@@ -21,12 +23,27 @@ export default function SignUpPage() {
   const [showPassword, setShowPassword] = React.useState(false);
   const [submitError, setSubmitError] = React.useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [otpOpen, setOtpOpen] = React.useState(false);
+  const [otpError, setOtpError] = React.useState<string | null>(null);
+  const [otpMeta, setOtpMeta] = React.useState<{
+    sessionId: string;
+    maskedContact: string;
+    expiresAt: string;
+  } | null>(null);
+  const [isVerifyingOtp, setIsVerifyingOtp] = React.useState(false);
+  const [isResendingOtp, setIsResendingOtp] = React.useState(false);
 
   const showAdminSignup = process.env.NEXT_PUBLIC_SHOW_ADMIN_SIGNUP === "true";
 
   const form = useForm<SignUpValues>({
     resolver: zodResolver(signUpSchema),
-    defaultValues: { role: "customer", name: "", email: "", password: "" },
+    defaultValues: {
+      role: "customer",
+      legalName: "",
+      contact: "",
+      password: "",
+      confirmPassword: "",
+    },
     mode: "onBlur",
   });
 
@@ -37,30 +54,109 @@ export default function SignUpPage() {
     setSubmitError(null);
     setIsSubmitting(true);
     try {
-      const nameTrim = values.name?.trim();
-      const res = await fetch("/api/v1/auth/register", {
+      const res = await fetch("/api/v1/auth/signup/start", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          email: values.email.trim(),
+          role: values.role === "host" ? "host" : "customer",
+          contact: values.contact.trim(),
+          legalName: values.legalName.trim(),
           password: values.password,
-          accountType: values.role,
-          ...(nameTrim ? { name: nameTrim } : {}),
+          confirmPassword: values.confirmPassword,
         }),
       });
       const json = (await res.json()) as {
         success?: boolean;
         message?: string;
         code?: string;
+        data?: { sessionId: string; maskedContact: string; expiresAt: string };
       };
       if (!res.ok || json.success === false) {
         setSubmitError(json.message ?? "Could not create account. Try again.");
         return;
       }
-      router.push("/auth/sign-in?registered=1");
-      router.refresh();
+      if (!json.data?.sessionId) {
+        setSubmitError("Could not start verification. Try again.");
+        return;
+      }
+      setOtpMeta(json.data);
+      setOtpError(null);
+      setOtpOpen(true);
     } finally {
       setIsSubmitting(false);
+    }
+  }
+
+  async function verifyOtp(otp: string) {
+    if (!otpMeta) return;
+    setOtpError(null);
+    setIsVerifyingOtp(true);
+    try {
+      const res = await fetch("/api/v1/auth/signup/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionId: otpMeta.sessionId, otp }),
+      });
+      const json = (await res.json()) as {
+        success?: boolean;
+        message?: string;
+        data?: { signupToken: string; role: "USER" | "HOST" };
+      };
+      if (!res.ok || json.success === false || !json.data?.signupToken) {
+        setOtpError(json.message ?? "Invalid code.");
+        return;
+      }
+
+      const complete = await fetch("/api/v1/auth/signup/complete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ signupToken: json.data.signupToken }),
+      });
+      const completeJson = (await complete.json()) as {
+        success?: boolean;
+        message?: string;
+        data?: { id: string; email: string; role: "USER" | "HOST" };
+      };
+      if (!complete.ok || completeJson.success === false) {
+        setOtpError(completeJson.message ?? "Could not finish signup.");
+        return;
+      }
+
+      // Auto sign-in so Step 2 can be protected later.
+      await signIn("credentials", {
+        email: form.getValues("contact").trim(),
+        password: form.getValues("password"),
+        redirect: false,
+      });
+
+      setOtpOpen(false);
+      const next =
+        completeJson.data?.role === "HOST" ? "/onboarding/host/personal" : "/onboarding/user";
+      router.push(next);
+      router.refresh();
+    } finally {
+      setIsVerifyingOtp(false);
+    }
+  }
+
+  async function resendOtp() {
+    if (!otpMeta) return;
+    setOtpError(null);
+    setIsResendingOtp(true);
+    try {
+      const res = await fetch("/api/v1/auth/signup/resend", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionId: otpMeta.sessionId }),
+      });
+      const json = (await res.json()) as { success?: boolean; message?: string; data?: { expiresAt: string } };
+      if (!res.ok || json.success === false || !json.data?.expiresAt) {
+        setOtpError(json.message ?? "Could not resend code.");
+        return;
+      }
+      setOtpMeta((prev) => (prev ? { ...prev, expiresAt: json.data!.expiresAt } : prev));
+    } finally {
+      setIsResendingOtp(false);
     }
   }
 
@@ -119,47 +215,48 @@ export default function SignUpPage() {
               ) : null}
 
               <div className="grid gap-2">
-                <Label className="text-xs text-[#0f2d1c]" htmlFor="name">
-                  Full name <span className="text-[#58705f]">(optional)</span>
+                <Label className="text-xs text-[#0f2d1c]" htmlFor="legalName">
+                  Full legal name <span className="text-red-600">*</span>
                 </Label>
                 <div className="relative">
                   <User className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#58705f]" />
                   <Input
-                    id="name"
+                    id="legalName"
                     type="text"
                     autoComplete="name"
                     placeholder="Alex Mitchell"
                     className={cn(
                       "h-12 rounded-full border-black/10 bg-white pl-11",
-                      errors.name ? "ring-2 ring-red-500/40" : "",
+                      errors.legalName ? "ring-2 ring-red-500/40" : "",
                     )}
-                    {...form.register("name")}
+                    {...form.register("legalName")}
                   />
                 </div>
-                {errors.name ? (
-                  <p className="text-xs text-red-600">{errors.name.message}</p>
+                {errors.legalName ? (
+                  <p className="text-xs text-red-600">{errors.legalName.message}</p>
                 ) : null}
               </div>
 
               <div className="grid gap-2">
-                <Label className="text-xs text-[#0f2d1c]" htmlFor="email">
-                  Email <span className="text-red-600">*</span>
+                <Label className="text-xs text-[#0f2d1c]" htmlFor="contact">
+                  Email or phone <span className="text-red-600">*</span>
                 </Label>
                 <div className="relative">
                   <Mail className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#58705f]" />
                   <Input
-                    id="email"
-                    type="email"
-                    placeholder="hello@delisas.com"
+                    id="contact"
+                    type="text"
+                    autoComplete="email"
+                    placeholder="hello@company.com or +919876543210"
                     className={cn(
                       "h-12 rounded-full border-black/10 bg-white pl-11",
-                      errors.email ? "ring-2 ring-red-500/40" : "",
+                      errors.contact ? "ring-2 ring-red-500/40" : "",
                     )}
-                    {...form.register("email")}
+                    {...form.register("contact")}
                   />
                 </div>
-                {errors.email ? (
-                  <p className="text-xs text-red-600">{errors.email.message}</p>
+                {errors.contact ? (
+                  <p className="text-xs text-red-600">{errors.contact.message}</p>
                 ) : null}
               </div>
 
@@ -202,8 +299,30 @@ export default function SignUpPage() {
                 ) : null}
               </div>
 
+              <div className="grid gap-2">
+                <Label className="text-xs text-[#0f2d1c]" htmlFor="confirmPassword">
+                  Confirm password <span className="text-red-600">*</span>
+                </Label>
+                <div className="relative">
+                  <Lock className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#58705f]" />
+                  <Input
+                    id="confirmPassword"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Confirm password"
+                    className={cn(
+                      "h-12 rounded-full border-black/10 bg-white pl-11 pr-11",
+                      errors.confirmPassword ? "ring-2 ring-red-500/40" : "",
+                    )}
+                    {...form.register("confirmPassword")}
+                  />
+                </div>
+                {errors.confirmPassword ? (
+                  <p className="text-xs text-red-600">{errors.confirmPassword.message}</p>
+                ) : null}
+              </div>
+
               <Button type="submit" className="mt-2 h-12 rounded-full" disabled={isSubmitting}>
-                {isSubmitting ? "Creating account…" : "Sign up"}
+                {isSubmitting ? "Sending OTP…" : "Sign up"}
               </Button>
 
               <div className="pb-2 pt-2 text-center text-xs text-[#58705f]">
@@ -269,6 +388,20 @@ export default function SignUpPage() {
           </div>
         </div>
       </div>
+
+      {otpOpen && otpMeta ? (
+        <OtpModal
+          open
+          maskedContact={otpMeta.maskedContact}
+          expiresAt={otpMeta.expiresAt}
+          error={otpError}
+          isVerifying={isVerifyingOtp}
+          isResending={isResendingOtp}
+          onClose={() => setOtpOpen(false)}
+          onVerify={verifyOtp}
+          onResend={resendOtp}
+        />
+      ) : null}
     </div>
   );
 }

@@ -42,6 +42,11 @@ const envSchema = z.object({
   SMTP_PASS: z.string(),
   SMTP_FROM: z.string().email(),
 
+  // Twilio (SMS OTP)
+  TWILLIO_ACCOUNT_SID: z.string().optional(),
+  TWILLIO_AUTH_TOKEN: z.string().optional(),
+  TWILLIO_PHONE_NUMBER: z.string().optional(),
+
   // Security
   BCRYPT_ROUNDS: z.coerce.number().default(12),
   RATE_LIMIT_MAX: z.coerce.number().default(100),

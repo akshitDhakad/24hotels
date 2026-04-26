@@ -6,6 +6,7 @@ import type { NameType, ValueType } from "recharts/types/component/DefaultToolti
 import type { TooltipProps } from "recharts";
 
 import { Card } from "@/components/ui/card";
+import { useIsClient } from "@/lib/use-is-client";
 
 type Row = { label: string; revenue: number; bookings: number };
 
@@ -20,8 +21,7 @@ const data: Row[] = [
 ];
 
 export function AdminRevenueChart() {
-  const [mounted, setMounted] = React.useState(false);
-  React.useEffect(() => setMounted(true), []);
+  const isClient = useIsClient();
 
   const formatter = React.useCallback<
     NonNullable<TooltipProps<ValueType, NameType>["formatter"]>
@@ -48,7 +48,7 @@ export function AdminRevenueChart() {
       </div>
 
       <div className="mt-5 h-[260px] min-h-[260px]">
-        {mounted ? (
+        {isClient ? (
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={data} margin={{ left: 0, right: 0, top: 10, bottom: 0 }}>
               <CartesianGrid vertical={false} stroke="rgba(0,0,0,0.06)" />

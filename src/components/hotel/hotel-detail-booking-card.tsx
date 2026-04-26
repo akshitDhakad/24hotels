@@ -6,6 +6,7 @@ import * as React from "react";
 
 import { HoursRoomsLink } from "@/components/layout/hours-rooms-link";
 import { Button } from "@/components/ui/button";
+import { RangeCalendar } from "@/components/ui/range-calendar";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/cn";
 import { convertFromUsd, formatCurrency } from "@/lib/currency";
@@ -67,6 +68,7 @@ export type HotelDetailBookingCardProps = {
   nights: number;
   conciergeFeeUsd: number;
   occupancyTaxesUsd: number;
+  cityLabel?: string;
 };
 
 export function HotelDetailBookingCard({
@@ -74,12 +76,19 @@ export function HotelDetailBookingCard({
   nights,
   conciergeFeeUsd,
   occupancyTaxesUsd,
+  cityLabel,
 }: HotelDetailBookingCardProps) {
   const mode = useBookingModeStore((s) => s.mode);
 
   const [checkInDate, setCheckInDate] = React.useState("2024-10-24");
   const [checkInTime, setCheckInTime] = React.useState("15:00");
   const [stayHours, setStayHours] = React.useState<HourlyStayHours>(8);
+  const [calendarOpen, setCalendarOpen] = React.useState(false);
+  const [range, setRange] = React.useState<{ start: Date | null; end: Date | null }>(() => {
+    const start = new Date();
+    const end = new Date(start.getFullYear(), start.getMonth(), start.getDate() + nights);
+    return { start, end };
+  });
 
   const nightInr = convertFromUsd(priceUsd, "INR");
   const conciergeInr = convertFromUsd(conciergeFeeUsd, "INR");
@@ -100,6 +109,15 @@ export function HotelDetailBookingCard({
   const hoursTotalInr = slotSubtotalInr + conciergeInr + occupancyInr;
 
   const isHours = mode === "hours";
+
+  const checkInLabel = React.useMemo(() => {
+    if (!range.start) return "Select";
+    return new Intl.DateTimeFormat("en-IN", { day: "numeric", month: "short", year: "numeric" }).format(range.start);
+  }, [range.start]);
+  const checkOutLabel = React.useMemo(() => {
+    if (!range.end) return "Select";
+    return new Intl.DateTimeFormat("en-IN", { day: "numeric", month: "short", year: "numeric" }).format(range.end);
+  }, [range.end]);
 
   return (
     <div className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-black/5">
@@ -201,15 +219,32 @@ export function HotelDetailBookingCard({
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-xl border border-border bg-white p-3">
-              <div className="text-[11px] font-semibold text-black/50">CHECK-IN</div>
-              <div className="mt-1 text-sm font-semibold">Oct 24, 2024</div>
-            </div>
-            <div className="rounded-xl border border-border bg-white p-3">
-              <div className="text-[11px] font-semibold text-black/50">CHECK-OUT</div>
-              <div className="mt-1 text-sm font-semibold">Oct 30, 2024</div>
-            </div>
+          <>
+            <button
+              type="button"
+              className="grid grid-cols-2 gap-3 text-left"
+              onClick={() => setCalendarOpen((v) => !v)}
+              aria-label="Open calendar"
+            >
+              <div className="rounded-xl border border-border bg-white p-3">
+                <div className="text-[11px] font-semibold text-black/50">CHECK-IN</div>
+                <div className="mt-1 text-sm font-semibold">{checkInLabel}</div>
+              </div>
+              <div className="rounded-xl border border-border bg-white p-3">
+                <div className="text-[11px] font-semibold text-black/50">CHECK-OUT</div>
+                <div className="mt-1 text-sm font-semibold">{checkOutLabel}</div>
+              </div>
+            </button>
+
+            {calendarOpen ? (
+              <RangeCalendar
+                value={range}
+                onChange={(next) => setRange(next)}
+                cityLabel={cityLabel}
+                minDate={new Date()}
+              />
+            ) : null}
+
             <div className="rounded-xl border border-border bg-white p-3">
               <div className="text-[11px] font-semibold text-black/50">GUESTS</div>
               <div className="mt-1 text-sm font-semibold">2 Adults</div>
@@ -218,7 +253,7 @@ export function HotelDetailBookingCard({
               <div className="text-[11px] font-semibold text-black/50">ROOMS</div>
               <div className="mt-1 text-sm font-semibold">1 Room</div>
             </div>
-          </div>
+          </>
         )}
 
         <Separator className="my-2" />

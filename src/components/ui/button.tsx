@@ -8,6 +8,7 @@ type ButtonSize = "sm" | "md" | "lg" | "icon";
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
   size?: ButtonSize;
+  asChild?: boolean;
 };
 
 const base =
@@ -30,14 +31,33 @@ const sizes: Record<ButtonSize, string> = {
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = "primary", size = "md", type, ...props }, ref) => {
+  (
+    { className, variant = "primary", size = "md", type, asChild, children, ...rest },
+    ref,
+  ) => {
+    if (asChild) {
+      if (!React.isValidElement<{ className?: string }>(children)) {
+        return null;
+      }
+      return React.cloneElement(children, {
+        className: cn(
+          base,
+          variants[variant],
+          sizes[size],
+          className,
+          children.props.className,
+        ),
+      });
+    }
     return (
       <button
         ref={ref}
         type={type ?? "button"}
         className={cn(base, variants[variant], sizes[size], className)}
-        {...props}
-      />
+        {...rest}
+      >
+        {children}
+      </button>
     );
   },
 );

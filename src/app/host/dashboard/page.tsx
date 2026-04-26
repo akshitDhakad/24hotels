@@ -6,13 +6,17 @@ import { HostPerformanceInsights } from "@/components/host/host-performance-insi
 import { HostRecentActivity } from "@/components/host/host-recent-activity";
 import { HostDashboardShell } from "@/components/host/host-dashboard-shell";
 import { Button } from "@/components/ui/button";
+import { requireHostSession } from "@/server/utils/require-host";
 
-export default function HostDashboardPage() {
+export default async function HostDashboardPage() {
+  const { user } = await requireHostSession();
   return (
     <HostDashboardShell>
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <div className="text-3xl font-semibold tracking-tight">Good morning, Alexander</div>
+          <div className="text-3xl font-semibold tracking-tight">
+            Good morning, {user.name ?? "Host"}
+          </div>
           <div className="mt-1 text-sm text-black/50">
             Here’s what’s happening with your properties today.
           </div>
