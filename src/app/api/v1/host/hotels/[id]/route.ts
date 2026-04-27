@@ -1,4 +1,5 @@
 import type { NextRequest } from "next/server";
+import { Prisma } from "@prisma/client";
 import { z } from "zod";
 
 import { prisma } from "@/server/config/database";
@@ -14,7 +15,7 @@ const updateSchema = z.object({
   country: z.string().trim().min(2).max(80).optional(),
   address: z.string().trim().min(3).max(200).nullable().optional(),
   description: z.string().trim().min(30).max(2000).optional(),
-  priceUsd: z.coerce.number().positive().max(1_000_000).optional(),
+  priceUsd: z.coerce.number().positive().max(50_000_000).optional(),
   reviewLabel: z.string().trim().min(2).max(40).optional(),
   perks: z.array(z.string().trim().min(2).max(80)).max(12).optional(),
   amenities: z.array(z.string().trim().min(2).max(80)).min(1).max(60).optional(),
@@ -27,7 +28,8 @@ const updateSchema = z.object({
         sleeps: z.coerce.number().int().min(1).max(12),
         bed: z.string().trim().min(2).max(60),
         refundable: z.boolean(),
-        priceUsd: z.coerce.number().positive().max(1_000_000),
+        priceUsd: z.coerce.number().positive().max(50_000_000),
+        perks: z.array(z.string().trim().min(1).max(120)).max(24).optional(),
         isActive: z.boolean().optional(),
       }),
     )
@@ -72,6 +74,7 @@ export const GET = asyncHandler(async (_req: NextRequest, ctx: AppRouteHandlerCo
         bed: r.bed,
         refundable: r.refundable,
         priceUsd: r.priceUsd,
+        perks: Array.isArray(r.perks) ? (r.perks as string[]).filter((x) => typeof x === "string") : [],
         isActive: r.isActive,
       })),
       isActive: hotel.isActive,
@@ -142,6 +145,7 @@ export const PUT = asyncHandler(async (req: NextRequest, ctx: AppRouteHandlerCon
             bed: r.bed,
             refundable: r.refundable,
             priceUsd: r.priceUsd,
+            perks: (r.perks ?? []) as Prisma.InputJsonValue,
             isActive: r.isActive ?? true,
           },
         });
@@ -154,6 +158,7 @@ export const PUT = asyncHandler(async (req: NextRequest, ctx: AppRouteHandlerCon
             bed: r.bed,
             refundable: r.refundable,
             priceUsd: r.priceUsd,
+            perks: (r.perks ?? []) as Prisma.InputJsonValue,
             isActive: r.isActive ?? true,
           },
         });

@@ -4,7 +4,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as React from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import type { UseFormRegister } from "react-hook-form";
+import { useFieldArray, useForm, useWatch } from "react-hook-form";
+import { X } from "lucide-react";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -13,13 +15,57 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/cn";
 
+function formatInr(n: number) {
+  return new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(n);
+}
+
+function RoomHourlyRateBox({ nightlyInr }: { nightlyInr: number }) {
+  const [hoursRaw, setHoursRaw] = React.useState("3");
+  const hours = (() => {
+    const n = parseInt(hoursRaw, 10);
+    if (!Number.isFinite(n)) return 3;
+    return Math.min(48, Math.max(1, n));
+  })();
+  const perClockHour = nightlyInr > 0 ? nightlyInr / 24 : 0;
+  const slotTotal = perClockHour * hours;
+
+  return (
+    <div className="rounded-xl border border-dashed border-black/15 bg-[#fafafa] p-3">
+      <div className="text-[11px] font-semibold uppercase tracking-wide text-black/50">Hourly rate calculator</div>
+      <p className="mt-1 text-xs text-black/55">Indicative: nightly rate spread evenly over 24 hours.</p>
+      <div className="mt-3 flex flex-wrap items-end gap-4">
+        <div className="grid gap-1">
+          <Label className="text-[10px] text-black/50">Stay (hours)</Label>
+          <Input
+            inputMode="numeric"
+            className="h-9 w-20 rounded-lg border-black/10 bg-white text-sm"
+            value={hoursRaw}
+            onChange={(e) => setHoursRaw(e.target.value.replace(/\D/g, "").slice(0, 2))}
+            aria-label="Hours for hourly estimate"
+          />
+        </div>
+        <div className="min-w-0">
+          <div className="text-[10px] font-medium text-black/45">Per clock hour (÷24)</div>
+          <div className="text-sm font-semibold text-foreground">{formatInr(Math.round(perClockHour))}</div>
+        </div>
+        <div className="min-w-0">
+          <div className="text-[10px] font-medium text-black/45">Indicative total ({hours}h)</div>
+          <div className="text-sm font-semibold text-[#0a2540]">{formatInr(Math.round(slotTotal))}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const roomSchema = z.object({
   id: z.string().optional(),
   name: z.string().trim().min(2, "Enter room type").max(120),
   sleeps: z.number().int().min(1).max(12),
   bed: z.string().trim().min(2).max(60),
   refundable: z.boolean(),
-  priceUsd: z.number().positive().max(1_000_000),
+  /** Amount in Indian Rupees (stored in DB field `priceUsd`). */
+  priceUsd: z.number().positive().max(50_000_000),
+  perksCsv: z.string().trim().max(800).optional().or(z.literal("")),
 });
 
 const schema = z.object({
@@ -29,7 +75,7 @@ const schema = z.object({
   country: z.string().trim().min(2).max(80),
   address: z.string().trim().min(3).max(200).optional(),
   description: z.string().trim().min(30, "Description must be at least 30 characters").max(2000),
-  priceUsd: z.number().positive().max(1_000_000),
+  priceUsd: z.number().positive().max(50_000_000),
   reviewLabel: z.string().trim().min(2).max(40).optional(),
   perksCsv: z.string().trim().max(500).optional(),
   amenitiesCsv: z.string().trim().min(2, "Enter at least 1 amenity").max(1200),
@@ -41,6 +87,90 @@ const schema = z.object({
   isActive: z.boolean().optional(),
 });
 type Values = z.infer<typeof schema>;
+
+function isProbablyImageUrl(raw: string) {
+  const u = raw.trim();
+  if (!u || !/^https?:\/\//i.test(u)) return false;
+  try {
+    new URL(u);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function GalleryImageSlot({
+  idx,
+  fieldId,
+  url,
+  register,
+  canRemove,
+  onRemove,
+  hasUrlError,
+}: {
+  idx: number;
+  fieldId: string;
+  url: string;
+  register: UseFormRegister<Values>;
+  canRemove: boolean;
+  onRemove: () => void;
+  hasUrlError: boolean;
+}) {
+  const [broken, setBroken] = React.useState(false);
+  React.useEffect(() => {
+    setBroken(false);
+  }, [url]);
+  const showPreview = isProbablyImageUrl(url) && !broken;
+
+  return (
+    <div className="flex flex-col gap-2">
+      <div
+        className={cn(
+          "relative aspect-[4/3] w-full overflow-hidden rounded-xl border bg-black/[0.03]",
+          hasUrlError ? "ring-2 ring-red-500/40" : "border-black/10",
+        )}
+      >
+        {showPreview ? (
+          // eslint-disable-next-line @next/next/no-img-element -- arbitrary host-uploaded URLs
+          <img
+            src={url.trim()}
+            alt=""
+            className="h-full w-full object-cover"
+            loading="lazy"
+            referrerPolicy="no-referrer"
+            onError={() => setBroken(true)}
+          />
+        ) : (
+          <div className="flex h-full min-h-[100px] flex-col items-center justify-center gap-1 px-3 text-center">
+            <span className="text-[11px] font-medium text-black/35">Preview</span>
+            <span className="text-[10px] text-black/40">Add a direct image URL (https)</span>
+          </div>
+        )}
+        <button
+          type="button"
+          onClick={onRemove}
+          disabled={!canRemove}
+          title={canRemove ? "Remove image" : "Minimum 4 images required"}
+          aria-label={canRemove ? "Remove image" : "Cannot remove — minimum 4 images"}
+          className={cn(
+            "absolute right-2 top-2 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-black/60 text-white shadow-md backdrop-blur-[2px] transition-colors",
+            canRemove
+              ? "hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500"
+              : "cursor-not-allowed opacity-40",
+          )}
+        >
+          <X className="h-4 w-4" strokeWidth={2.25} />
+        </button>
+      </div>
+      <Input
+        id={`gallery-url-${fieldId}`}
+        className={cn("h-9 rounded-lg border-black/10 bg-white text-xs", hasUrlError ? "ring-2 ring-red-500/40" : "")}
+        placeholder={`Image URL ${idx + 1}`}
+        {...register(`gallery.${idx}.url` as const)}
+      />
+    </div>
+  );
+}
 
 export function HostListingForm({
   mode,
@@ -62,7 +192,15 @@ export function HostListingForm({
     perks?: string[];
     amenities?: string[];
     gallery?: string[];
-    rooms?: Array<{ id?: string; name: string; sleeps: number; bed: string; refundable: boolean; priceUsd: number }>;
+    rooms?: Array<{
+      id?: string;
+      name: string;
+      sleeps: number;
+      bed: string;
+      refundable: boolean;
+      priceUsd: number;
+      perks?: string[];
+    }>;
     isActive: boolean;
   } | null;
 }) {
@@ -96,8 +234,9 @@ export function HostListingForm({
                   bed: r.bed,
                   refundable: r.refundable,
                   priceUsd: r.priceUsd,
+                  perksCsv: (r.perks ?? []).join(", "),
                 }))
-              : [{ name: "Deluxe Room", sleeps: 2, bed: "Double", refundable: true, priceUsd: 120 }],
+              : [{ name: "Deluxe Room", sleeps: 2, bed: "Double", refundable: true, priceUsd: 120, perksCsv: "" }],
             isActive: initial.isActive,
           }
         : {
@@ -109,7 +248,7 @@ export function HostListingForm({
             perksCsv: "",
             amenitiesCsv: "WiFi, AC",
             gallery: [{ url: "" }, { url: "" }, { url: "" }, { url: "" }],
-            rooms: [{ name: "Deluxe Room", sleeps: 2, bed: "Double", refundable: true, priceUsd: 120 }],
+            rooms: [{ name: "Deluxe Room", sleeps: 2, bed: "Double", refundable: true, priceUsd: 120, perksCsv: "" }],
             isActive: false,
           },
     mode: "onBlur",
@@ -117,6 +256,7 @@ export function HostListingForm({
   const errors = form.formState.errors;
 
   const galleryArray = useFieldArray({ control: form.control, name: "gallery" });
+  const galleryRows = useWatch({ control: form.control, name: "gallery" });
   const roomsArray = useFieldArray({ control: form.control, name: "rooms" });
 
   async function onSubmit(values: Values) {
@@ -157,6 +297,12 @@ export function HostListingForm({
                   bed: r.bed,
                   refundable: r.refundable,
                   priceUsd: r.priceUsd,
+                  perks: r.perksCsv
+                    ? r.perksCsv
+                        .split(",")
+                        .map((s) => s.trim())
+                        .filter(Boolean)
+                    : [],
                 })),
               }),
             })
@@ -175,7 +321,20 @@ export function HostListingForm({
                 perks,
                 amenities,
                 gallery: values.gallery.map((g) => g.url),
-                rooms: values.rooms,
+                rooms: values.rooms.map((r) => ({
+                  id: r.id,
+                  name: r.name,
+                  sleeps: r.sleeps,
+                  bed: r.bed,
+                  refundable: r.refundable,
+                  priceUsd: r.priceUsd,
+                  perks: r.perksCsv
+                    ? r.perksCsv
+                        .split(",")
+                        .map((s) => s.trim())
+                        .filter(Boolean)
+                    : [],
+                })),
                 isActive: values.isActive ?? false,
               }),
             });
@@ -291,7 +450,7 @@ export function HostListingForm({
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="grid gap-2">
               <Label className="text-xs text-[#0f2d1c]" htmlFor="priceUsd">
-                Base price (USD/night) <span className="text-red-600">*</span>
+                Base price (₹ / night) <span className="text-red-600">*</span>
               </Label>
               <Input
                 id="priceUsd"
@@ -302,6 +461,7 @@ export function HostListingForm({
                 )}
                 {...form.register("priceUsd", { valueAsNumber: true })}
               />
+              <p className="text-[11px] text-black/45">Amounts are in Indian Rupees (₹).</p>
               {errors.priceUsd ? <p className="text-xs text-red-600">{errors.priceUsd.message}</p> : null}
             </div>
             <div className="grid gap-2">
@@ -381,28 +541,18 @@ export function HostListingForm({
             {errors.gallery ? (
               <p className="text-xs text-red-600">{errors.gallery.message as string}</p>
             ) : null}
-            <div className="grid gap-2">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
               {galleryArray.fields.map((f, idx) => (
-                <div key={f.id} className="flex items-center gap-2">
-                  <Input
-                    className={cn(
-                      "h-11 rounded-xl border-black/10 bg-white",
-                      errors.gallery?.[idx]?.url ? "ring-2 ring-red-500/40" : "",
-                    )}
-                    placeholder={`Image URL ${idx + 1}`}
-                    {...form.register(`gallery.${idx}.url` as const)}
-                  />
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className="h-11 rounded-xl border-black/10 bg-white px-3"
-                    onClick={() => galleryArray.remove(idx)}
-                    disabled={galleryArray.fields.length <= 4}
-                    title={galleryArray.fields.length <= 4 ? "Minimum 4 images required" : "Remove"}
-                  >
-                    Remove
-                  </Button>
-                </div>
+                <GalleryImageSlot
+                  key={f.id}
+                  idx={idx}
+                  fieldId={f.id}
+                  url={String(galleryRows?.[idx]?.url ?? "")}
+                  register={form.register}
+                  canRemove={galleryArray.fields.length > 4}
+                  onRemove={() => galleryArray.remove(idx)}
+                  hasUrlError={Boolean(errors.gallery?.[idx]?.url)}
+                />
               ))}
             </div>
           </div>
@@ -416,7 +566,9 @@ export function HostListingForm({
                 type="button"
                 variant="outline"
                 className="h-9 rounded-xl border-black/10 bg-white px-3 text-xs"
-                onClick={() => roomsArray.append({ name: "", sleeps: 2, bed: "Double", refundable: true, priceUsd: 120 })}
+                onClick={() =>
+                  roomsArray.append({ name: "", sleeps: 2, bed: "Double", refundable: true, priceUsd: 120, perksCsv: "" })
+                }
               >
                 Add room
               </Button>
@@ -425,7 +577,9 @@ export function HostListingForm({
               <p className="text-xs text-red-600">{errors.rooms.message as string}</p>
             ) : null}
             <div className="grid gap-3">
-              {roomsArray.fields.map((f, idx) => (
+              {roomsArray.fields.map((f, idx) => {
+                const nightlyInr = Number(form.watch(`rooms.${idx}.priceUsd`)) || 0;
+                return (
                 <div key={f.id} className="rounded-xl border border-black/10 bg-white p-4">
                   <div className="grid gap-3 md:grid-cols-2">
                     <div className="grid gap-1.5">
@@ -451,13 +605,27 @@ export function HostListingForm({
                       />
                     </div>
                     <div className="grid gap-1.5">
-                      <Label className="text-[11px] text-black/60">Price (USD)</Label>
+                      <Label className="text-[11px] text-black/60">Price (₹ / night)</Label>
                       <Input
                         inputMode="decimal"
                         className={cn("h-11 rounded-xl border-black/10 bg-white", errors.rooms?.[idx]?.priceUsd ? "ring-2 ring-red-500/40" : "")}
                         {...form.register(`rooms.${idx}.priceUsd` as const, { valueAsNumber: true })}
                       />
                     </div>
+                  </div>
+                  <div className="mt-3 grid gap-1.5">
+                    <Label className="text-[11px] text-black/60">Room perks (comma separated)</Label>
+                    <Input
+                      placeholder="Breakfast included, Late checkout, Airport pickup"
+                      className={cn("h-11 rounded-xl border-black/10 bg-white", errors.rooms?.[idx]?.perksCsv ? "ring-2 ring-red-500/40" : "")}
+                      {...form.register(`rooms.${idx}.perksCsv` as const)}
+                    />
+                    {errors.rooms?.[idx]?.perksCsv ? (
+                      <p className="text-xs text-red-600">{errors.rooms[idx]?.perksCsv?.message as string}</p>
+                    ) : null}
+                  </div>
+                  <div className="mt-3">
+                    <RoomHourlyRateBox nightlyInr={nightlyInr} />
                   </div>
                   <div className="mt-3 flex items-center justify-between gap-3">
                     <label className="inline-flex items-center gap-2 text-xs font-semibold text-black/60">
@@ -475,7 +643,8 @@ export function HostListingForm({
                     </Button>
                   </div>
                 </div>
-              ))}
+              );
+              })}
             </div>
           </div>
 

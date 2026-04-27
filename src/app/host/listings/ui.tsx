@@ -1,5 +1,7 @@
 "use client";
 
+import { Loader2, Pencil, Trash2 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 
@@ -7,39 +9,112 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/cn";
 
-type HotelRow = {
+export type HotelRow = {
   id: string;
   name: string;
   city: string;
   country: string;
+  location: string | null;
+  image: string | null;
+  priceUsd: number;
   isVerified: boolean;
   isActive: boolean;
-  createdAt: Date;
+  createdAt: Date | string;
 };
 
-type StatusBadge = { label: string; className: string };
+type ListingVisualStatus = "verified" | "pending" | "blocked";
 
-function getStatusBadge(h: Pick<HotelRow, "isActive" | "isVerified">): StatusBadge {
-  // With current schema, we can derive 3 useful states reliably:
-  // - Draft: not active yet (host still editing)
-  // - Pending review: active but not verified
-  // - Verified: active + verified
-  if (!h.isActive) return { label: "Draft", className: "bg-black/[0.04] text-black/60" };
-  if (!h.isVerified) return { label: "Pending review", className: "bg-amber-50 text-amber-800" };
-  return { label: "Verified", className: "bg-emerald-50 text-emerald-800" };
+function getListingVisualStatus(h: Pick<HotelRow, "isActive" | "isVerified">): { status: ListingVisualStatus; label: string } {
+  if (h.isActive && h.isVerified) return { status: "verified", label: "Verified" };
+  if (!h.isActive && h.isVerified) return { status: "blocked", label: "Blocked" };
+  if (h.isActive && !h.isVerified) return { status: "pending", label: "Pending" };
+  return { status: "pending", label: "Draft" };
 }
 
-function StatusPill({ hotel }: { hotel: Pick<HotelRow, "isActive" | "isVerified"> }) {
-  const s = getStatusBadge(hotel);
+function statusBadgeStyles(status: ListingVisualStatus) {
+  if (status === "verified") {
+    return "border-emerald-200 bg-emerald-100 text-emerald-900";
+  }
+  if (status === "blocked") {
+    return "border-red-200 bg-red-100 text-red-900";
+  }
+  return "border-amber-200 bg-amber-100 text-amber-950";
+}
+
+function formatListingInr(price: number) {
+  return new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(price);
+}
+
+function ListingCard({
+  hotel,
+  deleting,
+  onDelete,
+}: {
+  hotel: HotelRow;
+  deleting: boolean;
+  onDelete: (id: string) => void;
+}) {
+  const { status, label } = getListingVisualStatus(hotel);
+  const line = hotel.location?.trim() || `${hotel.city}, ${hotel.country}`;
+  const img = hotel.image?.trim() || null;
+
   return (
-    <span
-      className={cn(
-        "inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold tracking-wide",
-        s.className,
-      )}
-    >
-      {s.label}
-    </span>
+    <article className="group overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm transition hover:shadow-md">
+      <div className="relative aspect-[4/3] w-full bg-gradient-to-br from-black/[0.06] to-black/[0.02]">
+        {img ? (
+          <Image src={img} alt={hotel.name} fill className="object-cover" sizes="(max-width:768px) 100vw, 33vw" unoptimized />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center text-sm font-semibold text-black/35">No photo</div>
+        )}
+
+        <div className="absolute left-3 top-3 z-10">
+          <span
+            className={cn(
+              "inline-flex items-center rounded-full border px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide shadow-sm backdrop-blur-[2px]",
+              statusBadgeStyles(status),
+            )}
+          >
+            {label}
+          </span>
+        </div>
+
+        <div className="absolute right-2 top-2 z-10 flex items-center gap-1.5">
+          <Link
+            href={`/host/listings/${hotel.id}/edit`}
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-blue-200 bg-white/95 text-blue-600 shadow-sm transition hover:bg-blue-50"
+            aria-label={`Edit ${hotel.name}`}
+          >
+            <Pencil className="h-3.5 w-3.5" strokeWidth={2.25} />
+          </Link>
+          <button
+            type="button"
+            disabled={deleting}
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-red-200 bg-white/95 text-red-600 shadow-sm transition hover:bg-red-50 disabled:opacity-50"
+            aria-label={deleting ? "Deleting…" : `Delete ${hotel.name}`}
+            onClick={() => onDelete(hotel.id)}
+          >
+            {deleting ? <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden /> : <Trash2 className="h-3.5 w-3.5" strokeWidth={2.25} />}
+          </button>
+        </div>
+      </div>
+
+      <div className="p-4">
+        <h3 className="line-clamp-2 text-sm font-bold uppercase tracking-wide text-[#0a2540]">{hotel.name}</h3>
+        <p className="mt-1 line-clamp-2 text-xs font-medium text-black/55">{line}</p>
+        <p className="mt-0.5 text-[11px] text-black/40">
+          {hotel.city}
+          <span className="text-black/25"> · </span>
+          <span className="text-blue-700">{hotel.country}</span>
+        </p>
+        <div className="mt-3 border-t border-black/[0.06] pt-3">
+          <p className="text-[10px] font-medium uppercase tracking-wide text-black/40">Per night before taxes and fees</p>
+          <p className="mt-0.5 text-lg font-bold text-[#8b1538]">
+            {formatListingInr(hotel.priceUsd)}
+            <span className="text-xs font-semibold text-black/45"> /night</span>
+          </p>
+        </div>
+      </div>
+    </article>
   );
 }
 
@@ -48,20 +123,22 @@ export function HostListingsClient({ initialHotels }: { initialHotels: HotelRow[
   const [deletingId, setDeletingId] = React.useState<string | null>(null);
   const [error, setError] = React.useState<string | null>(null);
 
-  async function onDelete(id: string) {
+  function onDelete(id: string) {
     setError(null);
     setDeletingId(id);
-    try {
-      const res = await fetch(`/api/v1/host/hotels/${id}`, { method: "DELETE" });
-      if (!res.ok) {
-        const json = (await res.json().catch(() => null)) as { message?: string } | null;
-        setError(json?.message ?? "Could not delete property.");
-        return;
+    void (async () => {
+      try {
+        const res = await fetch(`/api/v1/host/hotels/${id}`, { method: "DELETE" });
+        if (!res.ok) {
+          const json = (await res.json().catch(() => null)) as { message?: string } | null;
+          setError(json?.message ?? "Could not delete property.");
+          return;
+        }
+        setHotels((prev) => prev.filter((h) => h.id !== id));
+      } finally {
+        setDeletingId(null);
       }
-      setHotels((prev) => prev.filter((h) => h.id !== id));
-    } finally {
-      setDeletingId(null);
-    }
+    })();
   }
 
   return (
@@ -77,61 +154,23 @@ export function HostListingsClient({ initialHotels }: { initialHotels: HotelRow[
       </div>
 
       {error ? (
-        <div className="mt-5 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-xs text-red-800">
-          {error}
-        </div>
+        <div className="mt-5 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-xs text-red-800">{error}</div>
       ) : null}
 
-      <div className="mt-6 grid gap-4">
+      <div className="mt-6">
         {hotels.length === 0 ? (
           <Card className="border-black/5 bg-white p-6 shadow-sm">
             <div className="text-sm font-semibold">No properties yet</div>
-            <div className="mt-1 text-sm text-black/50">
-              Add your first property to start receiving bookings.
-            </div>
+            <div className="mt-1 text-sm text-black/50">Add your first property to start receiving bookings.</div>
           </Card>
         ) : (
-          hotels.map((h) => (
-            <Card key={h.id} className="border-black/5 bg-white p-6 shadow-sm">
-              <div className="flex flex-wrap items-start justify-between gap-4">
-                <div className="min-w-0">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <div className="truncate text-base font-semibold">{h.name}</div>
-                    <StatusPill hotel={h} />
-                  </div>
-                  <div className="mt-1 text-sm text-black/50">
-                    {h.city}, {h.country}
-                  </div>
-                  <div className="mt-2 text-xs font-semibold text-black/45">
-                    {h.isVerified ? "Verified" : "Not verified"} •{" "}
-                    {h.isActive ? "Active" : "Draft"}
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="h-10 rounded-xl border-black/10 bg-white px-4"
-                  >
-                    <Link href={`/host/listings/${h.id}/edit`}>Edit</Link>
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    disabled={deletingId === h.id}
-                    className="h-10 rounded-xl border-red-200 bg-white px-4 text-red-700 hover:bg-red-50"
-                    onClick={() => void onDelete(h.id)}
-                  >
-                    {deletingId === h.id ? "Deleting…" : "Delete"}
-                  </Button>
-                </div>
-              </div>
-            </Card>
-          ))
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            {hotels.map((h) => (
+              <ListingCard key={h.id} hotel={h} deleting={deletingId === h.id} onDelete={onDelete} />
+            ))}
+          </div>
         )}
       </div>
     </>
   );
 }
-

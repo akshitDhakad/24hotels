@@ -10,7 +10,7 @@ import { useIsClient } from "@/lib/use-is-client";
 
 type Row = { label: string; revenue: number; bookings: number };
 
-const data: Row[] = [
+const fallbackData: Row[] = [
   { label: "Mon", revenue: 8400, bookings: 18 },
   { label: "Tue", revenue: 10150, bookings: 22 },
   { label: "Wed", revenue: 9350, bookings: 19 },
@@ -20,8 +20,9 @@ const data: Row[] = [
   { label: "Sun", revenue: 10950, bookings: 23 },
 ];
 
-export function AdminRevenueChart() {
+export function AdminRevenueChart({ data }: { data?: Row[] }) {
   const isClient = useIsClient();
+  const rows = data?.length ? data : fallbackData;
 
   const formatter = React.useCallback<
     NonNullable<TooltipProps<ValueType, NameType>["formatter"]>
@@ -33,7 +34,11 @@ export function AdminRevenueChart() {
           ? Number(value)
           : Number.NaN;
     const key = (name ?? "").toString();
-    if (key === "revenue") return [`$${n.toLocaleString("en-US")}`, "Revenue"];
+    if (key === "revenue")
+      return [
+        new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(n),
+        "Revenue",
+      ];
     return [Number.isFinite(n) ? n.toString() : "—", "Bookings"];
   }, []);
 
@@ -50,7 +55,7 @@ export function AdminRevenueChart() {
       <div className="mt-5 h-[260px] min-h-[260px]">
         {isClient ? (
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={data} margin={{ left: 0, right: 0, top: 10, bottom: 0 }}>
+            <BarChart data={rows} margin={{ left: 0, right: 0, top: 10, bottom: 0 }}>
               <CartesianGrid vertical={false} stroke="rgba(0,0,0,0.06)" />
               <XAxis
                 dataKey="label"

@@ -48,6 +48,7 @@ export default async function HostEditListingPage({
                   bed: r.bed,
                   refundable: r.refundable,
                   priceUsd: r.priceUsd,
+                  perks: Array.isArray(r.perks) ? (r.perks as string[]).filter((x) => typeof x === "string") : [],
                 })),
                 isActive: hotel.isActive,
               }

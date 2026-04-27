@@ -1,4 +1,5 @@
 import type { NextRequest } from "next/server";
+import { Prisma } from "@prisma/client";
 import { z } from "zod";
 
 import { prisma } from "@/server/config/database";
@@ -14,7 +15,7 @@ const createSchema = z.object({
   country: z.string().trim().min(2).max(80),
   address: z.string().trim().min(3).max(200).optional(),
   description: z.string().trim().min(30, "Description must be at least 30 characters").max(2000),
-  priceUsd: z.coerce.number().positive().max(1_000_000),
+  priceUsd: z.coerce.number().positive().max(50_000_000),
   reviewLabel: z.string().trim().min(2).max(40).default("New"),
   perks: z.array(z.string().trim().min(2).max(80)).max(12).default([]),
   amenities: z.array(z.string().trim().min(2).max(80)).min(1).max(60),
@@ -26,7 +27,8 @@ const createSchema = z.object({
         sleeps: z.coerce.number().int().min(1).max(12),
         bed: z.string().trim().min(2).max(60),
         refundable: z.boolean(),
-        priceUsd: z.coerce.number().positive().max(1_000_000),
+        priceUsd: z.coerce.number().positive().max(50_000_000),
+        perks: z.array(z.string().trim().min(1).max(120)).max(24).optional(),
       }),
     )
     .min(1, "Add at least one room type"),
@@ -42,6 +44,9 @@ export const GET = asyncHandler(async (_req: NextRequest, _ctx: AppRouteHandlerC
       name: true,
       city: true,
       country: true,
+      location: true,
+      image: true,
+      priceUsd: true,
       address: true,
       isActive: true,
       isVerified: true,
@@ -87,6 +92,7 @@ export const POST = asyncHandler(async (req: NextRequest, _ctx: AppRouteHandlerC
           bed: r.bed,
           refundable: r.refundable,
           priceUsd: r.priceUsd,
+          perks: (r.perks ?? []) as Prisma.InputJsonValue,
           isActive: true,
         })),
       },

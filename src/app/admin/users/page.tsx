@@ -3,6 +3,7 @@ import { UserPlus } from "lucide-react";
 import { AdminSimpleTable } from "@/components/admin/admin-simple-table";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
+import { prisma } from "@/server/config/database";
 
 type UserRow = {
   id: string;
@@ -13,11 +14,15 @@ type UserRow = {
   lastActive: string;
 };
 
-const users: readonly UserRow[] = [
-  { id: "u_001", name: "Julian", email: "julian@user.com", tier: "elite", bookings: 14, lastActive: "2h ago" },
-  { id: "u_002", name: "Sophia Reed", email: "sophia@user.com", tier: "standard", bookings: 6, lastActive: "1d ago" },
-  { id: "u_003", name: "Liam Chen", email: "liam@user.com", tier: "standard", bookings: 4, lastActive: "3d ago" },
-] as const;
+function timeAgo(from: Date) {
+  const diffMs = Date.now() - from.getTime();
+  const mins = Math.floor(diffMs / 60_000);
+  if (mins < 60) return `${Math.max(1, mins)}m ago`;
+  const hours = Math.floor(mins / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.floor(hours / 24);
+  return `${days}d ago`;
+}
 
 function TierPill({ tier }: { tier: UserRow["tier"] }) {
   const label = tier === "elite" ? "Elite" : "Standard";
@@ -33,7 +38,30 @@ function TierPill({ tier }: { tier: UserRow["tier"] }) {
   );
 }
 
-export default function AdminUsersPage() {
+export default async function AdminUsersPage() {
+  const users = await prisma.user.findMany({
+    where: { role: "USER", deletedAt: null },
+    orderBy: { updatedAt: "desc" },
+    take: 50,
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      loyaltyPoints: true,
+      updatedAt: true,
+      _count: { select: { bookings: true } },
+    },
+  });
+
+  const rows: UserRow[] = users.map((u) => ({
+    id: u.id,
+    name: u.name?.trim() || "User",
+    email: u.email,
+    tier: u.loyaltyPoints >= 1000 ? "elite" : "standard",
+    bookings: u._count.bookings,
+    lastActive: timeAgo(u.updatedAt),
+  }));
+
   return (
     <AdminSimpleTable
       title="Users"
@@ -70,7 +98,7 @@ export default function AdminUsersPage() {
           ),
         },
       ]}
-      rows={users}
+      rows={rows}
     />
   );
 }

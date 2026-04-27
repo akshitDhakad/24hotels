@@ -3,6 +3,7 @@ import { Building2 } from "lucide-react";
 import { AdminSimpleTable } from "@/components/admin/admin-simple-table";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
+import { prisma } from "@/server/config/database";
 
 type PropertyRow = {
   id: string;
@@ -13,11 +14,9 @@ type PropertyRow = {
   nightly: string;
 };
 
-const properties: readonly PropertyRow[] = [
-  { id: "p_001", name: "Ocean Front Villa", city: "Nice", host: "Alexander Thorne", status: "live", nightly: "$580" },
-  { id: "p_002", name: "The Glass House", city: "Santorini", host: "Elena Rodriguez", status: "live", nightly: "$720" },
-  { id: "p_003", name: "Sky Loft Penthouse", city: "Singapore", host: "Julian Marc", status: "paused", nightly: "$460" },
-] as const;
+function formatInr(n: number) {
+  return new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(n);
+}
 
 function StatusPill({ status }: { status: PropertyRow["status"] }) {
   const label = status === "live" ? "Live" : "Paused";
@@ -33,7 +32,35 @@ function StatusPill({ status }: { status: PropertyRow["status"] }) {
   );
 }
 
-export default function AdminPropertiesPage() {
+export default async function AdminPropertiesPage() {
+  const hotels = await prisma.hotel.findMany({
+    where: { deletedAt: null },
+    orderBy: { createdAt: "desc" },
+    take: 50,
+    select: {
+      id: true,
+      name: true,
+      city: true,
+      priceUsd: true,
+      isActive: true,
+      isVerified: true,
+      owner: { select: { name: true, email: true } },
+    },
+  });
+
+  const rows: PropertyRow[] = hotels.map((h) => {
+    const hostName = h.owner.name?.trim() || h.owner.email;
+    const isLive = Boolean(h.isActive && h.isVerified);
+    return {
+      id: h.id,
+      name: h.name,
+      city: h.city,
+      host: hostName,
+      status: isLive ? "live" : "paused",
+      nightly: formatInr(Math.round(h.priceUsd ?? 0)),
+    };
+  });
+
   return (
     <AdminSimpleTable
       title="Properties"
@@ -70,7 +97,7 @@ export default function AdminPropertiesPage() {
           ),
         },
       ]}
-      rows={properties}
+      rows={rows}
     />
   );
 }

@@ -312,7 +312,10 @@ model Room {
   sleeps        Int      @default(2)
   bed           String   @default("Double")
   refundable    Boolean  @default(false)
+  /** Stored numeric amount in Indian Rupees (legacy column name `priceUsd` in DB). */
   priceUsd      Float    @default(0)
+  /** Room-specific perks as JSON string array, e.g. ["Breakfast","Late checkout"]. */
+  perks         Json?
   isActive      Boolean  @default(true)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt

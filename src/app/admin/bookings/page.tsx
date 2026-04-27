@@ -1,6 +1,7 @@
 import { AdminSimpleTable } from "@/components/admin/admin-simple-table";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
+import { prisma } from "@/server/config/database";
 
 type BookingRow = {
   id: string;
@@ -12,35 +13,15 @@ type BookingRow = {
   status: "confirmed" | "pending" | "cancelled";
 };
 
-const bookings: readonly BookingRow[] = [
-  {
-    id: "b_10021",
-    guest: "Sophia Reed",
-    property: "Ocean Front Villa",
-    host: "Alexander Thorne",
-    dates: "Oct 05 – Oct 10",
-    total: "$3,200.00",
-    status: "confirmed",
-  },
-  {
-    id: "b_10022",
-    guest: "Julian Marc",
-    property: "Sky Loft Penthouse",
-    host: "Julian Marc",
-    dates: "Oct 18 – Oct 22",
-    total: "$1,850.00",
-    status: "pending",
-  },
-  {
-    id: "b_10024",
-    guest: "Elena Rodriguez",
-    property: "The Glass House",
-    host: "Elena Rodriguez",
-    dates: "Oct 12 – Oct 15",
-    total: "$2,140.00",
-    status: "cancelled",
-  },
-] as const;
+function formatInrFromPaise(paise: number) {
+  const rupees = paise / 100;
+  return new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(rupees);
+}
+
+function formatRange(start: Date, end: Date) {
+  const fmt = new Intl.DateTimeFormat("en-IN", { day: "2-digit", month: "short", year: "numeric" });
+  return `${fmt.format(start)} – ${fmt.format(end)}`;
+}
 
 function StatusPill({ status }: { status: BookingRow["status"] }) {
   const label = status === "confirmed" ? "Confirmed" : status === "pending" ? "Pending" : "Cancelled";
@@ -60,7 +41,42 @@ function StatusPill({ status }: { status: BookingRow["status"] }) {
   );
 }
 
-export default function AdminBookingsPage() {
+export default async function AdminBookingsPage() {
+  const rows: BookingRow[] = (
+    await prisma.booking.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 50,
+      select: {
+        bookingRef: true,
+        status: true,
+        startTime: true,
+        endTime: true,
+        finalAmount: true,
+        user: { select: { name: true, email: true } },
+        hotel: { select: { name: true, owner: { select: { name: true, email: true } } } },
+      },
+    })
+  ).map((b) => {
+    const guestName = b.user.name?.trim() || b.user.email;
+    const hostName = b.hotel.owner.name?.trim() || b.hotel.owner.email;
+    const status: BookingRow["status"] =
+      b.status === "CONFIRMED" || b.status === "COMPLETED"
+        ? "confirmed"
+        : b.status === "CANCELLED" || b.status === "EXPIRED"
+          ? "cancelled"
+          : "pending";
+
+    return {
+      id: b.bookingRef,
+      guest: guestName,
+      property: b.hotel.name,
+      host: hostName,
+      dates: formatRange(b.startTime, b.endTime),
+      total: formatInrFromPaise(b.finalAmount),
+      status,
+    };
+  });
+
   return (
     <AdminSimpleTable
       title="Bookings"
@@ -98,7 +114,7 @@ export default function AdminBookingsPage() {
           ),
         },
       ]}
-      rows={bookings}
+      rows={rows}
     />
   );
 }

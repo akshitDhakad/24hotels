@@ -10,6 +10,7 @@ type AccountType = SignUpValues["role"];
 const options: { value: AccountType; label: string; hint: string }[] = [
   { value: "customer", label: "Customer", hint: "Book stays" },
   { value: "host", label: "Host", hint: "Hotel Owner" },
+  { value: "admin", label: "Admin", hint: "Administrator" },
 ];
 
 export function RoleToggle({
@@ -28,11 +29,18 @@ export function RoleToggle({
     [showAdminOption],
   );
 
+  // `onChange` is often created inline by the parent; store it in a ref so the
+  // guard effect below doesn't re-run just because the callback identity changed.
+  const onChangeRef = React.useRef(onChange);
+  React.useEffect(() => {
+    onChangeRef.current = onChange;
+  }, [onChange]);
+
   React.useEffect(() => {
     if (!showAdminOption && value === "admin") {
-      onChange("customer");
+      onChangeRef.current("customer");
     }
-  }, [showAdminOption, value, onChange]);
+  }, [showAdminOption, value]);
 
   return (
     <div className={cn("grid gap-2 w-full", className)}>

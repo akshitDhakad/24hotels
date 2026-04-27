@@ -3,6 +3,7 @@ import { BadgeCheck, ShieldAlert } from "lucide-react";
 import { AdminSimpleTable } from "@/components/admin/admin-simple-table";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
+import { prisma } from "@/server/config/database";
 
 type HostRow = {
   id: string;
@@ -13,32 +14,10 @@ type HostRow = {
   revenue: string;
 };
 
-const hosts: readonly HostRow[] = [
-  {
-    id: "h_001",
-    name: "Alexander Thorne",
-    email: "alexander@host.com",
-    status: "verified",
-    properties: 6,
-    revenue: "$48,120",
-  },
-  {
-    id: "h_002",
-    name: "Elena Rodriguez",
-    email: "elena@host.com",
-    status: "review",
-    properties: 2,
-    revenue: "$12,980",
-  },
-  {
-    id: "h_003",
-    name: "Julian Marc",
-    email: "julian@host.com",
-    status: "verified",
-    properties: 3,
-    revenue: "$21,440",
-  },
-] as const;
+function formatInrFromPaise(paise: number) {
+  const rupees = paise / 100;
+  return new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(rupees);
+}
 
 function StatusPill({ status }: { status: HostRow["status"] }) {
   const label = status === "verified" ? "Verified" : "Needs review";
@@ -56,7 +35,43 @@ function StatusPill({ status }: { status: HostRow["status"] }) {
   );
 }
 
-export default function AdminHostsPage() {
+export default async function AdminHostsPage() {
+  const hosts = await prisma.user.findMany({
+    where: { role: "HOST", deletedAt: null },
+    orderBy: { createdAt: "desc" },
+    take: 50,
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      hostKyc: { select: { status: true } },
+      _count: { select: { hotels: { where: { deletedAt: null } } } },
+      hotels: {
+        where: { deletedAt: null },
+        select: { bookings: { select: { payment: { select: { amount: true, status: true } } } } },
+      },
+    },
+  });
+
+  const rows: HostRow[] = hosts.map((h) => {
+    let revenuePaise = 0;
+    for (const hotel of h.hotels) {
+      for (const b of hotel.bookings) {
+        if (b.payment?.status === "PAID") revenuePaise += b.payment.amount;
+      }
+    }
+
+    const status: HostRow["status"] = h.hostKyc?.status === "VERIFIED" ? "verified" : "review";
+    return {
+      id: h.id,
+      name: h.name?.trim() || "Host",
+      email: h.email,
+      status,
+      properties: h._count.hotels,
+      revenue: formatInrFromPaise(revenuePaise),
+    };
+  });
+
   return (
     <AdminSimpleTable
       title="Hosts"
@@ -112,7 +127,7 @@ export default function AdminHostsPage() {
           ),
         },
       ]}
-      rows={hosts}
+      rows={rows}
     />
   );
 }

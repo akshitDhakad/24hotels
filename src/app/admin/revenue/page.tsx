@@ -3,8 +3,38 @@ import { DollarSign, TrendingUp } from "lucide-react";
 import { AdminKpiCard } from "@/components/admin/admin-kpi-card";
 import { AdminRevenueChart } from "@/components/admin/admin-revenue-chart";
 import { Button } from "@/components/ui/button";
+import { prisma } from "@/server/config/database";
 
-export default function AdminRevenuePage() {
+function formatInrFromPaise(paise: number) {
+  const rupees = paise / 100;
+  return new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(rupees);
+}
+
+function addDays(d: Date, days: number) {
+  const copy = new Date(d);
+  copy.setDate(copy.getDate() + days);
+  return copy;
+}
+
+export default async function AdminRevenuePage() {
+  const now = new Date();
+  const since90d = addDays(now, -90);
+  const since14d = addDays(now, -14);
+
+  const [gross, refunds, pendingOld] = await Promise.all([
+    prisma.payment.aggregate({
+      where: { status: "PAID", createdAt: { gte: since90d } },
+      _sum: { amount: true },
+    }),
+    prisma.payment.aggregate({
+      where: { status: "REFUNDED", createdAt: { gte: since90d } },
+      _sum: { amount: true },
+    }),
+    prisma.payment.count({ where: { status: "PENDING", createdAt: { lt: since14d } } }),
+  ]);
+
+  const payoutHealth = pendingOld === 0 ? "Healthy" : "Needs review";
+
   return (
     <div className="grid gap-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
@@ -27,23 +57,23 @@ export default function AdminRevenuePage() {
       <div className="grid gap-4 md:grid-cols-3">
         <AdminKpiCard
           title="Gross Revenue"
-          value="$1,284,200"
+          value={formatInrFromPaise(gross._sum.amount ?? 0)}
           sublabel="Last 90 days"
-          delta={{ label: "+11.2%", tone: "positive" }}
+          delta={{ label: "Paid", tone: "neutral" }}
           icon={DollarSign}
         />
         <AdminKpiCard
           title="Refunds"
-          value="$28,940"
+          value={formatInrFromPaise(refunds._sum.amount ?? 0)}
           sublabel="Last 90 days"
-          delta={{ label: "-1.4%", tone: "positive" }}
+          delta={{ label: pendingOld === 0 ? "Stable" : `${pendingOld} pending`, tone: pendingOld === 0 ? "positive" : "negative" }}
           icon={TrendingUp}
         />
         <AdminKpiCard
           title="Payout Health"
-          value="Healthy"
-          sublabel="No delayed payouts"
-          delta={{ label: "Stable" }}
+          value={payoutHealth}
+          sublabel={pendingOld === 0 ? "No delayed payouts" : "Pending payments older than 14 days"}
+          delta={{ label: pendingOld === 0 ? "Stable" : "Attention", tone: pendingOld === 0 ? "positive" : "negative" }}
           icon={TrendingUp}
         />
       </div>

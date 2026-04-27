@@ -115,7 +115,7 @@ export default function SignUpPage() {
       const completeJson = (await complete.json()) as {
         success?: boolean;
         message?: string;
-        data?: { id: string; email: string; role: "USER" | "HOST" };
+        data?: { id: string; email: string; role: "USER" | "HOST" | "ADMIN" };
       };
       if (!complete.ok || completeJson.success === false) {
         setOtpError(completeJson.message ?? "Could not finish signup.");

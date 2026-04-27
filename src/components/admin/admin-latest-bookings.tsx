@@ -1,7 +1,8 @@
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/cn";
+import { prisma } from "@/server/config/database";
 
-type Booking = {
+type BookingRow = {
   id: string;
   guest: string;
   property: string;
@@ -10,34 +11,17 @@ type Booking = {
   status: "confirmed" | "pending" | "cancelled";
 };
 
-const bookings: readonly Booking[] = [
-  {
-    id: "b_10021",
-    guest: "Sophia Reed",
-    property: "Ocean Front Villa",
-    dates: "Oct 05 – Oct 10",
-    amount: "$3,200.00",
-    status: "confirmed",
-  },
-  {
-    id: "b_10022",
-    guest: "Julian Marc",
-    property: "Sky Loft Penthouse",
-    dates: "Oct 18 – Oct 22",
-    amount: "$1,850.00",
-    status: "pending",
-  },
-  {
-    id: "b_10023",
-    guest: "Elena Rodriguez",
-    property: "The Glass House",
-    dates: "Oct 12 – Oct 15",
-    amount: "$2,140.00",
-    status: "confirmed",
-  },
-] as const;
+function formatInrFromPaise(paise: number) {
+  const rupees = paise / 100;
+  return new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(rupees);
+}
 
-function StatusPill({ status }: { status: Booking["status"] }) {
+function formatRange(start: Date, end: Date) {
+  const fmt = new Intl.DateTimeFormat("en-IN", { day: "2-digit", month: "short" });
+  return `${fmt.format(start)} – ${fmt.format(end)}`;
+}
+
+function StatusPill({ status }: { status: BookingRow["status"] }) {
   const label = status === "confirmed" ? "Confirmed" : status === "pending" ? "Pending" : "Cancelled";
   return (
     <span
@@ -55,7 +39,38 @@ function StatusPill({ status }: { status: Booking["status"] }) {
   );
 }
 
-export function AdminLatestBookings() {
+export async function AdminLatestBookings() {
+  const rows: BookingRow[] = (
+    await prisma.booking.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 6,
+      select: {
+        bookingRef: true,
+        status: true,
+        startTime: true,
+        endTime: true,
+        finalAmount: true,
+        user: { select: { name: true, email: true } },
+        hotel: { select: { name: true } },
+      },
+    })
+  ).map((b) => {
+    const status: BookingRow["status"] =
+      b.status === "CONFIRMED" || b.status === "COMPLETED"
+        ? "confirmed"
+        : b.status === "CANCELLED" || b.status === "EXPIRED"
+          ? "cancelled"
+          : "pending";
+    return {
+      id: b.bookingRef,
+      guest: b.user.name?.trim() || b.user.email,
+      property: b.hotel.name,
+      dates: formatRange(b.startTime, b.endTime),
+      amount: formatInrFromPaise(b.finalAmount),
+      status,
+    };
+  });
+
   return (
     <Card className="border-black/5 bg-white p-6 shadow-sm">
       <div className="flex items-center justify-between gap-4">
@@ -80,7 +95,7 @@ export function AdminLatestBookings() {
           </div>
 
           <div className="divide-y divide-black/5">
-            {bookings.map((b) => (
+            {rows.map((b) => (
               <div
                 key={b.id}
                 className="grid grid-cols-[1.1fr_1.3fr_0.9fr_0.8fr_0.8fr_44px] items-center gap-3 py-4"
