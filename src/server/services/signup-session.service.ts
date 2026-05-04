@@ -40,7 +40,7 @@ function detectContactType(contact: string): { contactType: "EMAIL" | "PHONE"; e
 }
 
 export async function startSignupSession(input: {
-  role: "customer" | "host";
+  role: "customer" | "host" | "admin";
   contact: string;
   legalName: string;
   password: string;
@@ -48,6 +48,9 @@ export async function startSignupSession(input: {
   userAgent?: string | null;
   deviceFingerprint?: string | null;
 }) {
+  if (input.role === "admin" && !env.ALLOW_PUBLIC_ADMIN_SIGNUP) {
+    throw Errors.Forbidden("Admin signup is disabled.");
+  }
   const { contactType, email, phone } = detectContactType(input.contact);
 
   // Do not allow if user already exists on same identifier.
@@ -66,7 +69,7 @@ export async function startSignupSession(input: {
 
   const session = await prisma.signupSession.create({
     data: {
-      role: input.role === "customer" ? "USER" : "HOST",
+      role: input.role === "customer" ? "USER" : input.role === "host" ? "HOST" : "ADMIN",
       contactType,
       email: email ?? null,
       phone: phone ?? null,

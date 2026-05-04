@@ -1,6 +1,7 @@
 import { Building2 } from "lucide-react";
 
 import { AdminSimpleTable } from "@/components/admin/admin-simple-table";
+import { AdminPropertyActions } from "@/components/admin/admin-property-actions";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
 import { prisma } from "@/server/config/database";
@@ -8,10 +9,14 @@ import { prisma } from "@/server/config/database";
 type PropertyRow = {
   id: string;
   name: string;
+  slug: string;
   city: string;
   host: string;
-  status: "live" | "paused";
-  nightly: string;
+  ownerId: string;
+  isActive: boolean;
+  isVerified: boolean;
+  status: "live" | "paused" | "pending";
+  nightlyInr: number;
 };
 
 function formatInr(n: number) {
@@ -19,12 +24,16 @@ function formatInr(n: number) {
 }
 
 function StatusPill({ status }: { status: PropertyRow["status"] }) {
-  const label = status === "live" ? "Live" : "Paused";
+  const label = status === "live" ? "Live" : status === "pending" ? "Pending" : "Paused";
   return (
     <span
       className={cn(
         "inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold",
-        status === "live" ? "bg-emerald-50 text-emerald-700" : "bg-black/[0.04] text-black/55",
+        status === "live"
+          ? "bg-emerald-50 text-emerald-700"
+          : status === "pending"
+            ? "bg-amber-50 text-amber-800"
+            : "bg-black/[0.04] text-black/55",
       )}
     >
       {label}
@@ -40,24 +49,30 @@ export default async function AdminPropertiesPage() {
     select: {
       id: true,
       name: true,
+      slug: true,
       city: true,
       priceUsd: true,
       isActive: true,
       isVerified: true,
+      ownerId: true,
       owner: { select: { name: true, email: true } },
     },
   });
 
   const rows: PropertyRow[] = hotels.map((h) => {
     const hostName = h.owner.name?.trim() || h.owner.email;
-    const isLive = Boolean(h.isActive && h.isVerified);
+    const status: PropertyRow["status"] = !h.isActive ? "paused" : h.isVerified ? "live" : "pending";
     return {
       id: h.id,
       name: h.name,
+      slug: h.slug,
       city: h.city,
       host: hostName,
-      status: isLive ? "live" : "paused",
-      nightly: formatInr(Math.round(h.priceUsd ?? 0)),
+      ownerId: h.ownerId,
+      isActive: h.isActive,
+      isVerified: h.isVerified,
+      status,
+      nightlyInr: Math.round(h.priceUsd ?? 0),
     };
   });
 
@@ -81,19 +96,20 @@ export default async function AdminPropertiesPage() {
         { key: "city", header: "CITY", cell: (r) => <div className="text-sm text-black/55">{r.city}</div> },
         { key: "host", header: "HOST", cell: (r) => <div className="text-sm font-semibold">{r.host}</div> },
         { key: "status", header: "STATUS", cell: (r) => <StatusPill status={r.status} /> },
-        { key: "nightly", header: "NIGHTLY", cell: (r) => <div className="text-sm font-semibold">{r.nightly}</div> },
+        { key: "nightly", header: "NIGHTLY", cell: (r) => <div className="text-sm font-semibold">{formatInr(r.nightlyInr)}</div> },
         {
           key: "actions",
           header: "",
           className: "text-right",
-          cell: () => (
-            <button
-              type="button"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full hover:bg-black/[0.04]"
-              aria-label="Row actions"
-            >
-              <span className="text-lg leading-none text-black/45">…</span>
-            </button>
+          cell: (r) => (
+            <AdminPropertyActions
+              hotelId={r.id}
+              hotelSlug={r.slug}
+              ownerId={r.ownerId}
+              isActive={r.isActive}
+              isVerified={r.isVerified}
+              nightlyInr={r.nightlyInr}
+            />
           ),
         },
       ]}

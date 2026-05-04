@@ -58,7 +58,7 @@ export default function SignUpPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          role: values.role === "host" ? "host" : "customer",
+          role: values.role,
           contact: values.contact.trim(),
           legalName: values.legalName.trim(),
           password: values.password,
@@ -131,7 +131,11 @@ export default function SignUpPage() {
 
       setOtpOpen(false);
       const next =
-        completeJson.data?.role === "HOST" ? "/onboarding/host/personal" : "/onboarding/user";
+        completeJson.data?.role === "ADMIN"
+          ? "/admin/dashboard"
+          : completeJson.data?.role === "HOST"
+            ? "/onboarding/host/personal"
+            : "/onboarding/user";
       router.push(next);
       router.refresh();
     } finally {

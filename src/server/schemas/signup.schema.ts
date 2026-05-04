@@ -7,7 +7,7 @@ const e164Phone = z
 
 export const startSignupSchema = z
   .object({
-    role: z.enum(["customer", "host"]),
+    role: z.enum(["customer", "host", "admin"]),
     contact: z.string().trim().min(3),
     legalName: z.string().trim().min(2).max(120),
     password: z

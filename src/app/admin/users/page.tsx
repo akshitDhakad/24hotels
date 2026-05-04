@@ -1,6 +1,7 @@
 import { UserPlus } from "lucide-react";
 
 import { AdminSimpleTable } from "@/components/admin/admin-simple-table";
+import { AdminUserActions } from "@/components/admin/admin-user-actions";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
 import { prisma } from "@/server/config/database";
@@ -78,24 +79,22 @@ export default async function AdminUsersPage() {
         </div>
       }
       columns={[
-        { key: "name", header: "USER", cell: (r) => <div className="text-sm font-semibold">{r.name}</div> },
-        { key: "email", header: "EMAIL", cell: (r) => <div className="text-sm text-black/55">{r.email}</div> },
-        { key: "tier", header: "TIER", cell: (r) => <TierPill tier={r.tier} /> },
-        { key: "bookings", header: "BOOKINGS", cell: (r) => <div className="text-sm font-semibold">{r.bookings}</div> },
-        { key: "lastActive", header: "LAST ACTIVE", cell: (r) => <div className="text-sm text-black/55">{r.lastActive}</div> },
+        { key: "name", header: "USER", width: "1.2fr", cell: (r) => <div className="truncate text-sm font-semibold">{r.name}</div> },
+        {
+          key: "email",
+          header: "EMAIL",
+          width: "1.6fr",
+          cell: (r) => <div className="truncate text-sm text-black/55">{r.email}</div>,
+        },
+        { key: "tier", header: "TIER", width: "0.7fr", cell: (r) => <TierPill tier={r.tier} /> },
+        { key: "bookings", header: "BOOKINGS", width: "0.7fr", cell: (r) => <div className="text-sm font-semibold">{r.bookings}</div> },
+        { key: "lastActive", header: "LAST ACTIVE", width: "0.9fr", cell: (r) => <div className="text-sm text-black/55">{r.lastActive}</div> },
         {
           key: "actions",
           header: "",
+          width: "44px",
           className: "text-right",
-          cell: () => (
-            <button
-              type="button"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full hover:bg-black/[0.04]"
-              aria-label="Row actions"
-            >
-              <span className="text-lg leading-none text-black/45">…</span>
-            </button>
-          ),
+          cell: (r) => <AdminUserActions userId={r.id} />,
         },
       ]}
       rows={rows}

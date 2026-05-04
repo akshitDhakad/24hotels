@@ -4,6 +4,8 @@ import { cn } from "@/lib/cn";
 export type AdminSimpleTableColumn<T> = {
   key: string;
   header: string;
+  /** Optional CSS grid column width, e.g. "1.5fr" or "220px" */
+  width?: string;
   className?: string;
   cell: (row: T) => React.ReactNode;
 };
@@ -21,6 +23,7 @@ export function AdminSimpleTable<T>({
   rows: readonly T[];
   actions?: React.ReactNode;
 }) {
+  const gridTemplateColumns = columns.map((c) => c.width ?? "minmax(0, 1fr)").join(" ");
   return (
     <Card className="border-black/5 bg-white p-6 shadow-sm">
       <div className="flex flex-wrap items-start justify-between gap-4">
@@ -37,10 +40,10 @@ export function AdminSimpleTable<T>({
             className={cn(
               "grid gap-3 border-b border-black/5 pb-3 text-[11px] font-semibold tracking-wide text-black/40",
             )}
-            style={{ gridTemplateColumns: `repeat(${columns.length}, minmax(0, 1fr))` }}
+            style={{ gridTemplateColumns }}
           >
             {columns.map((c) => (
-              <div key={c.key} className={c.className}>
+              <div key={c.key} className={cn("min-w-0", c.className)}>
                 {c.header}
               </div>
             ))}
@@ -50,11 +53,11 @@ export function AdminSimpleTable<T>({
             {rows.map((row, idx) => (
               <div
                 key={idx}
-                className="grid items-center gap-3 py-4"
-                style={{ gridTemplateColumns: `repeat(${columns.length}, minmax(0, 1fr))` }}
+                className="grid items-stretch gap-3 py-4"
+                style={{ gridTemplateColumns }}
               >
                 {columns.map((c) => (
-                  <div key={c.key} className={c.className}>
+                  <div key={c.key} className={cn("min-w-0 flex items-center", c.className)}>
                     {c.cell(row)}
                   </div>
                 ))}

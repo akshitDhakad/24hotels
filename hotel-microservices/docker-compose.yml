@@ -1,0 +1,198 @@
+services:
+  mongo-auth:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo_auth_data:/data/db
+
+  mongo-search:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo_search_data:/data/db
+
+  mongo-booking:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo_booking_data:/data/db
+
+  mongo-payment:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo_payment_data:/data/db
+
+  mongo-notify:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo_notify_data:/data/db
+
+  mongo-host:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo_host_data:/data/db
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    restart: unless-stopped
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  auth-service:
+    build:
+      context: ./services/auth-service
+    restart: unless-stopped
+    depends_on:
+      - mongo-auth
+      - rabbitmq
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      PORT: 3001
+      SERVICE_NAME: auth-service
+      MONGO_AUTH_URI: mongodb://mongo-auth:27017/hotel_auth
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+    ports:
+      - "3001:3001"
+
+  search-service:
+    build:
+      context: ./services/search-service
+    restart: unless-stopped
+    depends_on:
+      - mongo-search
+      - redis
+      - rabbitmq
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      PORT: 3002
+      SERVICE_NAME: search-service
+      MONGO_SEARCH_URI: mongodb://mongo-search:27017/hotel_search
+      REDIS_URL: redis://redis:6379
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+    ports:
+      - "3002:3002"
+
+  booking-service:
+    build:
+      context: ./services/booking-service
+    restart: unless-stopped
+    depends_on:
+      - mongo-booking
+      - redis
+      - rabbitmq
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      PORT: 3003
+      SERVICE_NAME: booking-service
+      MONGO_BOOKING_URI: mongodb://mongo-booking:27017/hotel_booking
+      REDIS_URL: redis://redis:6379
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+    ports:
+      - "3003:3003"
+
+  payment-service:
+    build:
+      context: ./services/payment-service
+    restart: unless-stopped
+    depends_on:
+      - mongo-payment
+      - rabbitmq
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      PORT: 3004
+      SERVICE_NAME: payment-service
+      MONGO_PAYMENT_URI: mongodb://mongo-payment:27017/hotel_payment
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+    ports:
+      - "3004:3004"
+
+  notification-service:
+    build:
+      context: ./services/notification-service
+    restart: unless-stopped
+    depends_on:
+      - mongo-notify
+      - rabbitmq
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      PORT: 3005
+      SERVICE_NAME: notification-service
+      MONGO_NOTIFY_URI: mongodb://mongo-notify:27017/hotel_notify
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+    ports:
+      - "3005:3005"
+
+  host-admin-service:
+    build:
+      context: ./services/host-admin-service
+    restart: unless-stopped
+    depends_on:
+      - mongo-host
+      - rabbitmq
+      - booking-service
+      - auth-service
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      PORT: 3006
+      SERVICE_NAME: host-admin-service
+      MONGO_HOST_URI: mongodb://mongo-host:27017/hotel_host
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+      BOOKING_SERVICE_INTERNAL_URL: http://booking-service:3003
+      AUTH_SERVICE_INTERNAL_URL: http://auth-service:3001
+    ports:
+      - "3006:3006"
+
+  api-gateway:
+    build:
+      context: ./api-gateway
+    restart: unless-stopped
+    depends_on:
+      - rabbitmq
+      - auth-service
+      - search-service
+      - booking-service
+      - payment-service
+      - notification-service
+      - host-admin-service
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      PORT: 3000
+      SERVICE_NAME: api-gateway
+      AUTH_SERVICE_URL: http://auth-service:3001
+      SEARCH_SERVICE_URL: http://search-service:3002
+      BOOKING_SERVICE_URL: http://booking-service:3003
+      PAYMENT_SERVICE_URL: http://payment-service:3004
+      NOTIFICATION_SERVICE_URL: http://notification-service:3005
+      HOST_ADMIN_SERVICE_URL: http://host-admin-service:3006
+    ports:
+      - "3000:3000"
+
+volumes:
+  mongo_auth_data:
+  mongo_search_data:
+  mongo_booking_data:
+  mongo_payment_data:
+  mongo_notify_data:
+  mongo_host_data:
