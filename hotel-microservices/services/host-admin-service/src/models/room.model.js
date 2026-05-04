@@ -40,6 +40,5 @@ const roomSchema = new mongoose.Schema(
 
 roomSchema.index({ hostId: 1, createdAt: -1 });
 roomSchema.index({ city: 1, isActive: 1, createdAt: -1 });
-roomSchema.index({ title: 'text', city: 'text', description: 'text' });
 
 module.exports = mongoose.model('Room', roomSchema);

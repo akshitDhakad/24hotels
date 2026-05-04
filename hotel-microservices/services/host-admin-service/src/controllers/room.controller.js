@@ -20,4 +20,15 @@ async function getMyRooms(req, res) {
   res.status(200).json({ success: true, rooms });
 }
 
-module.exports = { postRoom, putRoom, deleteRoom, getMyRooms };
+async function getRoomById(req, res) {
+  const room = await roomService.getRoomForHost(req.user.id, req.params.id);
+  res.status(200).json({ success: true, room });
+}
+
+module.exports = {
+  postRoom,
+  putRoom,
+  deleteRoom,
+  getMyRooms,
+  getRoomById,
+};

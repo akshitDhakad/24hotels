@@ -1,6 +1,11 @@
+const mongoose = require('mongoose');
 const Room = require('../models/room.model');
 const { AppError } = require('../utils/AppError');
 const { publishEvent } = require('../events/publisher');
+
+function escapeRegex(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
 
 function mapUploadedImages(files = []) {
   return files.map((f) => ({
@@ -12,19 +17,21 @@ function mapUploadedImages(files = []) {
 }
 
 function serializeRoom(room) {
+  const r = room.toObject ? room.toObject() : room;
   return {
-    id: room._id.toString(),
-    hostId: room.hostId,
-    title: room.title,
-    description: room.description,
-    city: room.city,
-    address: room.address,
-    pricePerSlot: room.pricePerSlot,
-    availableSlots: room.availableSlots,
-    amenities: room.amenities,
-    images: room.images || [],
-    isActive: room.isActive,
-    createdAt: room.createdAt,
+    id: (r._id && r._id.toString()) || r.id,
+    hostId: r.hostId,
+    title: r.title,
+    description: r.description,
+    city: r.city,
+    address: r.address,
+    pricePerSlot: r.pricePerSlot,
+    availableSlots: r.availableSlots,
+    amenities: r.amenities,
+    images: r.images || [],
+    isActive: r.isActive,
+    createdAt: r.createdAt,
+    updatedAt: r.updatedAt,
   };
 }
 
@@ -44,10 +51,11 @@ async function createRoom(hostId, payload, files, correlationId) {
     isActive: true,
   });
   await publishEvent('room.created', { room: serializeRoom(room) }, correlationId);
-  return room;
+  return serializeRoom(room);
 }
 
 async function updateRoom(hostId, roomId, payload, files, correlationId) {
+  assertValidObjectId(roomId);
   const room = await Room.findById(roomId);
   if (!room) {
     throw new AppError(404, 'Room not found');
@@ -69,10 +77,11 @@ async function updateRoom(hostId, roomId, payload, files, correlationId) {
   }
   await room.save();
   await publishEvent('room.updated', { room: serializeRoom(room) }, correlationId);
-  return room;
+  return serializeRoom(room);
 }
 
 async function softDeleteRoom(hostId, roomId, correlationId) {
+  assertValidObjectId(roomId);
   const room = await Room.findById(roomId);
   if (!room) {
     throw new AppError(404, 'Room not found');
@@ -83,17 +92,84 @@ async function softDeleteRoom(hostId, roomId, correlationId) {
   room.isActive = false;
   await room.save();
   await publishEvent('room.updated', { room: serializeRoom(room) }, correlationId);
-  return room;
+  return serializeRoom(room);
+}
+
+function assertValidObjectId(id) {
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    throw new AppError(400, 'Invalid room id');
+  }
+}
+
+async function getRoomForHost(hostId, roomId) {
+  assertValidObjectId(roomId);
+  const room = await Room.findById(roomId);
+  if (!room) {
+    throw new AppError(404, 'Room not found');
+  }
+  if (room.hostId !== hostId) {
+    throw new AppError(403, 'Forbidden');
+  }
+  return serializeRoom(room);
 }
 
 async function listMyRooms(hostId) {
-  return Room.find({ hostId }).sort({ createdAt: -1 }).lean();
+  const rooms = await Room.find({ hostId }).sort({ createdAt: -1 });
+  return rooms.map((r) => serializeRoom(r));
+}
+
+async function listRoomsForAdmin(query) {
+  const { page, limit, hostId, city, isActive, search } = query;
+  const filter = {};
+  if (hostId) {
+    filter.hostId = hostId;
+  }
+  if (city) {
+    filter.city = new RegExp(escapeRegex(city), 'i');
+  }
+  if (typeof isActive === 'boolean') {
+    filter.isActive = isActive;
+  }
+  if (search) {
+    filter.title = new RegExp(escapeRegex(search), 'i');
+  }
+  const skip = (page - 1) * limit;
+  const [rooms, total] = await Promise.all([
+    Room.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limit),
+    Room.countDocuments(filter),
+  ]);
+  return { rooms: rooms.map((r) => serializeRoom(r)), page, limit, total };
+}
+
+async function getRoomForAdmin(roomId) {
+  assertValidObjectId(roomId);
+  const room = await Room.findById(roomId);
+  if (!room) {
+    throw new AppError(404, 'Room not found');
+  }
+  return serializeRoom(room);
+}
+
+async function adminSoftDeleteRoom(roomId, correlationId) {
+  assertValidObjectId(roomId);
+  const room = await Room.findById(roomId);
+  if (!room) {
+    throw new AppError(404, 'Room not found');
+  }
+  room.isActive = false;
+  await room.save();
+  await publishEvent('room.updated', { room: serializeRoom(room) }, correlationId);
+  return serializeRoom(room);
 }
 
 module.exports = {
   createRoom,
   updateRoom,
   softDeleteRoom,
+  getRoomForHost,
   listMyRooms,
+  listRoomsForAdmin,
+  getRoomForAdmin,
+  adminSoftDeleteRoom,
   serializeRoom,
 };

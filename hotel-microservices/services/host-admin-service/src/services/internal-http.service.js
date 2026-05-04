@@ -5,7 +5,7 @@ const { AppError } = require('../utils/AppError');
 function forwardHeaders(req) {
   return {
     Authorization: req.headers.authorization || '',
-    'X-Correlation-Id': req.correlationId || '',
+    'x-correlation-id': req.correlationId || '',
   };
 }
 
