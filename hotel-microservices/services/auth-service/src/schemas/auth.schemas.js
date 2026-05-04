@@ -41,6 +41,13 @@ const adminUsersQuerySchema = Joi.object({
   limit: Joi.number().integer().min(1).max(100).default(20),
 });
 
+const mongoIdParamSchema = Joi.object({
+  id: Joi.string()
+    .trim()
+    .pattern(/^[a-fA-F0-9]{24}$/)
+    .required(),
+});
+
 module.exports = {
   registerSchema,
   loginSchema,
@@ -49,4 +56,5 @@ module.exports = {
   updateProfileSchema,
   changePasswordSchema,
   adminUsersQuerySchema,
+  mongoIdParamSchema,
 };

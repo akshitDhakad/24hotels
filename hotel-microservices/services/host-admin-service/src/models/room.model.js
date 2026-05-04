@@ -4,8 +4,8 @@ const SLOT_TYPES = [4, 8, 12, 16, 20, 24];
 
 const imageSchema = new mongoose.Schema(
   {
-    url: { type: String, required: true },
-    publicId: { type: String, required: true },
+    url: { type: String, required: true, trim: true },
+    publicId: { type: String, required: true, trim: true },
     width: { type: Number },
     height: { type: Number },
   },
@@ -14,21 +14,32 @@ const imageSchema = new mongoose.Schema(
 
 const roomSchema = new mongoose.Schema(
   {
-    hostId: { type: String, required: true, index: true },
-    title: { type: String, required: true },
-    description: { type: String, default: '' },
-    city: { type: String, required: true, index: true },
-    address: { type: String, default: '' },
-    pricePerSlot: { type: Number, required: true, index: true },
+    hostId: { type: String, required: true, trim: true, index: true },
+    title: { type: String, required: true, trim: true, maxlength: 200 },
+    description: { type: String, default: '', trim: true, maxlength: 5000 },
+    city: { type: String, required: true, trim: true, maxlength: 120, index: true },
+    address: { type: String, default: '', trim: true, maxlength: 500 },
+    pricePerSlot: { type: Number, required: true, min: 0, index: true },
     availableSlots: [{ type: Number, enum: SLOT_TYPES }],
-    amenities: [{ type: String }],
+    amenities: [{ type: String, trim: true }],
     images: [imageSchema],
     isActive: { type: Boolean, default: true, index: true },
-    createdAt: { type: Date, default: Date.now },
   },
-  { versionKey: false }
+  {
+    versionKey: false,
+    timestamps: true,
+    toJSON: {
+      transform(_doc, ret) {
+        ret.id = ret._id;
+        delete ret._id;
+        return ret;
+      },
+    },
+  }
 );
 
 roomSchema.index({ hostId: 1, createdAt: -1 });
+roomSchema.index({ city: 1, isActive: 1, createdAt: -1 });
+roomSchema.index({ title: 'text', city: 'text', description: 'text' });
 
 module.exports = mongoose.model('Room', roomSchema);

@@ -99,6 +99,7 @@ async function recordPaymentFailed(tx, { razorpayPaymentId, failureReason }, cor
     'payment.failed',
     {
       bookingId: tx.bookingId,
+      customerId: tx.customerId,
       razorpayOrderId: tx.razorpayOrderId,
       razorpayPaymentId: tx.razorpayPaymentId,
       contactEmail: tx.contactEmail,

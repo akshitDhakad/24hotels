@@ -6,4 +6,9 @@ async function getAdminUsers(req, res) {
   res.status(200).json({ success: true, ...data });
 }
 
-module.exports = { getAdminUsers };
+async function getAdminUserById(req, res) {
+  const user = await authService.getUserForAdmin(req.params.id);
+  res.status(200).json({ success: true, user });
+}
+
+module.exports = { getAdminUsers, getAdminUserById };

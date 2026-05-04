@@ -7,6 +7,7 @@ const schema = Joi.object({
   PORT: Joi.number().port().required(),
   MONGO_NOTIFY_URI: Joi.string().required(),
   RABBITMQ_URL: Joi.string().required(),
+  JWT_ACCESS_SECRET: Joi.string().min(16).required(),
   SMTP_HOST: Joi.string().required(),
   SMTP_PORT: Joi.number().port().required(),
   SMTP_USER: Joi.string().allow('').required(),

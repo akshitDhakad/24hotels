@@ -4,6 +4,7 @@ const cors = require('cors');
 const { getEnv } = require('./config/env');
 const { correlationIdMiddleware } = require('./middlewares/correlationId');
 const { errorHandler } = require('./middlewares/errorHandler');
+const notificationRoutes = require('./routes/notification.routes');
 
 const env = getEnv();
 
@@ -28,9 +29,7 @@ function createApp() {
     res.status(200).json({ status: 'ok', service: env.SERVICE_NAME, correlationId: req.correlationId });
   });
 
-  app.get('/api/v1/notifications/health', (req, res) => {
-    res.status(200).json({ status: 'ok', service: env.SERVICE_NAME, correlationId: req.correlationId });
-  });
+  app.use('/api/v1/notifications', notificationRoutes);
 
   app.use((req, res) => {
     res.status(404).json({ success: false, message: 'Not found', correlationId: req.correlationId });

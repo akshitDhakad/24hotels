@@ -26,15 +26,16 @@ async function handleMessage(msg) {
     return;
   }
   const payload = parsed.payload || {};
+  const correlationId = parsed.correlationId || null;
   try {
     if (routingKey === 'booking.created') {
-      await dispatch.handleBookingCreated(payload);
+      await dispatch.handleBookingCreated(payload, correlationId);
     } else if (routingKey === 'booking.confirmed') {
-      await dispatch.handleBookingConfirmed(payload);
+      await dispatch.handleBookingConfirmed(payload, correlationId);
     } else if (routingKey === 'booking.cancelled') {
-      await dispatch.handleBookingCancelled(payload);
+      await dispatch.handleBookingCancelled(payload, correlationId);
     } else if (routingKey === 'payment.failed') {
-      await dispatch.handlePaymentFailed(payload);
+      await dispatch.handlePaymentFailed(payload, correlationId);
     }
     channel.ack(msg);
   } catch (err) {

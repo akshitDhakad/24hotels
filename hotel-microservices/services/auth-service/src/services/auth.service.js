@@ -217,6 +217,22 @@ async function listUsersForAdmin(page, limit) {
   };
 }
 
+async function getUserForAdmin(userId) {
+  const user = await User.findById(userId).select('name email phone role isVerified createdAt').lean();
+  if (!user) {
+    throw new AppError(404, 'User not found');
+  }
+  return {
+    id: user._id.toString(),
+    name: user.name,
+    email: user.email,
+    phone: user.phone,
+    role: user.role,
+    isVerified: user.isVerified,
+    createdAt: user.createdAt,
+  };
+}
+
 module.exports = {
   register,
   login,
@@ -227,4 +243,5 @@ module.exports = {
   updateProfile,
   changePassword,
   listUsersForAdmin,
+  getUserForAdmin,
 };
