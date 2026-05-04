@@ -1,8 +1,13 @@
 const crypto = require('crypto');
 const { getEnv } = require('../config/env');
-const { publishEvent } = require('../events/publisher');
 const Transaction = require('../models/transaction.model');
 const { logger } = require('../utils/logger');
+const {
+  recordPaymentCaptured,
+  recordPaymentAuthorized,
+  recordPaymentFailed,
+  recordPaymentRefunded,
+} = require('./payment.service');
 
 function verifyWebhookSignature(rawBody, signatureHeader) {
   const env = getEnv();
@@ -22,6 +27,10 @@ function verifyWebhookSignature(rawBody, signatureHeader) {
   }
 }
 
+function paymentEntity(event) {
+  return event.payload && event.payload.payment ? event.payload.payment.entity : null;
+}
+
 async function processWebhook(rawBody, signatureHeader, correlationId) {
   if (!verifyWebhookSignature(rawBody, signatureHeader)) {
     return { ok: false, status: 400, message: 'Invalid webhook signature' };
@@ -35,68 +44,66 @@ async function processWebhook(rawBody, signatureHeader, correlationId) {
     return { ok: false, status: 400, message: 'Invalid JSON' };
   }
 
-  const entity = event.payload && event.payload.payment ? event.payload.payment.entity : null;
-  const orderEntity = event.payload && event.payload.order ? event.payload.order.entity : null;
+  const entity = paymentEntity(event);
 
   if (event.event === 'payment.captured' && entity) {
     const paymentId = entity.id;
     const orderId = entity.order_id;
     const amount = entity.amount;
     const currency = entity.currency;
-    const bookingId = (entity.notes && entity.notes.bookingId) || (orderEntity && orderEntity.notes && orderEntity.notes.bookingId);
 
     const tx = await Transaction.findOne({ razorpayOrderId: orderId });
     if (!tx) {
       logger.warn('Webhook for unknown order', { orderId });
       return { ok: true, status: 200, message: 'ignored' };
     }
-    if (tx.razorpayPaymentId === paymentId && tx.status === 'captured') {
-      return { ok: true, status: 200, message: 'duplicate' };
-    }
-    tx.razorpayPaymentId = paymentId;
-    tx.status = 'captured';
-    tx.amount = amount || tx.amount;
-    tx.currency = currency || tx.currency;
-    await tx.save();
 
-    await publishEvent(
-      'payment.confirmed',
-      {
-        bookingId: tx.bookingId,
-        razorpayOrderId: orderId,
-        razorpayPaymentId: paymentId,
-        amount: tx.amount,
-        currency: tx.currency,
-        contactEmail: tx.contactEmail,
-        contactPhone: tx.contactPhone,
-        hostNotifyPhone: tx.hostNotifyPhone,
-      },
+    const result = await recordPaymentCaptured(
+      tx,
+      { razorpayPaymentId: paymentId, amount, currency },
       correlationId
     );
-    return { ok: true, status: 200, message: 'captured' };
+    if (result.conflict) {
+      logger.warn('Webhook capture conflict', { orderId, paymentId });
+    }
+    return { ok: true, status: 200, message: result.duplicate ? 'duplicate' : 'captured' };
+  }
+
+  if (event.event === 'payment.authorized' && entity) {
+    const paymentId = entity.id;
+    const orderId = entity.order_id;
+    const tx = await Transaction.findOne({ razorpayOrderId: orderId });
+    if (!tx) {
+      return { ok: true, status: 200, message: 'ignored' };
+    }
+    await recordPaymentAuthorized(tx, { razorpayPaymentId: paymentId });
+    return { ok: true, status: 200, message: 'authorized' };
   }
 
   if (event.event === 'payment.failed' && entity) {
     const orderId = entity.order_id;
     const paymentId = entity.id;
+    const reason =
+      (entity.error_description && String(entity.error_description)) ||
+      (entity.error_code && String(entity.error_code)) ||
+      'payment_failed';
     const tx = await Transaction.findOne({ razorpayOrderId: orderId });
     if (tx) {
-      tx.razorpayPaymentId = paymentId;
-      tx.status = 'failed';
-      await tx.save();
-      await publishEvent(
-        'payment.failed',
-        {
-          bookingId: tx.bookingId,
-          razorpayOrderId: orderId,
-          razorpayPaymentId: paymentId,
-          contactEmail: tx.contactEmail,
-          contactPhone: tx.contactPhone,
-        },
-        correlationId
-      );
+      await recordPaymentFailed(tx, { razorpayPaymentId: paymentId, failureReason: reason }, correlationId);
     }
     return { ok: true, status: 200, message: 'failed handled' };
+  }
+
+  if (event.event === 'refund.processed' && event.payload && event.payload.refund) {
+    const refund = event.payload.refund.entity;
+    const paymentId = refund && refund.payment_id;
+    if (paymentId) {
+      const tx = await Transaction.findOne({ razorpayPaymentId: paymentId });
+      if (tx) {
+        await recordPaymentRefunded(tx);
+      }
+    }
+    return { ok: true, status: 200, message: 'refund handled' };
   }
 
   return { ok: true, status: 200, message: 'noop' };

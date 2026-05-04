@@ -6,8 +6,23 @@ async function postCreateOrder(req, res) {
 }
 
 async function postVerify(req, res) {
-  const result = await paymentService.verifyPayment(req.body);
+  const result = await paymentService.verifyPayment(req.user.id, req.body, req.correlationId);
   res.status(200).json({ success: true, ...result });
 }
 
-module.exports = { postCreateOrder, postVerify };
+async function getMyTransactions(req, res) {
+  const result = await paymentService.listMyTransactions(req.user.id, req.query);
+  res.status(200).json({ success: true, ...result });
+}
+
+async function getTransactionById(req, res) {
+  const transaction = await paymentService.getTransactionForCustomer(req.user.id, req.params.id);
+  res.status(200).json({ success: true, transaction });
+}
+
+module.exports = {
+  postCreateOrder,
+  postVerify,
+  getMyTransactions,
+  getTransactionById,
+};

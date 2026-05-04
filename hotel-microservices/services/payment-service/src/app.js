@@ -6,6 +6,7 @@ const { correlationIdMiddleware } = require('./middlewares/correlationId');
 const { errorHandler } = require('./middlewares/errorHandler');
 const { asyncWrapper } = require('./middlewares/asyncWrapper');
 const paymentRoutes = require('./routes/payment.routes');
+const internalRoutes = require('./routes/internal.routes');
 const webhookController = require('./controllers/webhook.controller');
 
 const env = getEnv();
@@ -35,10 +36,11 @@ function createApp() {
   app.use(express.json({ limit: '1mb' }));
 
   app.get('/health', (req, res) => {
-    res.status(200).json({ status: 'ok', service: env.SERVICE_NAME });
+    res.status(200).json({ status: 'ok', service: env.SERVICE_NAME, correlationId: req.correlationId });
   });
 
   app.use('/api/v1/payments', paymentRoutes);
+  app.use('/api/v1/internal', internalRoutes);
 
   app.use((req, res) => {
     res.status(404).json({ success: false, message: 'Not found', correlationId: req.correlationId });

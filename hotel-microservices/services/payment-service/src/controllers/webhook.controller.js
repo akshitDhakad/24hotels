@@ -5,9 +5,17 @@ async function postWebhook(req, res) {
   const signature = req.get('x-razorpay-signature') || req.get('X-Razorpay-Signature');
   const result = await webhookService.processWebhook(rawBody, signature, req.correlationId);
   if (!result.ok) {
-    return res.status(result.status).json({ success: false, message: result.message });
+    return res.status(result.status).json({
+      success: false,
+      message: result.message,
+      correlationId: req.correlationId,
+    });
   }
-  return res.status(200).json({ success: true, message: result.message });
+  return res.status(200).json({
+    success: true,
+    message: result.message,
+    correlationId: req.correlationId,
+  });
 }
 
 module.exports = { postWebhook };

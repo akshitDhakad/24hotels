@@ -27,7 +27,7 @@ function createApp() {
   app.use(express.json({ limit: '1mb' }));
 
   app.get('/health', (req, res) => {
-    res.status(200).json({ status: 'ok', service: env.SERVICE_NAME });
+    res.status(200).json({ status: 'ok', service: env.SERVICE_NAME, correlationId: req.correlationId });
   });
 
   app.use('/api/v1/bookings', bookingRoutes);
