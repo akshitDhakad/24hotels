@@ -4,7 +4,7 @@ import { AdminSimpleTable } from "@/components/admin/admin-simple-table";
 import { AdminPropertyActions } from "@/components/admin/admin-property-actions";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
-import { prisma } from "@/server/config/database";
+import { prisma } from "@/lib/prisma";
 
 type PropertyRow = {
   id: string;

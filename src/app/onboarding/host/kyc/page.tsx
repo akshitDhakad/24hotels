@@ -1,4 +1,4 @@
-import { requireSession } from "@/server/utils/require-session";
+import { requireSession } from "@/lib/auth/require-session";
 
 import { HostKycStep } from "./step";
 

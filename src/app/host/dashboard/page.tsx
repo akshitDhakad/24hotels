@@ -6,7 +6,7 @@ import { HostPerformanceInsights } from "@/components/host/host-performance-insi
 import { HostRecentActivity } from "@/components/host/host-recent-activity";
 import { HostDashboardShell } from "@/components/host/host-dashboard-shell";
 import { Button } from "@/components/ui/button";
-import { requireHostSession } from "@/server/utils/require-host";
+import { requireHostSession } from "@/lib/auth/require-host";
 
 export default async function HostDashboardPage() {
   const { user } = await requireHostSession();

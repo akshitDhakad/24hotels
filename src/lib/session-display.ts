@@ -1,6 +1,6 @@
 "use client";
 
-import type { SessionUser } from "@/server/types/auth.types";
+import type { SessionUser } from "@/lib/auth/types";
 
 function isPlaceholderEmail(email: string | null | undefined): boolean {
   if (!email) return true;

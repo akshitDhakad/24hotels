@@ -1,6 +1,0 @@
-{
-  "/api/hotels": "/hotels",
-  "/api/hotels/:id": "/hotels/:id",
-  "/api/bookings": "/bookings",
-  "/api/bookings/:id": "/bookings/:id"
-}

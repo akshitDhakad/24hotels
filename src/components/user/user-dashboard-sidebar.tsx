@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { Bookmark, CalendarDays, LayoutGrid, Settings } from "lucide-react";
 
-import type { UserNavAccount } from "@/server/services/user-dashboard.service";
+import type { UserNavAccount } from "@/lib/legacy-server/services/user-dashboard.service";
 import { cn } from "@/lib/cn";
 
 const navItems = [

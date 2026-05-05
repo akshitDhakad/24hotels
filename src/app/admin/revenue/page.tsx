@@ -3,7 +3,7 @@ import { DollarSign, TrendingUp } from "lucide-react";
 import { AdminKpiCard } from "@/components/admin/admin-kpi-card";
 import { AdminRevenueChart } from "@/components/admin/admin-revenue-chart";
 import { Button } from "@/components/ui/button";
-import { prisma } from "@/server/config/database";
+import { prisma } from "@/lib/prisma";
 
 function formatInrFromPaise(paise: number) {
   const rupees = paise / 100;

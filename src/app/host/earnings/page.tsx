@@ -1,6 +1,6 @@
 import { HostDashboardShell } from "@/components/host/host-dashboard-shell";
 import { Card } from "@/components/ui/card";
-import { requireHostSession } from "@/server/utils/require-host";
+import { requireHostSession } from "@/lib/auth/require-host";
 
 export default async function HostEarningsPage() {
   await requireHostSession();

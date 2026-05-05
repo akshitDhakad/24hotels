@@ -1,5 +1,5 @@
 import { HostDashboardShell } from "@/components/host/host-dashboard-shell";
-import { requireHostSession } from "@/server/utils/require-host";
+import { requireHostSession } from "@/lib/auth/require-host";
 
 import { HostListingForm } from "../write-form";
 

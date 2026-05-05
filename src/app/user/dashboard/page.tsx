@@ -9,8 +9,8 @@ import { Card } from "@/components/ui/card";
 import { formatMinorCurrency } from "@/lib/booking-display";
 import { cn } from "@/lib/cn";
 import { DIAMOND_POINTS_THRESHOLD, pointsToDiamond, progressToDiamond } from "@/lib/loyalty";
-import { getUserDashboardData, getUserNavAccount } from "@/server/services/user-dashboard.service";
-import { requireCustomerSession } from "@/server/utils/require-customer";
+import { getUserDashboardData, getUserNavAccount } from "@/lib/legacy-server/services/user-dashboard.service";
+import { requireCustomerSession } from "@/lib/auth/require-customer";
 
 function StatCard({ label, value }: { label: string; value: string }) {
   return (

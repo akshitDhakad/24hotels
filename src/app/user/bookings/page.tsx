@@ -5,8 +5,8 @@ import { UserDashboardShell } from "@/components/user/user-dashboard-shell";
 import { Card } from "@/components/ui/card";
 import { formatMinorCurrency } from "@/lib/booking-display";
 import { cn } from "@/lib/cn";
-import { getUserBookingsList, getUserNavAccount } from "@/server/services/user-dashboard.service";
-import { requireCustomerSession } from "@/server/utils/require-customer";
+import { getUserBookingsList, getUserNavAccount } from "@/lib/legacy-server/services/user-dashboard.service";
+import { requireCustomerSession } from "@/lib/auth/require-customer";
 
 export default async function UserBookingsPage() {
   const { user } = await requireCustomerSession();

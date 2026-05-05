@@ -1,6 +1,6 @@
 import { HostDashboardShell } from "@/components/host/host-dashboard-shell";
-import { prisma } from "@/server/config/database";
-import { requireHostSession } from "@/server/utils/require-host";
+import { prisma } from "@/lib/prisma";
+import { requireHostSession } from "@/lib/auth/require-host";
 
 import { HostListingsClient } from "./ui";
 

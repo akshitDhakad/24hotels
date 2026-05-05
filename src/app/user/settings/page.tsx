@@ -2,8 +2,8 @@ import { notFound } from "next/navigation";
 
 import { UserDashboardShell } from "@/components/user/user-dashboard-shell";
 import { Card } from "@/components/ui/card";
-import { getUserNavAccount } from "@/server/services/user-dashboard.service";
-import { requireCustomerSession } from "@/server/utils/require-customer";
+import { getUserNavAccount } from "@/lib/legacy-server/services/user-dashboard.service";
+import { requireCustomerSession } from "@/lib/auth/require-customer";
 
 export default async function UserSettingsPage() {
   const { user } = await requireCustomerSession();

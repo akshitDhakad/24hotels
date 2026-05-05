@@ -3,7 +3,7 @@ import type * as React from "react";
 import { UserDashboardSidebar } from "@/components/user/user-dashboard-sidebar";
 import { UserDashboardTopbar } from "@/components/user/user-dashboard-topbar";
 import { cn } from "@/lib/cn";
-import type { UserNavAccount } from "@/server/services/user-dashboard.service";
+import type { UserNavAccount } from "@/lib/legacy-server/services/user-dashboard.service";
 
 export function UserDashboardShell({
   children,

@@ -1,7 +1,7 @@
 import { AdminSimpleTable } from "@/components/admin/admin-simple-table";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
-import { prisma } from "@/server/config/database";
+import { prisma } from "@/lib/prisma";
 
 type BookingRow = {
   id: string;

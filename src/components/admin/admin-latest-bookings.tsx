@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/cn";
-import { prisma } from "@/server/config/database";
+import { prisma } from "@/lib/prisma";
 
 type BookingRow = {
   id: string;

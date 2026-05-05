@@ -9,10 +9,9 @@ import { FeaturedHomesSection } from "@/components/hotel/featured-homes-section"
 import { HotelListingCard } from "@/components/hotel/hotel-listing-card";
 import { PromoShowcaseSection } from "@/components/hotel/promo-showcase-section";
 import { hotelSummaryToListing } from "@/features/hotels/hotel-listing-mappers";
-import type { HotelSummaryDto } from "@/features/hotels/hotels-api";
+import { listHotels, type HotelSummaryDto } from "@/features/hotels/hotels-api";
 import { NewsletterSignupSection } from "@/components/marketing/newsletter-signup-section";
 import { Button } from "@/components/ui/button";
-import { readDb } from "@/app/api/_db/db";
 
 type DestinationSummary = {
   name: string;
@@ -90,8 +89,13 @@ function pickTrending(hotels: HotelSummaryDto[]) {
 }
 
 export default async function LandingPage() {
-  const db = await readDb();
-  const hotels = (db.hotels ?? []) as HotelSummaryDto[];
+  let hotels: HotelSummaryDto[] = [];
+  try {
+    const res = await listHotels({ page: 1, pageSize: 50 });
+    hotels = res.items;
+  } catch {
+    hotels = [];
+  }
   const featuredHotels = pickFeatured(hotels);
   const trendingHotels = pickTrending(hotels);
 

@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Bell, Heart, User } from "lucide-react";
 
-import type { UserNavAccount } from "@/server/services/user-dashboard.service";
+import type { UserNavAccount } from "@/lib/legacy-server/services/user-dashboard.service";
 import { cn } from "@/lib/cn";
 
 export function UserDashboardTopbar({
